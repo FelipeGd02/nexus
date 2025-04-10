@@ -216,6 +216,40 @@ class ImageInfoComponent extends HTMLElement {
           font-size: 0.95rem;
         }
       }
+
+
+      @media (max-width: 768px) {
+        .buttons {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 0.7rem;
+          padding: 0.8rem;
+        }
+
+        .btn-action {
+          font-size: 0.9rem;
+          padding: 0.7rem 1rem;
+          min-width: 90px;
+          flex: 1 1 40%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .buttons {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0.5rem;
+        }
+
+        .btn-action {
+          font-size: 0.85rem;
+          padding: 0.6rem 0.9rem;
+          min-width: unset;
+          width: 100%;
+          flex: 1 1 auto;
+        }
+      }
+
     </style>
 
     <h1>Threads</h1>
