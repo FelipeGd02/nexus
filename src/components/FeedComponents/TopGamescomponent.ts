@@ -41,153 +41,108 @@ class TopGamesComponent extends HTMLElement {
         :host {
           display: block;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          box-sizing: border-box;
-          padding: 1rem;
-        }
-
-        .container {
-          max-width: 1200px;
-          margin: 0 auto;
-          text-align: center;
+          background-color: #2450A6;
+          color: #ffffff;
+          padding: 3rem 1rem;
         }
 
         h1 {
-          font-size: 2.5rem;
+          font-size: 3.8rem;
+          font-weight: 700;
           margin-bottom: 0.5rem;
         }
 
         h1 span {
-          color: #3498db;
+          color: #BF3467;
         }
 
-        p {
+        .subtitle {
           font-size: 1.2rem;
-          color: #666;
-        }
-
-        button {
-          margin: 1rem 0;
-          padding: 0.7rem 1.4rem;
-          background-color: #3498db;
-          color: white;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
+          color: #cbd5e1;
+          margin-bottom: 3rem;
+          max-width: 1000px; 
+          text-align: left; 
         }
 
         .games {
-          display: flex;
-          flex-wrap: wrap;
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
           gap: 2rem;
-          justify-content: center;
-          margin-top: 2rem;
+          justify-items: center;
         }
 
         .game {
-          background: #f0f0f0;
-          border-radius: 10px;
-          padding: 1rem;
-          width: 250px;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-          transition: transform 0.2s;
+          background-color: #BF3467;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          width: 100%;
+          max-width: 350px;
         }
 
         .game:hover {
-          transform: translateY(-5px);
+          transform: translateY(-6px);
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
         }
 
         .game img {
           width: 100%;
-          height: 180px;
+          height: 220px;
           object-fit: cover;
-          border-radius: 8px;
+          display: block;
+          border-top-left-radius: 20px;
+          border-top-right-radius: 20px;
         }
 
         .game p {
-          margin-top: 0.5rem;
-          font-weight: bold;
-          color: #333;
-        }
-
-        /* Media Queries */
-        @media (max-width: 1024px) {
-          h1 {
-            font-size: 2rem;
-          }
-
-          .game {
-            width: 220px;
-          }
+          text-align: center;
+          padding: 0.5rem;
+          font-weight: 600;
+          font-size: 1.05rem;
+          color: #ffffff;
         }
 
         @media (max-width: 768px) {
           h1 {
-            font-size: 1.8rem;
+            font-size: 2rem;
           }
 
-          p {
+          .subtitle {
             font-size: 1rem;
-          }
-
-          .games {
-            gap: 1rem;
-          }
-
-          .game {
-            width: 45%;
           }
         }
 
         @media (max-width: 480px) {
           h1 {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
           }
 
-          p {
-            font-size: 0.9rem;
-          }
-
-          button {
-            width: 100%;
-          }
-
-          .games {
-            flex-direction: column;
-            align-items: center;
-          }
-
-          .game {
-            width: 100%;
+          .subtitle {
+            font-size: 0.95rem;
           }
         }
       </style>
 
-      <div class="container">
-        <h1>top <span>games</span></h1>
-        <p>Here you will find a list of games which may be to your liking</p>
-        <button id="reloadBtn">Reload Games</button>
-        <div class="games">
-          ${games
-            .map(
-              (game) => `
-            <div class="game">
-              <img src="${game.imgSrc}" alt="${game.title}" />
-              <p>${game.title}</p>
-            </div>
-          `
-            )
-            .join("")}
-        </div>
+      <h1><span>top</span> games</h1>
+      <p class="subtitle">Here you will find a list of games which may be to your liking. Each title has been carefully selected based on your preferences, offering a mix of genres, aesthetics, and gameplay experiences. Whether you're looking for fast-paced action, immersive storytelling, or creative puzzles, there's something here for everyone. Feel free to explore, and don't hesitate to dive deeper into the ones that catch your eye — your next favorite game might be just a scroll away.</p>
+      <div class="games">
+        ${games
+          .map(
+            (game) => `
+          <div class="game">
+            <img src="${game.imgSrc}" alt="${game.title}" />
+            <p>${game.title}</p>
+          </div>
+        `
+          )
+          .join("")}
       </div>
     `;
-
-    this.shadowRoot!
-      .getElementById("reloadBtn")!
-      .addEventListener("click", () => this.loadAndRenderGames());
   }
 
   renderError() {
-    this.shadowRoot!.innerHTML = `<p style="color: red;">Failed to load games.</p>`;
+    this.shadowRoot!.innerHTML = `<p style="color: red; text-align: center;">Failed to load games.</p>`;
   }
 }
 
