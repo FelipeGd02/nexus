@@ -1,0 +1,138 @@
+:host {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .landing-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 40px;
+    background-color: #1f4299;
+    color: white;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  
+  .text-content {
+    flex: 1;
+    min-width: 300px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .text-content h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  .text-content h1 span {
+    color: #ffffff;
+  }
+  
+  .text-content p {
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #e0e0e0;
+  }
+  
+  .see-more {
+    margin-top: 30px;
+    background-color: #e63b7a;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .see-more:hover {
+    background-color: #d22e6a;
+  }
+  
+  .image-grid {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 300px;
+    max-width: 600px;
+  }
+  
+  .main-image {
+    width: 100%;
+    border-radius: 25px;
+    object-fit: cover;
+    height: 300px;
+  }
+  
+  .side-images {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .side-images img {
+    flex: 1;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 25px;
+    transition: transform 0.3s;
+  }
+  
+  .side-images img:hover {
+    transform: scale(1.03);
+  }
+  
+  /* Responsive */
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .main-image,
+  .side-images img {
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in-out forwards;
+  }
+  
+  /* Delay para las imágenes pequeñas */
+  .side-images img:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+  
+  .side-images img:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+  
+  /* Hover Scale Effect */
+  .main-image:hover,
+  .side-images img:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  
+  /*  fadeIn visible  */
+  .main-image,
+  .side-images img {
+    will-change: transform, opacity;
+  }
+  
