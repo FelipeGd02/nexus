@@ -1,10 +1,10 @@
-<H1>Nexus
-<H2>Introduccion
+<H1>Nexus<H1>
 
-Libraries:README - Nexus
+<H2>Libraries:README - Nexus <H2>
+
+<H4>
 
 Introducción
-
 Este documento establece las bases y lineamientos generales para el desarrollo de Nexus, una red social enfocada en la conversación y exploración de videojuegos. Aquí se detallan los objetivos, herramientas y estructura del proyecto.
 
 Enfoque del Proyecto
@@ -65,8 +65,10 @@ Cualquier modificación o sugerencia es bienvenida para mejorar la organización
 
 nuevo update con algo adiccional
 
-<H2>Estilos de Commit
+<H4>
+<H2>Estilos de Commit<H2>
 
+<H4>
 feat: Una nueva característica o funcionalidad. Tendría correlación con una versión MINOR siguiendo SemVer.
 fix: Un error corregido. Tendría correlación con una versión PATCH siguiendo SemVer.
 BREAKING CHANGE: Un cambio que contenga esta palabra en el footer del mensaje o un signo ! despues del tipo o scope, rompe la compatibilidad con versiones anteriores. Tendría correlación con una versión MAJOR siguiendo SemVer.
@@ -80,3 +82,4 @@ perf: Un cambio de código que mejora el rendimiento.
 refactor: Un cambio de código que no corrige un error ni agrega una característica.
 style: Cambios que no afectan el significado del código (espacios en blanco, formato, puntos y comas faltantes, etc).
 test: Agregar pruebas faltantes o corregir pruebas existentes.
+<H4>
