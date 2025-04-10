@@ -5,7 +5,7 @@ class ImageInfoComponent extends HTMLElement {
   }
 
   async connectedCallback() {
-    const response = await fetch('/data/Threads.json');
+    const response = await fetch('/data/threads.json');
     const data = await response.json();
 
     this.render(data.threads);
