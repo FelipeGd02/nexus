@@ -20,6 +20,28 @@
       "shares": 30,
       "saves": 80,
       "comments": 15
+    },
+    {
+      "image": "https://image.api.playstation.com/vulcan/ap/rnd/202209/2121/PBiQRnOysNbFRzrZanE9l2vp.jpg",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
+    },
+    {
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1085660/capsule_616x353_spanish.jpg?t=1738688481",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
+    },
+    {
+      "image": "https://image.api.playstation.com/vulcan/ap/rnd/202306/1219/1c7b75d8ed9271516546560d219ad0b22ee0a263b4537bd8.png",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
     }
+    
   ]
 }
