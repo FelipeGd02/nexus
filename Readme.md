@@ -1,5 +1,5 @@
-<H1>Nexus<H1>
-<H2>Introduccion<H2>
+<H1>Nexus
+<H2>Introduccion
 
 Libraries:README - Nexus
 
@@ -65,7 +65,7 @@ Cualquier modificación o sugerencia es bienvenida para mejorar la organización
 
 nuevo update con algo adiccional
 
-<H2>Estilos de Commit<H2>
+<H2>Estilos de Commit
 
 feat: Una nueva característica o funcionalidad. Tendría correlación con una versión MINOR siguiendo SemVer.
 fix: Un error corregido. Tendría correlación con una versión PATCH siguiendo SemVer.
