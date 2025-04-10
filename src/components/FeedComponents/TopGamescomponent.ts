@@ -43,7 +43,7 @@ class TopGamesComponent extends HTMLElement {
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
           background-color: #2450A6;
           color: #ffffff;
-          padding: 3rem 1rem;
+          padding: 1rem 1rem;
         }
 
         h1 {
@@ -88,7 +88,7 @@ class TopGamesComponent extends HTMLElement {
 
         .game img {
           width: 100%;
-          height: 220px;
+          height: 320px;
           object-fit: cover;
           display: block;
           border-top-left-radius: 20px;
