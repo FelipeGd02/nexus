@@ -1,0 +1,63 @@
+{
+    "games": [
+      {
+        "nombre": "Five Nights at Freddy's",
+        "imagen": "img/fnaf.png"
+      },
+      {
+        "nombre": "Valorant",
+        "imagen": "img/valorant.png"
+      },
+      {
+        "nombre": "Gamer Casual",
+        "imagen": "img/casual.png"
+      },
+      {
+        "nombre": "Halo Infinite",
+        "imagen": "img/halo.png"
+      }
+    ],
+    "threads": [
+      {
+        "autor": "Miles",
+        "texto": "Este juego es increíble, no puedo dejar de jugarlo ",
+        "imagen": "img/spiderman-miles.png"
+      },
+      {
+        "autor": "Scorpion",
+        "texto": "¡Amo los poderes en este nivel! ",
+        "imagen": "img/raidenshadow.png"
+      },
+      {
+        "autor": "UserX",
+        "texto": "Finalmente me compré la PS5. Recomendaciones de juegos?",
+        "imagen": "img/ps5.png"
+      },
+      {
+        "autor": "Wolfie",
+        "texto": "¿Qué piensan del nuevo DLC de Witcher?",
+        "imagen": "img/witcher.png"
+      },
+      {
+        "autor": "LaraGamer",
+        "texto": "Rainbow Six sigue siendo una joya para jugar con amigos ",
+        "imagen": "img/rainbow.png"
+      },
+      {
+        "autor": "MJ",
+        "texto": "¡Este combate fue ÉPICO! ",
+        "imagen": "img/spidermanfight.png"
+      },
+      {
+        "autor": "ZeldaFan99",
+        "texto": "No supero la historia de Zelda: Tears of the Kingdom ",
+        "imagen": "img/zelda.png"
+      },
+      {
+        "autor": "NeoSamurai",
+        "texto": "Cyberpunk tiene los mejores visuales. ¿Ya vieron el mod RTX?",
+        "imagen": "img/cyberpunk.png"
+      }
+    ]
+  }
+  
