@@ -1,21 +1,20 @@
 {
-    "topGames": [
-      {
-        "titulo": "Five Nights at Freddy's",
-        "imagen": "img/fnaf.png"
-      },
-      {
-        "titulo": "Call of Duty",
-        "imagen": "img/cod.png"
-      },
-      {
-        "titulo": "Gaming Session",
-        "imagen": "img/controller.png"
-      },
-      {
-        "titulo": "Halo Infinite",
-        "imagen": "img/halo.png"
-      }
-    ]
-  }
-  
+  "topGames": [
+    {
+      "titulo": "Five Nights at Freddy's",
+      "imagen": "https://xploramusica.com/wp-content/uploads/elementor/thumbs/Five-Nights-at-Freddies-qen6j18lr2aiu1m48z1u8bvxjsoyhjiqwlk20soeiw.jpg"
+    },
+    {
+      "titulo": "Call of Duty",
+      "imagen": "https://bsmedia.business-standard.com/_media/bs/img/article/2024-02/29/full/1709193013-943.jpg"
+    },
+    {
+      "titulo": "Gaming Session",
+      "imagen": "https://images.stockcake.com/public/d/d/5/dd5a5476-b8b1-41f2-a982-6404f5138958_large/friends-gaming-together-stockcake.jpg"
+    },
+    {
+      "titulo": "Halo Infinite",
+      "imagen": "https://m.media-amazon.com/images/M/MV5BYzFjNzJkNjUtNGE3Ny00MjdkLWFjZGMtNmQwMDQxY2Y1ZWFkXkEyXkFqcGc@._V1_.jpg"
+    }
+  ]
+}
