@@ -80,5 +80,4 @@ type Game = {
   }
   
   export default TopGamesComponent
-  customElements.define("top-games", TopGamesComponent);
   
