@@ -10,6 +10,7 @@ nav {
     padding: 10px 20px;
     background-color: #2C3E8F;
     color: white;
+    flex-wrap: wrap;
 }
 
 .nav-section {
@@ -113,4 +114,46 @@ nav {
 img {
     height: 30px;
     cursor: pointer;
+}
+
+/* boton hamburgesa estética */
+.hamburger {
+    display: none;
+}
+
+.hamburger img {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    filter: invert(1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .search-container {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .nav-links,
+    .auth-buttons {
+        display: none; /* Ocultar mientras no haya menú funcional */
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .logo-container {
+        justify-content: space-between;
+        width: 100%;
+    }
 }

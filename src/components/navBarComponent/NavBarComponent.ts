@@ -65,12 +65,17 @@ class Navbar extends HTMLElement {
 
         const logoSrc = "../src/utils/images/logoNexus.png";
         const searchButtonSrc = "https://cdn-icons-png.flaticon.com/512/3031/3031293.png";
+        const hamburgerSrc = "https://cdn-icons-png.flaticon.com/512/1828/1828859.png";
 
         this.shadowRoot.innerHTML = `
             <link rel="stylesheet" href="../src/styles/navBar.css">
             <nav>
                 <div class="nav-section logo-container">
                     <img id="home" src="${logoSrc}" alt="Logo N">
+                </div>
+
+                <div class="hamburger">
+                    <img src="${hamburgerSrc}" alt="Menu">
                 </div>
 
                 <div class="search-container">
