@@ -255,12 +255,12 @@ class ImageInfoComponent extends HTMLElement {
   }
 
   commentIcon() {
-  return `
-    <svg viewBox="0 0 24 24">
-      <path d="M21 6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h5l4 3v-3h5a2 2 0 0 0 2-2V6z"/>
-    </svg>`;
-}
-
+    return `
+      <svg viewBox="0 0 24 24">
+        <path d="M21 6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h5l4 3v-3h5a2 2 0 0 0 2-2V6z"/>
+      </svg>`;
+  }
+  
 }
 
 export default ImageInfoComponent;
