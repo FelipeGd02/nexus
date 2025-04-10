@@ -1,0 +1,21 @@
+{
+    "topGames": [
+      {
+        "titulo": "Five Nights at Freddy's",
+        "imagen": "img/fnaf.png"
+      },
+      {
+        "titulo": "Call of Duty",
+        "imagen": "img/cod.png"
+      },
+      {
+        "titulo": "Gaming Session",
+        "imagen": "img/controller.png"
+      },
+      {
+        "titulo": "Halo Infinite",
+        "imagen": "img/halo.png"
+      }
+    ]
+  }
+  
