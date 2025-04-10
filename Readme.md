@@ -1,3 +1,6 @@
+<H1>Nexus<H1>
+<H2>Introduccion<H2>
+
 Libraries:README - Nexus
 
 Introducción
@@ -61,3 +64,19 @@ Nexus se distribuye bajo una licencia Creative Commons, permitiendo su libre uso
 Cualquier modificación o sugerencia es bienvenida para mejorar la organización del proyecto.
 
 nuevo update con algo adiccional
+
+<H2>Estilos de Commit<H2>
+
+feat: Una nueva característica o funcionalidad. Tendría correlación con una versión MINOR siguiendo SemVer.
+fix: Un error corregido. Tendría correlación con una versión PATCH siguiendo SemVer.
+BREAKING CHANGE: Un cambio que contenga esta palabra en el footer del mensaje o un signo ! despues del tipo o scope, rompe la compatibilidad con versiones anteriores. Tendría correlación con una versión MAJOR siguiendo SemVer.
+Se permiten también los siguientes tipos:
+
+build: Cambios que afectan el sistema de compilación o dependencias externas (ej. cambios en el package.json).
+ci: Cambios en nuestros archivos y scripts de configuración de integración continua.
+docs: Cambios en la documentación.
+chore: Otros cambios que no afectan el código fuente.
+perf: Un cambio de código que mejora el rendimiento.
+refactor: Un cambio de código que no corrige un error ni agrega una característica.
+style: Cambios que no afectan el significado del código (espacios en blanco, formato, puntos y comas faltantes, etc).
+test: Agregar pruebas faltantes o corregir pruebas existentes.
