@@ -1,257 +1,225 @@
 class ImageInfoComponent extends HTMLElement {
-  private threads: {
-    image: string;
-    likes: number;
-    shares: number;
-    saves: number;
-    comments: number;
-  }[] = [];
-
-  private visibleCount = 4;
-
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
   }
 
   async connectedCallback() {
-    const response = await fetch('/data/threads.json');
+    const response = await fetch('/data/Threads.json');
     const data = await response.json();
-    this.threads = data.threads;
-    this.render();
-    this.attachButtonListeners();
+
+    this.render(data.threads);
   }
 
-  attachButtonListeners() {
-    const buttons = this.shadowRoot!.querySelectorAll('button[data-type]');
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const type = (e.currentTarget as HTMLElement).dataset.type;
-        const id = (e.currentTarget as HTMLElement).dataset.id;
-        btn.classList.add('clicked');
-        setTimeout(() => btn.classList.remove('clicked'), 300);
-        alert(`Button "${type}" clicked on thread ID: ${id}`);
-      });
-    });
-
-    const toggleBtn = this.shadowRoot!.getElementById('toggle-btn');
-    if (toggleBtn) {
-      toggleBtn.addEventListener('click', () => {
-        const isShowingAll = this.visibleCount >= this.threads.length;
-        if (isShowingAll) {
-          this.visibleCount = 4;
-        } else {
-          this.visibleCount = Math.min(this.visibleCount + 4, this.threads.length);
-        }
-        this.render();
-        this.attachButtonListeners();
-      });
-    }
-  }
-
-  render() {
-    const visibleThreads = this.threads.slice(0, this.visibleCount);
-    const isAllVisible = this.visibleCount >= this.threads.length;
-
+  render(threads: {
+    image: string;
+    likes: number;
+    shares: number;
+    saves: number;
+    comments: number;
+  }[]) {
     this.shadowRoot!.innerHTML = `
-    <style>
-      :host {
-        display: block;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #2450A6;
-        color: #ffffff;
-        padding: 1rem 1rem;
-      }
-
-      h1 {
-        font-size: 3.8rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      .subtitle {
-        font-size: 1.2rem;
-        color: #cbd5e1;
-        margin-bottom: 3rem;
-        max-width: 1000px;
-        text-align: left;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr); 
-        gap: 1.5rem;
-        justify-items: center;
-      }
-
-      .card {
-        background-color: #BF3467;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        width: 100%;
-        max-width: 900px;
-        color: #ffffff;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
-      }
-
-      .card img {
-        width: 100%;
-        height: 350px;
-        object-fit: cover;
-        border-top-left-radius: 20px;
-        border-top-right-radius: 20px;
-      }
-
-      .buttons {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem;
-        gap: 1rem;
-        background-color: #BF3467;
-        margin-top: auto;
-        flex-wrap: nowrap;
-      }
-
-      .btn-action {
-        flex: 1 1 auto;
-        background: #ffffff20;
-        color: #ffffff;
-        border: none;
-        font-size: 1.1rem;
-        border-radius: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: transform 0.3s ease, background-color 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        padding: 1rem 1.2rem;
-        min-width: 100px;
-      }
-
-.btn-action:hover {
-  background-color: #ffffff30;
-  transform: translateY(-2px) scale(1.05);
-}
-
-
-      .btn-action:hover {
-        color: #f1f1f1;
-        transform: scale(1.05);
-      }
-
-      .btn-action.clicked {
-        animation: pop 0.3s ease;
-      }
-
-      svg {
-        width: 20px;
-        height: 20px;
-        fill: currentColor;
-      }
-
-      @keyframes pop {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.2); }
-        100% { transform: scale(1); }
-      }
-
-      .toggle-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 2rem;
-      }
-
-      .toggle-btn {
-        background-color: #BF3467;
-        color: #ffff;
-        border: none;
-        padding: 0.8rem 1.5rem;
-        font-size: 1rem;
-        border-radius: 12px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-
-      .toggle-btn:hover {
-        background-color: #f1f1f1;
-      }
-
-      @media (max-width: 768px) {
-        h1 {
-          font-size: 2rem;
+      <style>
+        :host {
+          display: block;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          box-sizing: border-box;
+          padding: 1rem;
         }
 
-        .subtitle {
-          font-size: 1rem;
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          text-align: center;
+        }
+
+        h1 {
+          font-size: 2.5rem;
+          margin-bottom: 0.5rem;
+        }
+
+        h1 span {
+          color: #3498db;
+        }
+
+        p {
+          font-size: 1.2rem;
+          color: #666;
         }
 
         .grid {
-          grid-template-columns: 1fr;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 2rem;
+          margin-top: 2rem;
         }
 
-        .btn-action {
-          font-size: 0.9rem;
-          padding: 0.6rem;
+        .card {
+          background: #f0f0f0;
+          border-radius: 10px;
+          padding: 1rem;
+          max-width: 400px;
+          width: 100%;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+          transition: transform 0.2s ease;
         }
-      }
 
-      @media (max-width: 480px) {
-        h1 {
-          font-size: 1.7rem;
+        .card:hover {
+          transform: translateY(-5px);
         }
 
-        .subtitle {
-          font-size: 0.95rem;
+        .card img {
+          width: 100%;
+          height: 180px;
+          object-fit: cover;
+          border-radius: 8px;
         }
-      }
-    </style>
 
-    <h1>Threads</h1>
-    <p class="subtitle">Here you will find a list of games which Users can create short posts of up to 280 characters, where they can share thoughts, news, opinions, or updates about video games...</p>
-    <div class="grid">
-      ${visibleThreads
-        .map(
-          (data, index) => `
+        .info {
+          margin-top: 1rem;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          gap: 1rem;
+          flex-wrap: nowrap;
+        }
+
+        .info button {
+          flex: 1;
+          font-size: 1rem;
+          background: none;
+          border: none;
+          padding: 0.5rem;
+          cursor: pointer;
+          transition: transform 0.2s ease, color 0.2s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.3rem;
+          color: #666;
+        }
+
+        .info button:hover {
+          color: #3498db;
+          transform: scale(1.05);
+        }
+
+        .info button.clicked {
+          animation: pop 0.3s ease;
+        }
+
+        svg {
+          width: 20px;
+          height: 20px;
+          fill: currentColor;
+        }
+
+        @keyframes pop {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.2); }
+          100% { transform: scale(1); }
+        }
+
+        @media (max-width: 1024px) {
+          h1 {
+            font-size: 2rem;
+          }
+
+          .card {
+            max-width: 340px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          h1 {
+            font-size: 1.8rem;
+          }
+
+          p {
+            font-size: 1rem;
+          }
+
+          .grid {
+            gap: 1rem;
+          }
+
+          .card {
+            width: 45%;
+          }
+
+          .info {
+            gap: 0.5rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          h1 {
+            font-size: 1.5rem;
+          }
+
+          p {
+            font-size: 0.9rem;
+          }
+
+          .grid {
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .card {
+            width: 100%;
+          }
+
+          .info {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .info button {
+            width: 100%;
+          }
+        }
+      </style>
+
+      <div class="container">
+        <h1><span>Thread</span></h1>
+        <p>Threads only for you</p>
+        <div class="grid">
+          ${threads.map((data, index) => `
             <div class="card">
-              <img src="${data.image}" alt="Thread Image">
-              <div class="buttons">
-                <button class="btn-action" data-type="like" data-id="${index}">
+              <img src="${data.image}" alt="Imagen">
+              <div class="info">
+                <button data-index="${index}" data-type="likes">
                   ${this.heartIcon()} ${data.likes}
                 </button>
-                <button class="btn-action" data-type="share" data-id="${index}">
+                <button data-index="${index}" data-type="shares">
                   ${this.shareIcon()} ${data.shares}
                 </button>
-                <button class="btn-action" data-type="save" data-id="${index}">
+                <button data-index="${index}" data-type="saves">
                   ${this.saveIcon()} ${data.saves}
                 </button>
-                <button class="btn-action" data-type="comment" data-id="${index}">
+                <button data-index="${index}" data-type="comments">
                   ${this.commentIcon()} ${data.comments}
                 </button>
               </div>
             </div>
-          `
-        )
-        .join('')}
-    </div>
-
-    <div class="toggle-container">
-      <button id="toggle-btn" class="toggle-btn">
-        ${isAllVisible ? 'Less Info' : 'More Info'}
-      </button>
-    </div>
+          `).join('')}
+        </div>
+      </div>
     `;
+
+    this.setupClickAnimations();
+  }
+
+  setupClickAnimations() {
+    const buttons = this.shadowRoot!.querySelectorAll("button[data-type]");
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        button.classList.add("clicked");
+        setTimeout(() => button.classList.remove("clicked"), 300);
+      });
+    });
   }
 
   heartIcon() {
@@ -292,7 +260,7 @@ class ImageInfoComponent extends HTMLElement {
         <path d="M21 6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h5l4 3v-3h5a2 2 0 0 0 2-2V6z"/>
       </svg>`;
   }
+  
 }
 
-customElements.define("image-info", ImageInfoComponent);
 export default ImageInfoComponent;
