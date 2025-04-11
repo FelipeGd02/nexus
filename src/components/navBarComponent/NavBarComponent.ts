@@ -187,7 +187,7 @@ class NavBarComponent extends HTMLElement {
                 border-radius: 50px;
                 padding: 10px 69px;
                 cursor: pointer;
-                font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+                font-size: 150%;
                 transition: background-color 0.3s ease, transform 0.2s ease;
             }
 

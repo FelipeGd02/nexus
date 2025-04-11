@@ -34,7 +34,6 @@ class LandingComponent extends HTMLElement {
       modal?.classList.remove('show');
     });
   
-    // Cerrar al hacer clic fuera del contenido del popup
     modal?.addEventListener('click', (event) => {
       if (event.target === modal) {
         modal.classList.remove('show');
@@ -66,7 +65,6 @@ class LandingComponent extends HTMLElement {
         .landing-container {
           display: flex;
           flex-direction: row;
-          align-items: center;
           justify-content: space-between;
           gap: 3rem;
           max-width: 100%;
@@ -80,21 +78,24 @@ class LandingComponent extends HTMLElement {
         }
 
         .text-content h1 {
-          font-size: 3rem;
-          margin: 0;
+          margin: 0 0 1rem;
+          font-size: 6rem;
+          font-weight: bold;
+          line-height: 1;
           color: white;
-          font-size: 5rem;
         }
 
-        .text-content span {
-          color:white;
-          font-size: 5rem;
+        .text-content h1 span {
+          color: #e63b7a;
+          display: block;
         }
 
         .text-content p {
-          font-size: 1.2rem;
+          font-size: 1.1rem;
           line-height: 1.6;
-          margin: 1rem 0;
+          margin: 1.2rem 0;
+          color: #e2e8f0;
+          max-width: 850px;
         }
 
         .see-more {
@@ -106,10 +107,7 @@ class LandingComponent extends HTMLElement {
           font-size: 1.2rem;
           cursor: pointer;
           transition: background-color 0.3s ease;
-        }
-
-        button.see-more {
-            width: 400px;
+          width: 400px;
         }
 
         .see-more:hover {
@@ -137,7 +135,7 @@ class LandingComponent extends HTMLElement {
         }
 
         .side-images img {
-          width: 400px;
+          width: 427px;
           height: 300px;
           object-fit: cover;
           border-radius: 20px;
@@ -195,46 +193,76 @@ class LandingComponent extends HTMLElement {
         @media (max-width: 900px) {
           .landing-container {
             flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+          }
+
+          .text-content h1 {
+            font-size: 3rem;
+            text-align: center;
+          }
+
+          .text-content p {
+            font-size: 1rem;
+            text-align: center;
+          }
+
+          .see-more {
+            width: 100%;
+            max-width: 300px;
+            display: block;
+            margin: 1rem auto;
           }
 
           .image-grid {
-          flex: 0;
-          display: grid;
-          grid-template-columns: 0fr 1fr;
-          gap: 1rem;
-        }
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+
           .main-image {
-          width: 200px;
-          height: 315px;
-          object-fit: cover;
-          border-radius: 20px;
-        }
+            width: 90%;
+            max-width: 400px;
+            height: auto;
+          }
 
-        .side-images {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-            .side-images img {
-        width: 100%;
-        height: 100%;
-        }
-         
+          .side-images {
+            width: 90%;
+            max-width: 400px;
+            flex-direction: column;
+            align-items: center;
+          }
 
-          
+          .side-images img {
+            width: 100%;
+            height: auto;
+          }
 
           .popup-content {
             width: 90vw;
             max-height: 70vh;
           }
         }
+
+        @media (max-width: 500px) {
+          .text-content h1 {
+            font-size: 2.3rem;
+          }
+
+          .text-content p {
+            font-size: 0.95rem;
+          }
+
+          .see-more {
+            font-size: 1rem;
+            padding: 0.6rem 1.2rem;
+          }
+        }
       </style>
 
       <section class="landing-container">
         <div class="text-content">
-          <h1>Welcome to Nexus <br></h1>
+          <h1>Welcome to <span>Nexus</span></h1>
           <p>Your ultimate meeting point for all things gaming. Here you'll find the latest news, updates, and updates on your favorite games.</p>
           <p>But that's not all: on Nexus, you not only stay informed, but you can also connect with other gamers, share experiences, discuss strategies, and be part of a community that is passionate about gaming.</p>
           <button class="see-more">see more</button>
