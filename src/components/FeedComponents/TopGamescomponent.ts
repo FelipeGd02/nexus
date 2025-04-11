@@ -144,7 +144,7 @@ class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTM
           </div>
         `
           )
-          .join("")} //* se usa para convertir un array en un solo string, uniendo todos los elementos del array con el separador que pongas entre los paréntesis. Si usas "" (una cadena vacía), los une sin espacios ni símbolos entre ellos.
+          .join("")} 
       </div>
     `;
   }

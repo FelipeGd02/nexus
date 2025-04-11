@@ -122,12 +122,17 @@ class LandingComponent extends HTMLElement {
           gap: 1rem;
         }
 
-        .main-image {
-          width: 450px;
-          height: 615px;
-          object-fit: cover;
-          border-radius: 20px;
-        }
+          .main-image {
+            width: 300px;
+            height: 615px;
+            object-fit: cover;
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+          }
+
+          .main-image:hover {
+            transform: scale(1.05);
+          }
 
         .side-images {
           display: flex;
@@ -135,12 +140,17 @@ class LandingComponent extends HTMLElement {
           gap: 1rem;
         }
 
-        .side-images img {
-          width: 427px;
-          height: 300px;
-          object-fit: cover;
-          border-radius: 20px;
-        }
+          .side-images img {
+            width: 200px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+          }
+
+          .side-images img:hover {
+            transform: scale(1.05);
+          }
 
         .popup {
           display: none;
