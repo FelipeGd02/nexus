@@ -46,13 +46,13 @@ class LandingComponent extends HTMLElement {
   render(games: { titulo: string; imagen: string }[]) {
     if (!this.shadowRoot) return;
 
-    if (games.length < 4) {
+    if (games.length < 3) {
       this.shadowRoot.innerHTML = `<p>Error: Not enough images to render landing page.</p>`;
       return;
     }
 
     const mainImage = games[0];
-    const sideImages = games.slice(1, 4);
+    const sideImages = games.slice(1, 3);
 
     this.shadowRoot.innerHTML = `
       <style>
@@ -76,19 +76,24 @@ class LandingComponent extends HTMLElement {
 
         .text-content {
           flex: 1;
+          color:#cbd5e1;
+          max-width: 1000px;
         }
 
         .text-content h1 {
           font-size: 3rem;
           margin: 0;
+          color: white;
+          font-size: 5rem;
         }
 
         .text-content span {
-          color: #BF3467;
+          color:white;
+          font-size: 5rem;
         }
 
         .text-content p {
-          font-size: 1.1rem;
+          font-size: 1.2rem;
           line-height: 1.6;
           margin: 1rem 0;
         }
@@ -99,9 +104,13 @@ class LandingComponent extends HTMLElement {
           border: none;
           padding: 0.7rem 1.5rem;
           border-radius: 999px;
-          font-size: 1rem;
+          font-size: 1.2rem;
           cursor: pointer;
           transition: background-color 0.3s ease;
+        }
+
+        button.see-more {
+            width: 400px;
         }
 
         .see-more:hover {
@@ -109,15 +118,15 @@ class LandingComponent extends HTMLElement {
         }
 
         .image-grid {
-          flex: 1;
+          flex: 0;
           display: grid;
-          grid-template-columns: 2fr 1fr;
+          grid-template-columns: 0fr 1fr;
           gap: 1rem;
         }
 
         .main-image {
-          width: 100%;
-          height: 100%;
+          width: 300px;
+          height: 615px;
           object-fit: cover;
           border-radius: 20px;
         }
@@ -129,8 +138,8 @@ class LandingComponent extends HTMLElement {
         }
 
         .side-images img {
-          width: 100%;
-          height: 50%;
+          width: 200px;
+          height: 300px;
           object-fit: cover;
           border-radius: 20px;
         }
