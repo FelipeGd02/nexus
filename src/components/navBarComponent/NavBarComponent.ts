@@ -68,214 +68,216 @@ class NavBarComponent extends HTMLElement {
         const hamburgerSrc = "https://cdn-icons-png.flaticon.com/512/1828/1828859.png";
 
         this.shadowRoot.innerHTML = `
-            <style>
-                :host {
-                    display: block;
-                    width: 100%;
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                }
+        <style>
+            :host {
+                display: block;
+                width: 100%;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
 
+            nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 16px 32px;
+                background-color: #2450A6;
+                color: white;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .nav-section {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+
+            .logo-container img {
+                height: clamp(36px, 6vw, 48px);
+            }
+
+            .search-container {
+                flex-grow: 1;
+                max-width: 500px;
+                margin: 0 20px;
+            }
+
+            .search-box {
+                display: flex;
+                align-items: center;
+                background-color: #e63b7a;
+                border-radius: 50px;
+                padding: 8px 16px;
+                width: 100%;
+                transition: box-shadow 0.3s ease;
+            }
+
+            .search-box:hover {
+                box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            }
+
+            .search-box input {
+                font-size: 1rem;
+                border: none;
+                background: transparent;
+                color: white;
+                padding: 8px;
+                width: 100%;
+                outline: none;
+            }
+
+            .search-box input::placeholder {
+                color: rgba(255, 255, 255, 0.6);
+            }
+
+            .search-box img {
+                width: 20px;
+                height: 20px;
+                margin-left: 8px;
+            }
+
+            .icon-btn {
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                padding: 6px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: filter 0.3s ease;
+            }
+
+            .icon-btn:hover img {
+                filter: brightness(0.85);
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 16px;
+            }
+
+            .nav-btn {
+                background: none;
+                border: none;
+                color: white;
+                font-size: clamp(1rem, 2.5vw, 1.3rem);
+                font-weight: 500;
+                letter-spacing: 0.4px;
+                cursor: pointer;
+                padding: 10px 40px;
+                border-radius: 8px;
+                transition: background-color 0.3s, transform 0.2s;
+                font-size: 150%;
+            }
+
+            .nav-btn:hover {
+                background-color: rgba(255, 255, 255, 0.15);
+                transform: scale(1.05);
+            }
+
+            .auth-buttons {
+                display: flex;
+                gap: 12px;
+            }
+
+            .btn {
+                background-color: #e63b7a;
+                color: white;
+                border: none;
+                border-radius: 50px;
+                padding: 10px 69px;
+                cursor: pointer;
+                font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+                transition: background-color 0.3s ease, transform 0.2s ease;
+            }
+
+            .btn:hover {
+                background-color: #d22e6a;
+                transform: scale(1.03);
+            }
+
+            img {
+                cursor: pointer;
+            }
+
+            .hamburger {
+                display: none;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 6px;
+                border-radius: 6px;
+            }
+
+            .hamburger:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .hamburger img {
+                width: 28px;
+                height: 28px;
+                filter: invert(1);
+            }
+
+            @media (max-width: 768px) {
                 nav {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 10px 25px;
-                    background-color: #2450A6;
-                    color: white;
-                    flex-wrap: wrap;
-                }
-
-                .nav-section {
-                    display: flex;
-                    align-items: center;
-                    gap: 15px;
-                }
-
-                .logo-container {
-                    display: flex;
-                    align-items: center;
-                }
-
-                .search-container {
-                    flex-grow: 1;
-                    max-width: 400px;
-                    margin: 0 20px;
-                }
-
-                .search-box {
-                    display: flex;
-                    align-items: center;
-                    background-color: #e63b7a;
-                    border-radius: 999px;
-                    padding: 10px 25px;
-                    width: 100%;
-                }
-
-                .search-box input {
-                    font-size: 20px;
-                    font-color: white;
-                    border: none;
-                    background: transparent;
-                    color: white;
-                    padding: 10px;
-                    width: 100%;
-                    outline: none;
-                    
-                }
-
-                .search-box input::placeholder {
-                    color: rgba(255, 255, 255, 0.7);
-                }
-
-                .search-box img {
-                    width: 20px;
-                    height: 20px;
-                    margin-left: 5px;
-                }
-
-                .icon-btn {
-                    background: transparent;
-                    border: none;
-                    cursor: pointer;
-                    padding: 0;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-
-                .icon-btn:hover img {
-                    filter: brightness(0.85);
-                }
-
-                .nav-links {
-                    display: flex;
-                    gap: 20px;
-                }
-
-                /* Botones más grandes */
-                .nav-btn {
-                    background: none;
-                    border: none;
-                    color: white;
-                    font-size: 30px; 
-                    letter-spacing: 0.5px;
-                    cursor: pointer;
-                    padding: 12px 18px; 
-                    transition: background-color 0.3s, transform 0.2s;
-                    border-radius: 6px; 
-                }
-
-                .nav-btn:hover {
-                    background-color: rgba(255, 255, 255, 0.2);
-                    transform: scale(1.05); /* efecto al pasar el mouse */
-                }
-
-                .auth-buttons {
-                    display: flex;
+                    padding: 12px 20px;
                     gap: 10px;
                 }
 
-                .btn {
-                    background-color: #e63b7a;
-                    color: white;
-                    border: none;
-                    border-radius: 999px;
-                    padding: 10px 20px;
-                    cursor: pointer;
-                    height: 50px;
-                    font-size: 30px;
-                    
-                }
-
-                .btn:hover {
-                    background-color: #d22e6a;
-                }
-
-                img {
-                    cursor: pointer;
-                }
-
-                /* botón hamburguesa */
-                .hamburger {
+                .nav-links {
                     display: none;
-                    background: none;
-                    border: none;
-                    cursor: pointer;
+                }
+
+                #login {
+                    display: none;
+                }
+
+                .search-container {
+                    margin: 0;
+                    max-width: none;
+                    flex-grow: 1;
+                }
+
+                .search-box {
+                    background-color: transparent;
+                    padding: 0;
+                }
+
+                .search-box input {
+                    display: none;
+                }
+
+                .icon-btn {
                     padding: 4px;
-                    border-radius: 4px;
                 }
 
-                .hamburger:hover {
-                    background-color: rgba(255, 255, 255, 0.1);
+                .hamburger {
+                    display: block;
+                    margin-left: 8px;
                 }
 
-                .hamburger img {
-                    width: 28px;
-                    height: 28px;
-                    filter: invert(1);
+                .auth-buttons {
+                    gap: 8px;
                 }
 
-                /* Responsivo ajustado para tener el hamburger a la DERECHA del Sign in */
-                @media (max-width: 768px) {
-                    nav {
-                        padding: 15px 25px;
-                        flex-wrap: nowrap;
-                        justify-content: space-between;
-                    }
-                    
-                    .nav-links {
-                        display: none;
-                    }
-                    
-                    #login {
-                        display: none;
-                    }
-                    
-                    .search-container {
-                        margin: 0;
-                        max-width: none;
-                        flex-grow: 0;
-                    }
-                    
-                    .search-box {
-                        background-color: transparent;
-                        padding: 0;
-                    }
-                    
-                    .search-box input {
-                        display: none;
-                    }
-                    
-                    .icon-btn {
-                        padding: 5px;
-                    }
-                    
-                    .hamburger {
-                        display: block;
-                        margin-left: 10px;
-                    }
-                    
-                    .auth-buttons {
-                        gap: 5px;
-                    }
-                    
-                    .btn#signin {
-                        height: auto;
-                        font-size: 18px;
-                        padding: 8px 20px;
-                    }
-                    
-                    .logo-container img {
-                        height: 40px;
-                    }
-                    
-                    .right-section {
-                        display: flex;
-                        align-items: center;
-                        justify-content: flex-end;
-                    }
+                .btn#signin {
+                    font-size: 1rem;
+                    padding: 8px 18px;
                 }
-            </style>
+
+                .logo-container img {
+                    height: 38px;
+                }
+
+                .right-section {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                }
+            }
+        </style>
+
             <link rel="stylesheet" href="../src/styles/navBar.css">
             <nav>
                 <div class="nav-section logo-container">

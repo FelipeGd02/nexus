@@ -125,7 +125,7 @@ class LandingComponent extends HTMLElement {
         }
 
         .main-image {
-          width: 300px;
+          width: 450px;
           height: 615px;
           object-fit: cover;
           border-radius: 20px;
@@ -138,7 +138,7 @@ class LandingComponent extends HTMLElement {
         }
 
         .side-images img {
-          width: 200px;
+          width: 400px;
           height: 300px;
           object-fit: cover;
           border-radius: 20px;
