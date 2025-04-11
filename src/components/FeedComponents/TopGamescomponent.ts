@@ -8,7 +8,7 @@ export type Game = {
   imgSrc: string;
 };
 
-//* Cuando el componente se monta al DOM, llama a LoadRenderGames() para cargar los datos y renderizar
+//? Cuando el componente se monta al DOM, llama a LoadRenderGames() para cargar los datos y renderizar
 
 class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTMLElement para crear un Web Component personalizado
   constructor() {
@@ -22,7 +22,7 @@ class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTM
   connectedCallback() {
     this.loadAndRenderGames();
   }
-//*cuando el componente se monta al DOM, llama a loadAndRenderGames() para cargar los datos y renderizar
+//?cuando el componente se monta al DOM, llama a loadAndRenderGames() para cargar los datos y renderizar
   
   async loadAndRenderGames() {
     try {
@@ -35,7 +35,7 @@ class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTM
       }));
 
       //*Se hace un fetch a un archivo local JSON
-      //*Se transforma el arreglo de GameJson a objetos Game con los nombres esperados por el componente (title, imgSrc)
+      //!Se transforma el arreglo de GameJson a objetos Game con los nombres esperados por el componente (title, imgSrc)
       this.render(games);
     } catch (error) {
       this.renderError(); //*si ocurre un error al cargar los juegos, se muestran un mensaje de error estilizado
@@ -154,6 +154,6 @@ class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTM
   }
 }
 
-customElements.define('top-games', TopGamesComponent); //*Registra el componente como un etiqueta HTML personalizada como <top-games>
+customElements.define('top-games', TopGamesComponent); //?Registra el componente como un etiqueta HTML personalizada como <top-games>
 export default TopGamesComponent;
-//*Permite usarlos en otros archivos Zz
+//!Permite usarlos en otros archivos Zz
