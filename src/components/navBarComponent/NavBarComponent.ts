@@ -74,9 +74,10 @@ class Navbar extends HTMLElement {
                     <img id="home" src="${logoSrc}" alt="Logo N">
                 </div>
 
-                <div class="hamburger">
+                <button class="hamburger" aria-label="Open menu">
                     <img src="${hamburgerSrc}" alt="Menu">
-                </div>
+                </button>
+
 
                 <div class="search-container">
                     <div class="search-box">
@@ -102,5 +103,5 @@ class Navbar extends HTMLElement {
     }
 }
 
-customElements.define("my-navbar", Navbar);
+customElements.define("navbar", Navbar);
 export default Navbar;

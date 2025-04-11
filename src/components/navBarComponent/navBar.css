@@ -116,44 +116,51 @@ img {
     cursor: pointer;
 }
 
-/* boton hamburgesa estética */
+/* botón hamburguesa */
 .hamburger {
     display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.hamburger:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .hamburger img {
     width: 28px;
     height: 28px;
-    cursor: pointer;
     filter: invert(1);
 }
 
-/* Responsive */
+/*  Responsive */
 @media (max-width: 768px) {
-    .hamburger {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-section.nav-links,
+    .auth-buttons {
+        width: 100%;
+        justify-content: space-around;
+        margin-top: 10px;
+        flex-wrap: wrap;
     }
 
     .search-container {
         width: 100%;
+        max-width: none;
         margin: 10px 0;
     }
 
-    .nav-links,
-    .auth-buttons {
-        display: none; /* Ocultar mientras no haya menú funcional */
-    }
-
-    nav {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-    }
-
-    .logo-container {
-        justify-content: space-between;
-        width: 100%;
+    .hamburger {
+        display: block;
+        position: absolute;
+        top: 15px;
+        right: 20px;
     }
 }

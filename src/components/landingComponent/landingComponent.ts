@@ -1,4 +1,4 @@
-class Landing extends HTMLElement {
+class LandingComponent extends HTMLElement {
     constructor() {
       super();
       this.attachShadow({ mode: "open" });
@@ -55,6 +55,6 @@ class Landing extends HTMLElement {
     }
   }
   
-  customElements.define("landing-page", Landing);
-  export default Landing;
+  customElements.define("landing-page", LandingComponent);
+  export default LandingComponent;
   
