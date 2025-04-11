@@ -152,7 +152,6 @@ class NavBarComponent extends HTMLElement {
                     gap: 20px;
                 }
 
-                /* Botones más grandes */
                 .nav-btn {
                     background: none;
                     border: none;
@@ -172,7 +171,8 @@ class NavBarComponent extends HTMLElement {
 
                 .auth-buttons {
                     display: flex;
-                    gap: 10px;
+                    gap: 30px;
+                    margin-right: 10px
                 }
 
                 .btn {
@@ -215,7 +215,6 @@ class NavBarComponent extends HTMLElement {
                     filter: invert(1);
                 }
 
-                /* Responsivo ajustado para tener el hamburger a la DERECHA del Sign in */
                 @media (max-width: 768px) {
                     nav {
                         padding: 15px 25px;
@@ -276,7 +275,6 @@ class NavBarComponent extends HTMLElement {
                     }
                 }
             </style>
-            <link rel="stylesheet" href="../src/styles/navBar.css">
             <nav>
                 <div class="nav-section logo-container">
                     <img id="home" src="${logoSrc}" alt="Logo N">
@@ -313,5 +311,7 @@ class NavBarComponent extends HTMLElement {
     }
 }
 
-customElements.define("my-navbar", NavBarComponent);
-export default NavBarComponent;
+if (!customElements.get('my-navbar')) {
+    customElements.define('my-navbar', NavBarComponent);
+  }
+  export default NavBarComponent;
