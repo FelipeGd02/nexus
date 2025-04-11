@@ -131,9 +131,9 @@ class NavBarComponent extends HTMLElement {
             }
 
             .search-box img {
-                width: 20px;
-                height: 20px;
-                margin-left: 8px;
+                    width: 25px;
+                    height: 25px;
+                    margin-left: 300px;
             }
 
             .icon-btn {
