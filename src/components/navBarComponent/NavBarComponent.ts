@@ -249,7 +249,35 @@ class NavBarComponent extends HTMLElement {
                 }
 
                 .icon-btn {
-                    padding: 4px;
+
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    padding: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .icon-btn:hover img {
+                    filter: brightness(0.85);
+                }
+
+                .nav-links {
+                    display: flex;
+                    gap: 20px;
+                }
+
+                .nav-btn {
+                    background: none;
+                    border: none;
+                    color: white;
+                    font-size: 30px; 
+                    letter-spacing: 0.5px;
+                    cursor: pointer;
+                    padding: 12px 18px; 
+                    transition: background-color 0.3s, transform 0.2s;
+                    border-radius: 6px;
                 }
 
                 .hamburger {
@@ -258,7 +286,28 @@ class NavBarComponent extends HTMLElement {
                 }
 
                 .auth-buttons {
+
+                    display: flex;
+                    gap: 30px;
+                    margin-right: 10px
+                }
+
+                .btn {
+                    background-color: #e63b7a;
+                    color: white;
+                    border: none;
+                    border-radius: 999px;
+                    padding: 10px 20px;
+                    cursor: pointer;
+                    height: 50px;
+                    font-size: 30px;
+                    
+                }
+
+                .btn:hover {
+                    background-color: #d22e6a;
                     gap: 8px;
+
                 }
 
                 .btn#signin {
@@ -278,7 +327,67 @@ class NavBarComponent extends HTMLElement {
             }
         </style>
 
-            <link rel="stylesheet" href="../src/styles/navBar.css">
+
+                @media (max-width: 768px) {
+                    nav {
+                        padding: 15px 25px;
+                        flex-wrap: nowrap;
+                        justify-content: space-between;
+                    }
+                    
+                    .nav-links {
+                        display: none;
+                    }
+                    
+                    #login {
+                        display: none;
+                    }
+                    
+                    .search-container {
+                        margin: 0;
+                        max-width: none;
+                        flex-grow: 0;
+                    }
+                    
+                    .search-box {
+                        background-color: transparent;
+                        padding: 0;
+                    }
+                    
+                    .search-box input {
+                        display: none;
+                    }
+                    
+                    .icon-btn {
+                        padding: 5px;
+                    }
+                    
+                    .hamburger {
+                        display: block;
+                        margin-left: 10px;
+                    }
+                    
+                    .auth-buttons {
+                        gap: 5px;
+                    }
+                    
+                    .btn#signin {
+                        height: auto;
+                        font-size: 18px;
+                        padding: 8px 20px;
+                    }
+                    
+                    .logo-container img {
+                        height: 40px;
+                    }
+                    
+                    .right-section {
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-end;
+                    }
+                }
+            </style>
             <nav>
                 <div class="nav-section logo-container">
                     <img id="home" src="${logoSrc}" alt="Logo N">
@@ -315,5 +424,7 @@ class NavBarComponent extends HTMLElement {
     }
 }
 
-customElements.define("my-navbar", NavBarComponent);
-export default NavBarComponent;
+if (!customElements.get('my-navbar')) {
+    customElements.define('my-navbar', NavBarComponent);
+  }
+  export default NavBarComponent;
