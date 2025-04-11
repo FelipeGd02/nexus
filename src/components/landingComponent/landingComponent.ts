@@ -196,22 +196,35 @@ class LandingComponent extends HTMLElement {
         @media (max-width: 900px) {
           .landing-container {
             flex-direction: column;
-            text-align: center;
           }
 
           .image-grid {
-            grid-template-columns: 1fr;
-          }
+          flex: 0;
+          display: grid;
+          grid-template-columns: 0fr 1fr;
+          gap: 1rem;
+        }
+          .main-image {
+          width: 200px;
+          height: 315px;
+          object-fit: cover;
+          border-radius: 20px;
+        }
 
-          .side-images {
-            flex-direction: row;
-            justify-content: center;
-          }
+        .side-images {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+            .side-images img {
+        width: 100%;
+        height: 100%;
+        }
+         
 
-          .side-images img {
-            width: 30%;
-            height: auto;
-          }
+          
 
           .popup-content {
             width: 90vw;
@@ -222,7 +235,7 @@ class LandingComponent extends HTMLElement {
 
       <section class="landing-container">
         <div class="text-content">
-          <h1>Welcome to <br><span>Nexus</span></h1>
+          <h1>Welcome to Nexus <br></h1>
           <p>Your ultimate meeting point for all things gaming. Here you'll find the latest news, updates, and updates on your favorite games.</p>
           <p>But that's not all: on Nexus, you not only stay informed, but you can also connect with other gamers, share experiences, discuss strategies, and be part of a community that is passionate about gaming.</p>
           <button class="see-more">see more</button>

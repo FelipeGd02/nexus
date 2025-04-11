@@ -215,45 +215,72 @@ class NavBarComponent extends HTMLElement {
                     filter: invert(1);
                 }
 
-                /*  Responsive */
+                /* Responsivo ajustado para tener el hamburger a la DERECHA del Sign in */
                 @media (max-width: 768px) {
                     nav {
-                        flex-direction: column;
-                        align-items: flex-start;
+                        padding: 15px 25px;
+                        flex-wrap: nowrap;
+                        justify-content: space-between;
                     }
-
-                    .nav-section.nav-links,
-                    .auth-buttons {
-                        width: 100%;
-                        justify-content: space-around;
-                        margin-top: 10px;
-                        flex-wrap: wrap;
+                    
+                    .nav-links {
+                        display: none;
                     }
-
+                    
+                    #login {
+                        display: none;
+                    }
+                    
                     .search-container {
-                        width: 100%;
+                        margin: 0;
                         max-width: none;
-                        margin: 10px 0;
+                        flex-grow: 0;
                     }
-
+                    
+                    .search-box {
+                        background-color: transparent;
+                        padding: 0;
+                    }
+                    
+                    .search-box input {
+                        display: none;
+                    }
+                    
+                    .icon-btn {
+                        padding: 5px;
+                    }
+                    
                     .hamburger {
                         display: block;
-                        position: absolute;
-                        top: 15px;
-                        right: 20px;
+                        margin-left: 10px;
+                    }
+                    
+                    .auth-buttons {
+                        gap: 5px;
+                    }
+                    
+                    .btn#signin {
+                        height: auto;
+                        font-size: 18px;
+                        padding: 8px 20px;
+                    }
+                    
+                    .logo-container img {
+                        height: 40px;
+                    }
+                    
+                    .right-section {
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-end;
                     }
                 }
-
             </style>
             <link rel="stylesheet" href="../src/styles/navBar.css">
             <nav>
                 <div class="nav-section logo-container">
                     <img id="home" src="${logoSrc}" alt="Logo N">
                 </div>
-
-                <button class="hamburger" aria-label="Open menu">
-                    <img src="${hamburgerSrc}" alt="Menu">
-                </button>
 
                 <div class="search-container">
                     <div class="search-box">
@@ -270,9 +297,16 @@ class NavBarComponent extends HTMLElement {
                     <button class="nav-btn">Community</button>
                 </div>
 
-                <div class="nav-section auth-buttons">
-                    <button id="login" class="btn">Log in</button>
-                    <button id="signin" class="btn">Sign in</button>
+                <div class="right-section">
+                    <div class="nav-section auth-buttons">
+                        <button id="login" class="btn">Log in</button>
+                        <button id="signin" class="btn">Sign in</button>
+                        
+                    </div>
+                    
+                    <button class="hamburger" aria-label="Open menu">
+                        <img src="${hamburgerSrc}" alt="Menu">
+                    </button>
                 </div>
             </nav>
         `;
