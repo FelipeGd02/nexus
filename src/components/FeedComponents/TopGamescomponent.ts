@@ -8,16 +8,22 @@ export type Game = {
   imgSrc: string;
 };
 
-class TopGamesComponent extends HTMLElement {
+//* Cuando el componente se monta al DOM, llama a LoadRenderGames() para cargar los datos y renderizar
+
+class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTMLElement para crear un Web Component personalizado
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
   }
 
+  //*Se llama al constructor de HTMLelemment (super())
+  //* Se crea un Shadow DOM en modo abierto, permitido encapsular estilos y contenido
+
   connectedCallback() {
     this.loadAndRenderGames();
   }
-
+//*cuando el componente se monta al DOM, llama a loadAndRenderGames() para cargar los datos y renderizar
+  
   async loadAndRenderGames() {
     try {
       const response = await fetch("/data/games.json");
@@ -28,14 +34,16 @@ class TopGamesComponent extends HTMLElement {
         imgSrc: game.imagen,
       }));
 
+      //*Se hace un fetch a un archivo local JSON
+      //*Se transforma el arreglo de GameJson a objetos Game con los nombres esperados por el componente (title, imgSrc)
       this.render(games);
     } catch (error) {
-      this.renderError();
+      this.renderError(); //*si ocurre un error al cargar los juegos, se muestran un mensaje de error estilizado
       console.error("Failed to load games:", error);
     }
   }
 
-  render(games: Game[]) {
+  render(games: Game[]) { //*pues usa el innerhtml para meter los estilos y los juegos se renderizan con una tarjeta .game con una imagen y el tiitulo y pues el @media pal responsive
     this.shadowRoot!.innerHTML = `
       <style>
         :host {
@@ -146,5 +154,6 @@ class TopGamesComponent extends HTMLElement {
   }
 }
 
-customElements.define('top-games', TopGamesComponent);
+customElements.define('top-games', TopGamesComponent); //*Registra el componente como un etiqueta HTML personalizada como <top-games>
 export default TopGamesComponent;
+//*Permite usarlos en otros archivos Zz
