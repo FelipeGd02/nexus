@@ -63,15 +63,16 @@ class NavBarComponent extends HTMLElement {
     render() {
         if (!this.shadowRoot) return;
 
-        const logoSrc = "../src/utils/images/logoNexus.png";
+        const logoSrc = "https://i.ibb.co/LKGVWPS/logo-Nexus.png";
         const searchButtonSrc = "https://cdn-icons-png.flaticon.com/512/3031/3031293.png";
         const hamburgerSrc = "https://cdn-icons-png.flaticon.com/512/1828/1828859.png";
 
         this.shadowRoot.innerHTML = `
             <style>
-                        :host {
+                :host {
                 display: block;
                 width: 100%;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
 
             nav {
@@ -272,5 +273,5 @@ class NavBarComponent extends HTMLElement {
     }
 }
 
-customElements.define("navbar-bar", NavBarComponent);
+customElements.define("my-navbar", NavBarComponent);
 export default NavBarComponent;

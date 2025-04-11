@@ -7,6 +7,7 @@ class LandingComponent extends HTMLElement {
   async connectedCallback() {
     const data = await this.loadData();
     this.render(data);
+    this.addEventListeners();
   }
 
   async loadData() {
@@ -18,6 +19,28 @@ class LandingComponent extends HTMLElement {
       console.error("Error loading game data:", error);
       return [];
     }
+  }
+
+  addEventListeners() {
+    const button = this.shadowRoot?.querySelector('.see-more');
+    const modal = this.shadowRoot?.querySelector('.popup');
+    const closeBtn = this.shadowRoot?.querySelector('.close-popup');
+    const popupContent = this.shadowRoot?.querySelector('.popup-content');
+  
+    button?.addEventListener('click', () => {
+      modal?.classList.add('show');
+    });
+  
+    closeBtn?.addEventListener('click', () => {
+      modal?.classList.remove('show');
+    });
+  
+    // Cerrar al hacer clic fuera del contenido del popup
+    modal?.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        modal.classList.remove('show');
+      }
+    });
   }
 
   render(games: { titulo: string; imagen: string }[]) {
@@ -32,98 +55,194 @@ class LandingComponent extends HTMLElement {
     const sideImages = games.slice(1, 4);
 
     this.shadowRoot.innerHTML = `
-              <style>
-          :host {
-              display: block;
-              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-              background-color: #2450A6;
-              color: #ffffff;
-              padding: 1rem 1rem;
-            }
+      <style>
+        :host {
+          display: block;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: #2450A6;
+          color: white;
+          padding: 2rem;
+        }
 
+        .landing-container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          gap: 3rem;
+          max-width: 100%;
+          margin: auto;
+        }
+
+        .text-content {
+          flex: 1;
+        }
+
+        .text-content h1 {
+          font-size: 3rem;
+          margin: 0;
+        }
+
+        .text-content span {
+          color: #BF3467;
+        }
+
+        .text-content p {
+          font-size: 1.1rem;
+          line-height: 1.6;
+          margin: 1rem 0;
+        }
+
+        .see-more {
+          background-color: #BF3467;
+          color: white;
+          border: none;
+          padding: 0.7rem 1.5rem;
+          border-radius: 999px;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+
+        .see-more:hover {
+          background-color: #a62d5a;
+        }
+
+        .image-grid {
+          flex: 1;
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          gap: 1rem;
+        }
+
+        .main-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 20px;
+        }
+
+        .side-images {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .side-images img {
+          width: 100%;
+          height: 50%;
+          object-fit: cover;
+          border-radius: 20px;
+        }
+
+        .popup {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.4);
+          justify-content: center;
+          align-items: center;
+          z-index: 9999;
+        }
+
+        .popup.show {
+          display: flex;
+        }
+
+        .popup-content {
+          background-color: #2450A6;
+          color: white;
+          padding: 2rem;
+          border-radius: 1rem;
+          text-align: center;
+          width: 600px;
+          max-width: 90vw;
+          max-height: 80vh;
+          overflow-y: auto;
+          box-shadow: 0 0 20px rgba(0,0,0,0.3);
+          position: relative;
+        }
+
+        .close-popup {
+          position: absolute;
+          top: 0.5rem;
+          right: 0.8rem;
+          background: #BF3467;
+          color: white;
+          border: none;
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+          font-size: 1.2rem;
+          cursor: pointer;
+        }
+
+        .close-popup:hover {
+          background-color: #a62d5a;
+        }
+
+        @media (max-width: 900px) {
           .landing-container {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            gap: 2rem;
-            padding: 2rem;
-            background: #2450A6;
-            color: white;
-          }
-
-          .text-content {
-            flex: 1;
-          }
-
-          .text-content h1 {
-            font-size: 3rem;
-            line-height: 1.2;
-          }
-
-          .text-content span {
-            color: #BF3467;
-          }
-
-          .text-content p {
-            margin: 1rem 0;
-            font-size: 1.1rem;
-            line-height: 1.6;
-          }
-
-          .see-more {
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            background-color: #BF3467;
-            color: #ffffff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            flex-direction: column;
+            text-align: center;
           }
 
           .image-grid {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-          }
-
-          .main-image {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
+            grid-template-columns: 1fr;
           }
 
           .side-images {
-            display: flex;
-            gap: 0.5rem;
+            flex-direction: row;
             justify-content: center;
           }
 
           .side-images img {
             width: 30%;
             height: auto;
-            border-radius: 4px;
           }
-        </style>
+
+          .popup-content {
+            width: 90vw;
+            max-height: 70vh;
+          }
+        }
+      </style>
 
       <section class="landing-container">
         <div class="text-content">
           <h1>Welcome to <br><span>Nexus</span></h1>
-          <p>Your ultimate meeting point for all things gaming...</p>
+          <p>Your ultimate meeting point for all things gaming. Here you'll find the latest news, updates, and updates on your favorite games.</p>
+          <p>But that's not all: on Nexus, you not only stay informed, but you can also connect with other gamers, share experiences, discuss strategies, and be part of a community that is passionate about gaming.</p>
           <button class="see-more">see more</button>
         </div>
         <div class="image-grid">
-          <img class="main-image" src="${mainImage.imagen}" alt="${mainImage.titulo}">
+          <img class="main-image" src="${mainImage.imagen}" alt="${mainImage.titulo}" />
           <div class="side-images">
             ${sideImages
               .map(
-                (img) => `<img src="${img.imagen}" alt="${img.titulo}" title="${img.titulo}" />`
+                (img) =>
+                  `<img src="${img.imagen}" alt="${img.titulo}" title="${img.titulo}" />`
               )
               .join("")}
           </div>
         </div>
       </section>
+
+      <div class="popup">
+        <div class="popup-content">
+          <button class="close-popup">&times;</button>
+          <p>
+            Your ultimate meeting point for all things gaming.<br><br>
+            Here you'll find the latest news, exclusive announcements, in-depth reviews, and real-time updates on your favorite games—from blockbuster titles to indie gems.<br><br>
+            But that’s not all: on Nexus, you’re not just staying informed—you’re becoming part of something bigger.
+            Connect with gamers from around the world, share your experiences, trade tips and strategies, and engage in meaningful conversations with a passionate, ever-growing community.<br><br>
+            Whether you're a casual player or a hardcore competitor, Nexus is where your gaming journey truly levels up.
+          </p>
+        </div>
+      </div>
     `;
   }
 }
