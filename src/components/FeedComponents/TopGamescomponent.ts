@@ -146,4 +146,5 @@ class TopGamesComponent extends HTMLElement {
   }
 }
 
+customElements.define('top-games', TopGamesComponent);
 export default TopGamesComponent;
