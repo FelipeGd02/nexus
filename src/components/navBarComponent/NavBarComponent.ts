@@ -324,9 +324,6 @@ class NavBarComponent extends HTMLElement {
                     align-items: center;
                     justify-content: flex-end;
                 }
-            }
-        </style>
-
 
                 @media (max-width: 768px) {
                     nav {
