@@ -1,49 +1,53 @@
+//* Tipos para definir la forma de los datos JSON que vienen del archivo externo
 type GameJson = {
-  titulo: string;
-  imagen: string;
+  titulo: string;  //&nombre del juego en español desde el JSON
+  imagen: string;  //&URL de la imagen desde el JSON
 };
 
+//* Tipo usado dentro del componente, ya con nombres en inglés y consistentes
 export type Game = {
-  title: string;
-  imgSrc: string;
+  title: string;   //?nombre del juego en inglés :V
+  imgSrc: string;  // ?URL de la imagen del juego desde el Json :V
 };
 
-//? Cuando el componente se monta al DOM, llama a LoadRenderGames() para cargar los datos y renderizar
-
-class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTMLElement para crear un Web Component personalizado
+//! Definición del componente web personalizado <top-games-component> pa poder trabajarlo 
+class TopGamesComponent extends HTMLElement {
   constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
+    super(); //!Llama al constructor de HTMLElement (Me genero traumas por no ponerle los parrentesis)
+    this.attachShadow({ mode: "open" }); 
+    //* Crea un Shadow DOM abierto para encapsular estilos y estructura
   }
 
-  //*Se llama al constructor de HTMLelemment (super())
-  //* Se crea un Shadow DOM en modo abierto, permitido encapsular estilos y contenido
-
+  //* Método del ciclo de vida del Web Component: se ejecuta cuando se agrega al DOM
   connectedCallback() {
-    this.loadAndRenderGames();
+    this.loadAndRenderGames(); //?Llama a función que carga y renderiza los juegos
   }
-//?cuando el componente se monta al DOM, llama a loadAndRenderGames() para cargar los datos y renderizar
-  
+
+  //* Método asíncrono que carga los juegos desde un archivo JSON y los renderiza
   async loadAndRenderGames() {
     try {
+      //? Hace una petición al archivo local JSON que contiene la lista de juegos
       const response = await fetch("/data/games.json");
       const data = await response.json();
 
+      //? Transforma cada objeto del JSON original al formato interno `Game`
       const games: Game[] = data.topGames.map((game: GameJson) => ({
-        title: game.titulo,
-        imgSrc: game.imagen,
+        title: game.titulo,     //!cambia "titulo" a "title"
+        imgSrc: game.imagen     //!cambia "imagen" a "imgSrc"
       }));
 
-      //*Se hace un fetch a un archivo local JSON
-      //!Se transforma el arreglo de GameJson a objetos Game con los nombres esperados por el componente (title, imgSrc) :V
-      this.render(games);
+      this.render(games); //?Llama al método para renderizar los juegos en pantalla
     } catch (error) {
-      this.renderError(); //*si ocurre un error al cargar los juegos, se muestran un mensaje de error estilizado .-. 
+      this.renderError(); //?Si hay error al cargar, muestra mensaje de error
       console.error("Failed to load games:", error);
     }
   }
 
-  render(games: Game[]) { //*pues usa el innerhtml para meter los estilos y los juegos se renderizan con una tarjeta .game con una imagen y el tiitulo y pues el @media pal responsive
+  //* Renderiza los juegos dentro del Shadow DOM usando innerHTML
+
+  //
+  //!desde aqui abajo  hasta la linea 153 pues son los estilos
+  render(games: Game[]) {
     this.shadowRoot!.innerHTML = `
       <style>
         :host {
@@ -51,7 +55,7 @@ class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTM
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
           background-color: #2450A6;
           color: #ffffff;
-          padding: 1rem 1rem;
+          padding: 1rem;
         }
 
         h1 {
@@ -61,20 +65,20 @@ class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTM
         }
 
         h1 span {
-          color: #BF3467;
+          color: #BF3467; // Color especial para la palabra "top"
         }
 
         .subtitle {
           font-size: 1.2rem;
           color: #cbd5e1;
           margin-bottom: 3rem;
-          max-width: 1000px; 
-          text-align: left; 
+          max-width: 1000px;
+          text-align: left;
         }
 
         .games {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); // diseño responsive con tarjetas
           gap: 2rem;
           justify-items: center;
         }
@@ -85,19 +89,19 @@ class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTM
           overflow: hidden;
           box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
           transition: transform 0.3s ease, box-shadow 0.3s ease;
-          width: 100%;
           max-width: 350px;
+          width: 100%;
         }
 
         .game:hover {
           transform: translateY(-6px);
-          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35); // animación al hacer hover
         }
 
         .game img {
           width: 100%;
           height: 320px;
-          object-fit: cover;
+          object-fit: cover; // para que la imagen no se deforme
           display: block;
           border-top-left-radius: 20px;
           border-top-right-radius: 20px;
@@ -108,7 +112,6 @@ class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTM
           padding: 0.5rem;
           font-weight: 600;
           font-size: 1.05rem;
-          color: #ffffff;
         }
 
         @media (max-width: 768px) {
@@ -133,27 +136,29 @@ class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTM
       </style>
 
       <h1><span>top</span> games</h1>
-      <p class="subtitle">Here you will find a list of games which may be to your liking. Each title has been carefully selected based on your preferences, offering a mix of genres, aesthetics, and gameplay experiences. Whether you're looking for fast-paced action, immersive storytelling, or creative puzzles, there's something here for everyone. Feel free to explore, and don't hesitate to dive deeper into the ones that catch your eye — your next favorite game might be just a scroll away.</p>
+
+      <p class="subtitle">
+        Here you will find a list of games which may be to your liking...
+        (texto descriptivo sobre los juegos)
+      </p>
+
       <div class="games">
-        ${games
-          .map(
-            (game) => `
+        ${games.map((game) => `
           <div class="game">
             <img src="${game.imgSrc}" alt="${game.title}" />
             <p>${game.title}</p>
           </div>
-        `
-          )
-          .join("")} 
+        `).join("")}
       </div>
     `;
   }
 
+  //* Metodo para renderizar un mensaje de error si algo falla al cargar los datos
   renderError() {
-    this.shadowRoot!.innerHTML = `<p style="color: red; text-align: center;">Failed to load games.</p>`;
+    this.shadowRoot!.innerHTML = `
+      <p style="color: red; text-align: center;">Failed to load games.</p>
+    `;
   }
 }
 
-
-export default TopGamesComponent;
-//!Permite usarlos en otros archivos XD
+export default TopGamesComponent; //*Permite importar el componente en otros archivos pa que lo pongas en el index.ts
