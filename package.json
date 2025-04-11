@@ -32,5 +32,13 @@
   },
   "dependencies": {
     "serve": "^14.2.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FelipeGd02/nexus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FelipeGd02/nexus/issues"
+  },
+  "homepage": "https://github.com/FelipeGd02/nexus#readme"
 }
