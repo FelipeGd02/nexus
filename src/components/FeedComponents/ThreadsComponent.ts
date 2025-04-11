@@ -185,7 +185,8 @@ class ImageInfoComponent extends HTMLElement {
       }
 
       .toggle-btn:hover {
-        background-color: #f1f1f1;
+        background-color: #ffff;
+        color:#BF3467 ;
       }
 
       @media (max-width: 768px) {
