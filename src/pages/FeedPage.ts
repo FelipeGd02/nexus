@@ -13,4 +13,4 @@ class FeedPage extends HTMLElement {
   }
   
   export default FeedPage;
-  customElements.define('feed-page', FeedPage);
+  
