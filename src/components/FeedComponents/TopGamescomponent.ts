@@ -35,10 +35,10 @@ class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTM
       }));
 
       //*Se hace un fetch a un archivo local JSON
-      //!Se transforma el arreglo de GameJson a objetos Game con los nombres esperados por el componente (title, imgSrc)
+      //!Se transforma el arreglo de GameJson a objetos Game con los nombres esperados por el componente (title, imgSrc) :V
       this.render(games);
     } catch (error) {
-      this.renderError(); //*si ocurre un error al cargar los juegos, se muestran un mensaje de error estilizado
+      this.renderError(); //*si ocurre un error al cargar los juegos, se muestran un mensaje de error estilizado .-. 
       console.error("Failed to load games:", error);
     }
   }
@@ -144,7 +144,7 @@ class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTM
           </div>
         `
           )
-          .join("")}
+          .join("")} //* se usa para convertir un array en un solo string, uniendo todos los elementos del array con el separador que pongas entre los paréntesis. Si usas "" (una cadena vacía), los une sin espacios ni símbolos entre ellos.
       </div>
     `;
   }
@@ -154,6 +154,6 @@ class TopGamesComponent extends HTMLElement { //*Crea una clase que extiende HTM
   }
 }
 
-customElements.define('top-games', TopGamesComponent); //?Registra el componente como un etiqueta HTML personalizada como <top-games>
+
 export default TopGamesComponent;
-//!Permite usarlos en otros archivos Zz
+//!Permite usarlos en otros archivos XD

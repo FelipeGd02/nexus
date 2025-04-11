@@ -329,5 +329,5 @@ class ImageInfoComponent extends HTMLElement {
   }
 }
 
-customElements.define("image-info", ImageInfoComponent);
+
 export default ImageInfoComponent;
