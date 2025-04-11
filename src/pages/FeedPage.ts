@@ -1,4 +1,3 @@
-import Navbar from "../components/navBarComponent/NavBarComponent";
 class FeedPage extends HTMLElement {
     constructor() {
       super();
@@ -8,11 +7,10 @@ class FeedPage extends HTMLElement {
    
     render() {
       this.shadowRoot!.innerHTML = `
-        <navBar></navBar>
         <image-info></image-info>
       `;
     }
   }
   
   export default FeedPage;
-  customElements.define('feed-page', FeedPage);
+  

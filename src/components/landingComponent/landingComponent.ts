@@ -25,7 +25,6 @@ class LandingComponent extends HTMLElement {
     const button = this.shadowRoot?.querySelector('.see-more');
     const modal = this.shadowRoot?.querySelector('.popup');
     const closeBtn = this.shadowRoot?.querySelector('.close-popup');
-    const popupContent = this.shadowRoot?.querySelector('.popup-content');
   
     button?.addEventListener('click', () => {
       modal?.classList.add('show');
