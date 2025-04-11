@@ -1,8 +1,116 @@
 {
-    "image": "https://gmedia.playstation.com/is/image/SIEPDC/ps5-product-thumbnail-01-en-14sep21?$facebook$",
-    "likes": 120,
-    "shares": 30,
-    "saves": 45,
-    "comments": 12
-  }
-  
+  "threads": [
+    {
+      "image": "https://gmedia.playstation.com/is/image/SIEPDC/spiderman-miles-morales-screenshot-01-disclaimer-en-01oct20?$1600px--t$",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
+    },
+    {
+      "image": "https://generacionxbox.com/wp-content/uploads/2024/05/marvel-rivals.jpeg",
+      "likes": 95,
+      "shares": 22,
+      "saves": 50,
+      "comments": 12
+    },
+    {
+      "image": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/4f99c85a041f7ce5ca5bcea74677a2787f62cf37-1920x1080.jpg?auto=format&fit=fill&q=80&w=1082",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
+    },
+    {
+      "image": "https://image.api.playstation.com/vulcan/ap/rnd/202404/1815/898047ecfdb7ee9d5cb511b9f293e1ad1f7df0793626b4a6.jpg",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
+    },
+    {
+      "image": "https://cdn1.epicgames.com/offer/cumin/FCB_StorePortrait_1200x1600_1200x1600-89a688a166ecb85c46cddefc7aa91b44",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
+    },
+    {
+      "image": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000024591/066ead069f5ac48a8d893d28b59268b550027c4b6be8f5a597038519d369be66",
+      "likes": 95,
+      "shares": 22,
+      "saves": 50,
+      "comments": 12
+    },
+    {
+      "image": "https://asset.kompas.com/crops/kWCeQk918vD0ZGoex3dnVI52yAI=/76x0:606x353/1200x800/data/photo/2023/09/29/6516568be708c.jpg",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
+    },
+    {
+      "image": "https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/4IZecJyhvcIUxxu0Rd1vjX/b9fb7577b74b56704d3d2b34be639397/R6S_Y7_KEYART_STANDARD.jpg",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
+    },
+    {
+      "image": "https://niveloculto.com/wp-content/uploads/2025/01/stone-of-madness-1-scaled.webp",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
+    },
+    {
+      "image": "https://assets.nintendo.com/image/upload/f_auto,q_auto/Marketing/68272fb37fa56918996af8bfceddbc4223c2746af7c325b2067f0c62c65ef8c0/exp_b2cfe1/key-art-2x",
+      "likes": 95,
+      "shares": 22,
+      "saves": 50,
+      "comments": 12
+    },
+    {
+      "image": "https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/ncom/software/switch/70010000000025/7137262b5a64d921e193653f8aa0b722925abc5680380ca0e18a5cfd91697f58",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
+    },
+    {
+      "image": "https://media-rockstargames-com.akamaized.net/mfe6/prod/__common/img/71d4d17edcd49703a5ea446cc0e588e6.jpg",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
+    },
+    {
+      "image": "https://locosxlosjuegos.com/wp-content/uploads/2024/06/Metal-Gear-Solid-Delta-Snake-Eater-2.jpg",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
+    },
+    {
+      "image": "https://gaming-cdn.com/images/products/18727/616x353/elden-ring-nightreign-deluxe-edition-deluxe-edition-pc-juego-steam-europe-cover.jpg?v=1739870504",
+      "likes": 95,
+      "shares": 22,
+      "saves": 50,
+      "comments": 12
+    },
+    {
+      "image": "https://sm.ign.com/ign_es/screenshot/default/the-doom-slayer-wallpaper-3840x2160_6ybp.jpg",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
+    },
+    {
+      "image": "https://sm.ign.com/t/ign_es/screenshot/default/got-keyart-80677_3tev.1280.jpg",
+      "likes": 120,
+      "shares": 30,
+      "saves": 80,
+      "comments": 15
+    }
+  ]
+}
