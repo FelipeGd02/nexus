@@ -86,8 +86,8 @@ class LandingComponent extends HTMLElement {
         }
 
         .text-content span {
-          color:white;
-          font-size: 3rem;
+          color:#BF3467;
+          font-size: 6rem;
         }
 
         .text-content p {
