@@ -6,21 +6,21 @@ type GameJson = {
 
 //* Tipo usado dentro del componente, ya con nombres en inglés y consistentes
 export type Game = {
-  title: string;   //?nombre del juego en inglés :V
-  imgSrc: string;  // ?URL de la imagen del juego desde el Json :V
+  title: string;   //!nombre del juego en inglés
+  imgSrc: string;  // URL de la imagen del juego
 };
 
-//! Definición del componente web personalizado <top-games-component> pa poder trabajarlo 
+//! Definición del componente web personalizado <top-games-component>
 class TopGamesComponent extends HTMLElement {
   constructor() {
-    super(); //!Llama al constructor de HTMLElement (Me genero traumas por no ponerle los parrentesis)
+    super(); // Llama al constructor de HTMLElement
     this.attachShadow({ mode: "open" }); 
     //* Crea un Shadow DOM abierto para encapsular estilos y estructura
   }
 
   //* Método del ciclo de vida del Web Component: se ejecuta cuando se agrega al DOM
   connectedCallback() {
-    this.loadAndRenderGames(); //?Llama a función que carga y renderiza los juegos
+    this.loadAndRenderGames(); // Llama a función que carga y renderiza los juegos
   }
 
   //* Método asíncrono que carga los juegos desde un archivo JSON y los renderiza
@@ -32,21 +32,18 @@ class TopGamesComponent extends HTMLElement {
 
       //? Transforma cada objeto del JSON original al formato interno `Game`
       const games: Game[] = data.topGames.map((game: GameJson) => ({
-        title: game.titulo,     //!cambia "titulo" a "title"
-        imgSrc: game.imagen     //!cambia "imagen" a "imgSrc"
+        title: game.titulo,     // cambia "titulo" a "title"
+        imgSrc: game.imagen     // cambia "imagen" a "imgSrc"
       }));
 
-      this.render(games); //?Llama al método para renderizar los juegos en pantalla
+      this.render(games); // Llama al método para renderizar los juegos en pantalla
     } catch (error) {
-      this.renderError(); //?Si hay error al cargar, muestra mensaje de error
+      this.renderError(); // Si hay error al cargar, muestra mensaje de error
       console.error("Failed to load games:", error);
     }
   }
 
   //* Renderiza los juegos dentro del Shadow DOM usando innerHTML
-
-  //
-  //!desde aqui abajo  hasta la linea 153 pues son los estilos
   render(games: Game[]) {
     this.shadowRoot!.innerHTML = `
       <style>
@@ -153,7 +150,7 @@ class TopGamesComponent extends HTMLElement {
     `;
   }
 
-  //* Metodo para renderizar un mensaje de error si algo falla al cargar los datos
+  //* Método para renderizar un mensaje de error si algo falla al cargar los datos
   renderError() {
     this.shadowRoot!.innerHTML = `
       <p style="color: red; text-align: center;">Failed to load games.</p>
@@ -161,4 +158,4 @@ class TopGamesComponent extends HTMLElement {
   }
 }
 
-export default TopGamesComponent; //*Permite importar el componente en otros archivos pa que lo pongas en el index.ts
+export default TopGamesComponent; // Permite importar el componente en otros archivos
