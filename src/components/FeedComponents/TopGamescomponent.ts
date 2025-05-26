@@ -1,194 +1,165 @@
+//* Tipos para definir la forma de los datos JSON que vienen del archivo externo
 type GameJson = {
-  titulo: string;
-  imagen: string;
+  titulo: string;  //&nombre del juego en español desde el JSON
+  imagen: string;  //&URL de la imagen desde el JSON
 };
 
+//* Tipo usado dentro del componente, ya con nombres en inglés y consistentes
 export type Game = {
-  title: string;
-  imgSrc: string;
+  title: string;   //!nombre del juego en inglés
+  imgSrc: string;  // URL de la imagen del juego
 };
 
+//! Definición del componente web personalizado <top-games-component>
 class TopGamesComponent extends HTMLElement {
   constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
+    super(); // Llama al constructor de HTMLElement
+    this.attachShadow({ mode: "open" }); 
+    //* Crea un Shadow DOM abierto para encapsular estilos y estructura
   }
 
+  //* Método del ciclo de vida del Web Component: se ejecuta cuando se agrega al DOM
   connectedCallback() {
-    this.loadAndRenderGames();
+    this.loadAndRenderGames(); // Llama a función que carga y renderiza los juegos
   }
 
+  //* Método asíncrono que carga los juegos desde un archivo JSON y los renderiza
   async loadAndRenderGames() {
     try {
+      //? Hace una petición al archivo local JSON que contiene la lista de juegos
       const response = await fetch("/data/games.json");
       const data = await response.json();
 
+      //? Transforma cada objeto del JSON original al formato interno `Game`
       const games: Game[] = data.topGames.map((game: GameJson) => ({
-        title: game.titulo,
-        imgSrc: game.imagen,
+        title: game.titulo,     // cambia "titulo" a "title"
+        imgSrc: game.imagen     // cambia "imagen" a "imgSrc"
       }));
 
-      this.render(games);
+      this.render(games); // Llama al método para renderizar los juegos en pantalla
     } catch (error) {
-      this.renderError();
+      this.renderError(); // Si hay error al cargar, muestra mensaje de error
       console.error("Failed to load games:", error);
     }
   }
 
+  //* Renderiza los juegos dentro del Shadow DOM usando innerHTML
   render(games: Game[]) {
     this.shadowRoot!.innerHTML = `
       <style>
         :host {
           display: block;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          box-sizing: border-box;
+          background-color: #2450A6;
+          color: #ffffff;
           padding: 1rem;
         }
 
-        .container {
-          max-width: 1200px;
-          margin: 0 auto;
-          text-align: center;
-        }
-
         h1 {
-          font-size: 2.5rem;
+          font-size: 3.8rem;
+          font-weight: 700;
           margin-bottom: 0.5rem;
         }
 
         h1 span {
-          color: #3498db;
+          color: #BF3467; // Color especial para la palabra "top"
         }
 
-        p {
+        .subtitle {
           font-size: 1.2rem;
-          color: #666;
-        }
-
-        button {
-          margin: 1rem 0;
-          padding: 0.7rem 1.4rem;
-          background-color: #3498db;
-          color: white;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
+          color: #cbd5e1;
+          margin-bottom: 3rem;
+          max-width: 1000px;
+          text-align: left;
         }
 
         .games {
-          display: flex;
-          flex-wrap: wrap;
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); // diseño responsive con tarjetas
           gap: 2rem;
-          justify-content: center;
-          margin-top: 2rem;
+          justify-items: center;
         }
 
         .game {
-          background: #f0f0f0;
-          border-radius: 10px;
-          padding: 1rem;
-          width: 250px;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-          transition: transform 0.2s;
+          background-color: #BF3467;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          max-width: 350px;
+          width: 100%;
         }
 
         .game:hover {
-          transform: translateY(-5px);
+          transform: translateY(-6px);
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35); // animación al hacer hover
         }
 
         .game img {
           width: 100%;
-          height: 180px;
-          object-fit: cover;
-          border-radius: 8px;
+          height: 320px;
+          object-fit: cover; // para que la imagen no se deforme
+          display: block;
+          border-top-left-radius: 20px;
+          border-top-right-radius: 20px;
         }
 
         .game p {
-          margin-top: 0.5rem;
-          font-weight: bold;
-          color: #333;
-        }
-
-        /* Media Queries */
-        @media (max-width: 1024px) {
-          h1 {
-            font-size: 2rem;
-          }
-
-          .game {
-            width: 220px;
-          }
+          text-align: center;
+          padding: 0.5rem;
+          font-weight: 600;
+          font-size: 1.05rem;
         }
 
         @media (max-width: 768px) {
           h1 {
-            font-size: 1.8rem;
+            font-size: 2rem;
           }
 
-          p {
+          .subtitle {
             font-size: 1rem;
-          }
-
-          .games {
-            gap: 1rem;
-          }
-
-          .game {
-            width: 45%;
           }
         }
 
         @media (max-width: 480px) {
           h1 {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
           }
 
-          p {
-            font-size: 0.9rem;
-          }
-
-          button {
-            width: 100%;
-          }
-
-          .games {
-            flex-direction: column;
-            align-items: center;
-          }
-
-          .game {
-            width: 100%;
+          .subtitle {
+            font-size: 0.95rem;
           }
         }
       </style>
 
-      <div class="container">
-        <h1>top <span>games</span></h1>
-        <p>Here you will find a list of games which may be to your liking</p>
-        <button id="reloadBtn">Reload Games</button>
-        <div class="games">
-          ${games
-            .map(
-              (game) => `
-            <div class="game">
-              <img src="${game.imgSrc}" alt="${game.title}" />
-              <p>${game.title}</p>
-            </div>
-          `
-            )
-            .join("")}
-        </div>
+      <h1><span>top</span> games</h1>
+
+      <p class="subtitle">
+        Here you will find a list of games which may be to your liking...
+        (texto descriptivo sobre los juegos)
+      </p>
+
+      <div class="games">
+        ${games.map((game) => `
+          <div class="game">
+            <img src="${game.imgSrc}" alt="${game.title}" />
+            <p>${game.title}</p>
+          </div>
+        `).join("")}
       </div>
     `;
-
-    this.shadowRoot!
-      .getElementById("reloadBtn")!
-      .addEventListener("click", () => this.loadAndRenderGames());
   }
 
+  //* Método para renderizar un mensaje de error si algo falla al cargar los datos
   renderError() {
-    this.shadowRoot!.innerHTML = `<p style="color: red;">Failed to load games.</p>`;
+    this.shadowRoot!.innerHTML = `
+      <p style="color: red; text-align: center;">Failed to load games.</p>
+    `;
   }
 }
 
+<<<<<<< HEAD
 export default TopGamesComponent;
+=======
+export default TopGamesComponent; // Permite importar el componente en otros archivos
+>>>>>>> 8a7d69803689f8ebbaf73513f4294e59c5361406
