@@ -86,8 +86,8 @@ class LandingComponent extends HTMLElement {
         }
 
         .text-content span {
-          color:white;
-          font-size: 5rem;
+          color:#BF3467;
+          font-size: 6rem;
         }
 
         .text-content p {
@@ -207,38 +207,66 @@ class LandingComponent extends HTMLElement {
           }
 
           .image-grid {
-          flex: 0;
-          display: grid;
-          grid-template-columns: 0fr 1fr;
-          gap: 1rem;
-        }
+            flex: 0;
+            display: grid;
+            grid-template-columns: 0fr 1fr;
+            gap: 1rem;
+          }
+
           .main-image {
-          width: 200px;
-          height: 315px;
-          object-fit: cover;
-          border-radius: 20px;
-        }
+            width: 200px;
+            height: 315px;
+            object-fit: cover;
+            border-radius: 20px;
+          }
 
-        .side-images {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-            .side-images img {
-        width: 100%;
-        height: 100%;
-        }
-         
+          .side-images {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+          }
 
-          
+          .side-images img {
+            width: 100%;
+            height: 100%;
+          }
 
           .popup-content {
             width: 90vw;
             max-height: 70vh;
           }
+
+          .text-content {
+            text-align: center;
+            color: #cbd5e1;
+            padding: 0 1rem;
+          }
+
+          .text-content h1 {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 1rem;
+          }
+
+          .text-content span {
+            color: #BF3467;
+          }
+
+          .text-content p {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin: 1rem auto;
+            max-width: 90%;
+          }
+
+          .see-more {
+            width: 90%;
+            max-width: 300px;
+          }
         }
+
       </style>
 
       <section class="landing-container">
