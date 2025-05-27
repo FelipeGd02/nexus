@@ -123,7 +123,7 @@ class LandingComponent extends HTMLElement {
         }
 
           .main-image {
-            width: 400px;
+            width: 300px;
             height: 615px;
             object-fit: cover;
             border-radius: 20px;
@@ -134,14 +134,14 @@ class LandingComponent extends HTMLElement {
             transform: scale(1.05);
           }
 
-          .side-images {
-              display: flex;
-              flex-direction: column;
-              gap: 1rem;
-          }
+        .side-images {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
 
           .side-images img {
-            width: 425px;
+            width: 200px;
             height: 300px;
             object-fit: cover;
             border-radius: 20px;

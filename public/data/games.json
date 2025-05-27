@@ -1,8 +1,13 @@
 {
   "topGames": [
     {
+<<<<<<< HEAD
+      "titulo": "Play Station 5",
+      "imagen": "https://gmedia.playstation.com/is/image/SIEPDC/ps5-product-thumbnail-01-en-14sep21?$facebook$",
+=======
       "titulo": "Little Nigthmares",
       "imagen": "https://image.api.playstation.com/vulcan/ap/rnd/202012/0311/21kgQxdCRRRWNRptsNutdCqU.jpg",
+>>>>>>> 8a7d69803689f8ebbaf73513f4294e59c5361406
       "likes": 120,
       "shares": 30,
       "saves": 45,
@@ -26,7 +31,11 @@
     },
     {
       "titulo": "Gaming Session",
+<<<<<<< HEAD
+      "imagen": "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
+=======
       "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyFJyO2fM777Swbh6DxkFquNX0SKrvyNkYWA&s",
+>>>>>>> 8a7d69803689f8ebbaf73513f4294e59c5361406
       "likes": 120,
       "shares": 30,
       "saves": 45,
@@ -34,7 +43,11 @@
     },
     {
       "titulo": "Halo Infinite",
+<<<<<<< HEAD
+      "imagen": "https://upload.wikimedia.org/wikipedia/en/e/e3/Halo_Infinite.png",
+=======
       "imagen": "https://wpassets.halowaypoint.com/wp-content/2021/12/HaloInfinite_CampaignKeyArt_CLEAN_1920x1080-1024x576.jpg",
+>>>>>>> 8a7d69803689f8ebbaf73513f4294e59c5361406
       "likes": 120,
       "shares": 30,
       "saves": 45,
