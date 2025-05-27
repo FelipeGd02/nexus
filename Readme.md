@@ -83,7 +83,3 @@ refactor: Un cambio de código que no corrige un error ni agrega una caracterís
 style: Cambios que no afectan el significado del código (espacios en blanco, formato, puntos y comas faltantes, etc).
 test: Agregar pruebas faltantes o corregir pruebas existentes.
 <H4>
-<<<<<<< HEAD
-
-=======
->>>>>>> 8a7d69803689f8ebbaf73513f4294e59c5361406
