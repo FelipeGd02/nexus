@@ -83,3 +83,7 @@ refactor: Un cambio de código que no corrige un error ni agrega una caracterís
 style: Cambios que no afectan el significado del código (espacios en blanco, formato, puntos y comas faltantes, etc).
 test: Agregar pruebas faltantes o corregir pruebas existentes.
 <H4>
+
+
+
+Vamos a hacer  un rebuild de la app por el app porque estaba mal organizado y se van a realizar cambios para que quede todo funcional muchachos cogen las bases de lo que haga y cada uno hace sus web components y paginas asignadas
