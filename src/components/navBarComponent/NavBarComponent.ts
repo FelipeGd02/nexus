@@ -131,9 +131,9 @@ class NavBarComponent extends HTMLElement {
             }
 
             .search-box img {
-                width: 24px;
-                height: 24px;
-                margin-left: 120px;
+                width: 20px;
+                height: 20px;
+                margin-left: 8px;
             }
 
             .icon-btn {
@@ -324,6 +324,9 @@ class NavBarComponent extends HTMLElement {
                     align-items: center;
                     justify-content: flex-end;
                 }
+            }
+        </style>
+
 
                 @media (max-width: 768px) {
                     nav {
@@ -386,7 +389,7 @@ class NavBarComponent extends HTMLElement {
                 }
             </style>
 
-
+            <link rel="stylesheet" href="../src/styles/navBar.css">
             <nav>
                 <div class="nav-section logo-container">
                     <img id="home" src="${logoSrc}" alt="Logo N">
@@ -423,5 +426,7 @@ class NavBarComponent extends HTMLElement {
     }
 }
 
-
-export default NavBarComponent;
+if (!customElements.get('my-navbar')) {
+    customElements.define('my-navbar', NavBarComponent);
+  }
+  export default NavBarComponent;

@@ -83,6 +83,7 @@ refactor: Un cambio de código que no corrige un error ni agrega una caracterís
 style: Cambios que no afectan el significado del código (espacios en blanco, formato, puntos y comas faltantes, etc).
 test: Agregar pruebas faltantes o corregir pruebas existentes.
 <H4>
+<<<<<<< HEAD
 
 
 
@@ -93,3 +94,5 @@ Se van a mejorar estilos al final para poder hacer el app mas dinammica y hacerl
 
 cambios hasta parsarlos hasata la main de Dev ya los subo todos
 
+=======
+>>>>>>> a2fcca15bc4eb9c4fe508de2d8725b2eeb7e5cea
