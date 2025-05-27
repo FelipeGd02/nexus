@@ -90,3 +90,6 @@ Vamos a hacer  un rebuild de la app por el app porque estaba mal organizado y se
 
 
 Se van a mejorar estilos al final para poder hacer el app mas dinammica y hacerla mas practica al uso
+
+cambios hasta parsarlos hasata la main de Dev ya los subo todos
+
