@@ -87,3 +87,6 @@ test: Agregar pruebas faltantes o corregir pruebas existentes.
 
 
 Vamos a hacer  un rebuild de la app por el app porque estaba mal organizado y se van a realizar cambios para que quede todo funcional muchachos cogen las bases de lo que haga y cada uno hace sus web components y paginas asignadas
+
+
+Se van a mejorar estilos al final para poder hacer el app mas dinammica y hacerla mas practica al uso
