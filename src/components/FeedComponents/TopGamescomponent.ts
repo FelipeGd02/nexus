@@ -158,4 +158,8 @@ class TopGamesComponent extends HTMLElement {
   }
 }
 
+<<<<<<< HEAD
+export default TopGamesComponent;
+=======
 export default TopGamesComponent; // Permite importar el componente en otros archivos
+>>>>>>> 8a7d69803689f8ebbaf73513f4294e59c5361406
