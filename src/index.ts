@@ -1,5 +1,8 @@
 //?  IMPORTACIONES CON SUS DETALLES PARA EL APP
 
+import LoginForm from './components/auth/LoginForm';
+import RegisterForm from './components/auth/RegisterForm';
+
 //&  Componentes de interfaz 
 import AppHeader from './components/header/Header';
 import { AppContainer } from './components/root/root';
@@ -42,3 +45,7 @@ customElements.define('edit-profile-modal', EditProfileModal);
 customElements.define('create-post', CreatePost);
 customElements.define("post-card", PostCard);
 customElements.define("game-card", GameCard);
+
+
+customElements.define("login-form", LoginForm)
+customElements.define("register-form", RegisterForm);
