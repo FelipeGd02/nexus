@@ -16,6 +16,7 @@ import ThreadsScreen from './screens/threads/ThreadsScreen';
 //*  Componentes específicos 
 import EditProfileModal from './components/profile/EditProfileModal';
 import CreatePost from './components/post/CreatePost';
+import PostCard from './components/post/PostCard';
 
 //*  INICIO DE LA APLICACIÓN 
 console.log('App started');
@@ -33,6 +34,8 @@ customElements.define('categories-screen', CategoriesScreen);
 customElements.define('community-screen', CommunityScreen);
 customElements.define('profile-screen', ProfileScreen);
 
+
 //!  Componentes funcionales 
 customElements.define('edit-profile-modal', EditProfileModal);
 customElements.define('create-post', CreatePost);
+customElements.define("post-card", PostCard);
