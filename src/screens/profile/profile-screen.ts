@@ -2,7 +2,7 @@ import { appState } from "../../store";
 import { navigate } from "../../store/action";
 import { Screens } from "../../types/navigation";
 import "../../components/post/post-card";
-import "../../components/game/game-card";
+import "../../components/game/GameCard";
 import "../../components/profile/edit-profile-modal";
 
 class ProfileScreen extends HTMLElement {

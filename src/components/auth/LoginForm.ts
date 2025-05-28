@@ -1,5 +1,5 @@
 import { login } from "../../store/actions";
-import { users, defaultUser } from "../../data/users";
+import { users, defaultUser } from "../../data/Users";
 import loginFormStyles from "./login-form.css";
 
 class LoginForm extends HTMLElement {

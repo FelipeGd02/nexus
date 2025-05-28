@@ -1,5 +1,5 @@
 import { login } from "../../store/actions";
-import { defaultUser } from "../../data/users";
+import { defaultUser } from "../../data/Users";
 import { firebaseService } from "../../services/firebase";
 import registerFormStyles from "./register-form.css";
 
