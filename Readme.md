@@ -87,3 +87,5 @@ test: Agregar pruebas faltantes o corregir pruebas existentes.
 
 
 Ya los componentes y las paginas estan las testee en un proyecto aparte pero nos tocaria implementar para la proxima incluir una base de datos para la ultima entrega
+
+Error 404 en consola porque no encuentra las imagenes .-.
