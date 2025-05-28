@@ -1,5 +1,5 @@
 import { appState } from "../../store";
-import { navigate } from "../../store/actions";
+import { navigate } from "../../store/action";
 import { Screens } from "../../types/navigation";
 import { firebaseService } from "../../services/firebase";
 import createPostStyles from "./CreatePost.css";

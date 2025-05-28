@@ -1,7 +1,7 @@
-import { login } from "../../store/actions";
+import { login } from "../../store/action";
 import { defaultUser } from "../../data/Users";
 import { firebaseService } from "../../services/firebase";
-import registerFormStyles from "./register-form.css";
+import registerFormStyles from "./RegisterForm.css";
 
 class RegisterForm extends HTMLElement {
   constructor() {

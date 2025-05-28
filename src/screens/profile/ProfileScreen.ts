@@ -1,9 +1,9 @@
 import { appState } from "../../store";
-import { navigate } from "../../store/actions";
+import { navigate } from "../../store/action";
 import { Screens } from "../../types/navigation";
-import "../../components/post/post-card";
-import "../../components/game/game-card";
-import "../../components/profile/edit-profile-modal";
+import "../../components/post/PostCard";
+import "../../components/game/GameCard";
+import "../../components/profile/EditProfileModal";
 import profileStyles from "./ProfileScreen.css";
 
 class ProfileScreen extends HTMLElement {

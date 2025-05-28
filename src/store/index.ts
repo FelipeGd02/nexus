@@ -1,7 +1,7 @@
 import { AppDispatcher, Action } from "./dispatch";
 import { ActionTypes } from "./action";
 import { defaultUser } from "../data/Users";
-import { posts, comments } from "../data/Posts";
+import { posts , comments } from "../data/Posts";
 import { games } from "../data/Games";
 import { Screens } from "../types/navigation";
 import { User, Post, Comment, Game, Category } from "../types/models";

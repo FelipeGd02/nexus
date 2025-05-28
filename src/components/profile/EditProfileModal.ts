@@ -1,5 +1,5 @@
 import { appState } from "../../store";
-import { updateProfile } from "../../store/actions";
+import { updateProfile } from "../../store/action";
 import { firebaseService } from "../../services/firebase";
 import editProfileModalStyles from "./EditProfileModal.css";
 

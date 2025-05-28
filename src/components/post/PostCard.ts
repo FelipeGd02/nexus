@@ -1,5 +1,5 @@
 import { appState } from "../../store";
-import { navigate, toggleLikePost, toggleSavePost } from "../../store/actions";
+import { navigate ,toggleLikePost ,toggleSavePost } from "../../store/action";
 import { Screens } from "../../types/navigation";
 import postCardStyles from "./PostCard.css";
 
