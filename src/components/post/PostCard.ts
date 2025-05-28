@@ -1,8 +1,16 @@
+// Importa el estado de la aplicación (store centralizado)
 import { appState } from "../../store";
-import { navigate ,toggleLikePost ,toggleSavePost } from "../../store/action";
+
+// Importa funciones para navegar y alternar estados de "like" y "save" en un post
+import { navigate, toggleLikePost, toggleSavePost } from "../../store/action";
+
+// Importa las pantallas disponibles (enumeración)
 import { Screens } from "../../types/navigation";
+
+// Importa los estilos CSS del componente
 import postCardStyles from "./PostCard.css";
 
+// Define un enum con los atributos que el componente va a observar y manejar como propiedades HTML
 export enum PostAttributes {
   ID = "postid",
   USER_ID = "userid",
@@ -20,8 +28,9 @@ export enum PostAttributes {
   IS_SAVED = "issaved"
 }
 
+// Crea un Web Component personalizado llamado PostCard
 class PostCard extends HTMLElement {
-  // Properties
+  // Define las propiedades que el componente va a manejar
   postid?: string;
   userid?: string;
   username?: string;
@@ -37,62 +46,67 @@ class PostCard extends HTMLElement {
   isliked?: string;
   issaved?: string;
 
-  // Observed attributes
+  // Especifica qué atributos debe observar el componente para reaccionar a sus cambios
   static get observedAttributes() {
     return Object.values(PostAttributes);
   }
 
-  // Handle attribute changes
+  // Se ejecuta cuando cambia alguno de los atributos observados
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (oldValue !== newValue) {
       (this as any)[name] = newValue;
     }
   }
 
+  // Constructor del componente: crea un shadow DOM
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
   }
 
+  // Se ejecuta cuando el componente se añade al DOM
   connectedCallback() {
-    this.render();
-    
-    // Add event listeners
+    this.render(); // Llama a render para construir el HTML
+
+    // Busca los elementos interactivos dentro del Shadow DOM
     const postContent = this.shadowRoot?.querySelector(".post-content");
     const likeBtn = this.shadowRoot?.querySelector(".like-btn");
     const saveBtn = this.shadowRoot?.querySelector(".save-btn");
     const commentBtn = this.shadowRoot?.querySelector(".comment-btn");
-    
+
+    // Evento: al hacer click en el contenido, navega al detalle del post
     postContent?.addEventListener("click", () => {
       if (this.postid) {
         navigate(Screens.THREAD_DETAIL, this.postid);
-        console.log('navigate from post')
+        console.log('navigate from post');
       }
     });
-    
+
+    // Evento: al hacer click en "like", alterna el estado si el usuario está autenticado
     likeBtn?.addEventListener("click", (e) => {
-      e.stopPropagation();
+      e.stopPropagation(); // Evita que se propague al postContent
       if (this.postid && appState.get().isAuthenticated) {
         toggleLikePost(this.postid);
-        // Add animation class
-        likeBtn.classList.add('animating');
+        likeBtn.classList.add('animating'); // Añade animación
         setTimeout(() => likeBtn.classList.remove('animating'), 300);
-        this.render();
+        this.render(); // Vuelve a renderizar para actualizar visualmente
       } else if (!appState.get().isAuthenticated) {
         navigate(Screens.LOGIN);
       }
     });
-    
+
+    // Evento: al hacer click en "save", alterna el estado de guardado si está autenticado
     saveBtn?.addEventListener("click", (e) => {
       e.stopPropagation();
       if (this.postid && appState.get().isAuthenticated) {
         toggleSavePost(this.postid);
-        this.render();
+        this.render(); // Re-renderiza para reflejar cambios
       } else if (!appState.get().isAuthenticated) {
         navigate(Screens.LOGIN);
       }
     });
-    
+
+    // Evento: al hacer click en "comentar", navega al detalle del post
     commentBtn?.addEventListener("click", (e) => {
       e.stopPropagation();
       if (this.postid) {
@@ -101,32 +115,33 @@ class PostCard extends HTMLElement {
     });
   }
 
+  // Formatea la fecha en formato relativo (ej. "2m ago", "3h ago", etc.)
   formatDate(dateString?: string): string {
     if (!dateString) return "";
-    
+
     const date = new Date(dateString);
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    
-    if (diffInSeconds < 60) {
-      return `${diffInSeconds}s ago`;
-    } else if (diffInSeconds < 3600) {
-      return `${Math.floor(diffInSeconds / 60)}m ago`;
-    } else if (diffInSeconds < 86400) {
-      return `${Math.floor(diffInSeconds / 3600)}h ago`;
-    } else {
-      return date.toLocaleDateString();
-    }
+
+    if (diffInSeconds < 60) return `${diffInSeconds}s ago`;
+    else if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+    else if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+    else return date.toLocaleDateString();
   }
 
+  // Método para renderizar el HTML del componente
   render() {
-    // Get updated post from state to ensure we have latest like/save status
+    // Obtiene el estado actual de la aplicación
     const state = appState.get();
+
+    // Busca el post actual por su ID en el estado
     const updatedPost = state.posts.find(p => p.id === this.postid);
-    
+
+    // Determina si el post está "likeado" o "guardado"
     const isLiked = updatedPost?.isLiked || this.isliked === "true";
     const isSaved = updatedPost?.isSaved || this.issaved === "true";
-    
+
+    // Renderiza el contenido en el shadow DOM
     if (this.shadowRoot) {
       this.shadowRoot.innerHTML = `
         <style>${postCardStyles}</style>
@@ -146,28 +161,23 @@ class PostCard extends HTMLElement {
           
           <div class="post-actions">
             <div class="action-btn like-btn ${isLiked ? 'active' : ''}">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-              </svg>
+              <!-- Icono de like -->
+              <svg ...></svg>
               <span>${this.likes}</span>
             </div>
             <div class="action-btn comment-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
-                <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
-              </svg>
+              <!-- Icono de comentario -->
+              <svg ...></svg>
               <span>${this.comments}</span>
             </div>
             <div class="action-btn repost-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
-                <path d="M23 20a2 2 0 01-2 2h-4a2 2 0 110-4h4a2 2 0 012 2zm-2-4H7a6 6 0 01-6-6 6 6 0 016-6h14"/>
-                <path d="M18 8l3-3-3-3"/>
-              </svg>
+              <!-- Icono de repost -->
+              <svg ...></svg>
               <span>${this.reposts}</span>
             </div>
             <div class="action-btn save-btn ${isSaved ? 'active' : ''}">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/>
-              </svg>
+              <!-- Icono de guardar -->
+              <svg ...></svg>
               <span>${this.saves}</span>
             </div>
           </div>
@@ -176,10 +186,14 @@ class PostCard extends HTMLElement {
     }
   }
 
+  // Se ejecuta cuando el componente se remueve del DOM (por si hay que limpiar listeners)
   disconnectedCallback() {
-    // Cleanup event listeners if needed
+    // Aquí podrías remover listeners si fueran persistentes
   }
 }
 
+// Registra el Web Component con la etiqueta <post-card>
 customElements.define("post-card", PostCard);
+
+// Exporta el componente para poder usarlo en otros módulos
 export default PostCard;
