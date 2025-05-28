@@ -1,7 +1,7 @@
 import { appState } from "../../store";
-import { navigate } from "../../store/action";
+import { navigate ,logout } from "../../store/action";
 import { Screens } from "../../types/navigation";
-import headerStyles from "./Header.css";
+import headerStyles from "./header.css";
 
 class AppHeader extends HTMLElement {
   constructor() {
