@@ -1,35 +1,52 @@
-:host {
-  display: block;
-  font-family: 'Inter', sans-serif;
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(18, 15, 38, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
-.register-container {
+.modal {
   background-color: var(--color-darker);
   border-radius: 10px;
   padding: 2rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
-  width: 100%;
-  animation: fadeIn 0.6s ease;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  position: relative;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
 }
 
-h2 {
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
   color: var(--color-white);
-  text-align: center;
-  margin: 0 0 2rem;
-  font-size: 1.8rem;
-  font-weight: 700;
+  margin: 0;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: var(--color-white);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.close-button:hover {
+  color: var(--color-primary);
 }
 
 .form-group {
@@ -44,7 +61,7 @@ label {
   font-weight: 500;
 }
 
-input {
+input, textarea {
   width: 100%;
   padding: 0.8rem 1rem;
   border: 2px solid var(--color-secondary);
@@ -52,16 +69,22 @@ input {
   color: var(--color-white);
   border-radius: 6px;
   font-size: 1rem;
+  font-family: inherit;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-input:focus {
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+input:focus, textarea:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(191, 52, 103, 0.2);
 }
 
-.register-button {
+.save-button {
   width: 100%;
   padding: 1rem;
   background-color: var(--color-primary);
@@ -75,50 +98,30 @@ input:focus {
   margin-top: 1rem;
 }
 
-.register-button:hover {
+.save-button:hover {
   background-color: #a62d57;
   transform: translateY(-2px);
 }
 
-.register-button:active {
+.save-button:active {
   transform: translateY(0);
 }
 
-.login-text {
-  text-align: center;
-  margin-top: 1.5rem;
-  color: var(--color-white);
-  font-size: 0.9rem;
-}
-
-a {
-  color: var(--color-primary);
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  color: #a62d57;
-  text-decoration: underline;
-}
-
 @media (max-width: 480px) {
-  .register-container {
+  .modal {
     padding: 1.5rem;
   }
 
-  h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+  .modal-title {
+    font-size: 1.3rem;
   }
 
-  input {
+  input, textarea {
     padding: 0.7rem 0.9rem;
     font-size: 0.95rem;
   }
 
-  .register-button {
+  .save-button {
     padding: 0.8rem;
   }
 }

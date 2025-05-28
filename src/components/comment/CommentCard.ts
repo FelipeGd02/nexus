@@ -1,4 +1,4 @@
-import commentCardStyles from "./comment-card.css";
+import commentCardStyles from "./CommentCard.css";
 
 export enum CommentAttributes {
   ID = "commentId",
