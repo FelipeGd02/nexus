@@ -1,14 +1,14 @@
-import AppHeader from './components/header/Header';
-import { AppContainer } from './components/root/Root';
-import AuthScreen from './screens/auth/AuthScreen';
-import CategoriesScreen from './screens/categories/CategoriesScreen';
-import CommunityScreen from './screens/community/CommunityScreen';
-import LandingScreen from './screens/landing/LandingScreen';
-import ProfileScreen from './screens/profile/ProfileScreen';
-import ThreadDetailScreen from './screens/threadsdetail/ThreadDetailScreen';
-import ThreadsScreen from './screens/threads/ThreadsScreen';
-import EditProfileModal from './components/profile/EditProfileModal';
-import CreatePost from './components/post/CreatePost';
+import AppHeader from './components/header/header';
+import { AppContainer } from './components/router/router';
+import AuthScreen from './screens/auth/auth-screen';
+import CategoriesScreen from './screens/categories/categories-screen';
+import CommunityScreen from './screens/community/community-screen';
+import LandingScreen from './screens/landing/landing-screen';
+import ProfileScreen from './screens/profile/profile-screen';
+import ThreadDetailScreen from './screens/threadsdetail/threads-detail-screen';
+import ThreadsScreen from './screens/threads/threads-screen';
+import EditProfileModal from './components/profile/edit-profile-modal';
+import CreatePost from './components/post/create-post';
 
 console.log('App started');
 

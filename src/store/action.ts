@@ -1,6 +1,6 @@
 import { AppDispatcher } from "./dispatch";
 import { Screens } from "../types/navigation";
-import { User , Category } from "../types/models";
+import { User, Category } from "../types/models";
 
 // Action Types
 export const ActionTypes = {

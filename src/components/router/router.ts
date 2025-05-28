@@ -1,6 +1,6 @@
 
 // Import screens as custom elements
-import { appState, AppState } from "../../store";
+import { appState } from "../../store";
 import { Screens } from "../../types/navigation";
 
 export class AppContainer extends HTMLElement {
