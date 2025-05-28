@@ -1,6 +1,6 @@
 import { appState } from "../../store";
-import "../../components/post/post-card";
-import "../../components/post/create-post";
+import "../../components/post/PostCard";
+import "../../components/post/CreatePost";
 
 class ThreadsScreen extends HTMLElement {
   constructor() {

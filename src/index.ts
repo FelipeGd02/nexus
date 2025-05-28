@@ -7,8 +7,8 @@ import LandingScreen from './screens/landing/landing-screen';
 import ProfileScreen from './screens/profile/profile-screen';
 import ThreadDetailScreen from './screens/threadsdetail/threads-detail-screen';
 import ThreadsScreen from './screens/threads/threads-screen';
-import EditProfileModal from './components/profile/edit-profile-modal';
-import CreatePost from './components/post/create-post';
+import EditProfileModal from './components/profile/EditProfileModal';
+import CreatePost from './components/post/CreatePost';
 
 console.log('App started');
 

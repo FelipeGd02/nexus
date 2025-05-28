@@ -1,9 +1,9 @@
 import { appState } from "../../store";
 import { navigate } from "../../store/action";
 import { Screens } from "../../types/navigation";
-import "../../components/post/post-card";
+import "../../components/post/PostCard";
 import "../../components/game/GameCard";
-import "../../components/profile/edit-profile-modal";
+import "../../components/profile/EditProfileModal";
 
 class ProfileScreen extends HTMLElement {
   private showEditModal: boolean = false;

@@ -1,7 +1,7 @@
 import { appState } from "../../store";
 import { filterByCategory } from "../../store/action";
 import { Category } from "../../types/models";
-import "../../components/post/post-card";
+import "../../components/post/PostCard";
 
 class CategoriesScreen extends HTMLElement {
   constructor() {

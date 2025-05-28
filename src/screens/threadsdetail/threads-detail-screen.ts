@@ -1,6 +1,6 @@
 import { appState } from "../../store";
 import { addComment } from "../../store/action";
-import "../../components/post/post-card";
+import "../../components/post/PostCard";
 import "../../components/comment/CommentCard";
 
 class ThreadDetailScreen extends HTMLElement {

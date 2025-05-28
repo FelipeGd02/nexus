@@ -1,0 +1,192 @@
+:host {
+  display: block;
+  font-family: 'Inter', sans-serif;
+}
+
+.post-card {
+  background-color: var(--color-darker);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.post-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.profile-picture {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1rem;
+  border: 2px solid var(--color-primary);
+  transition: transform 0.3s ease;
+}
+
+.profile-picture:hover {
+  transform: scale(1.1);
+}
+
+.post-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.username {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.timestamp {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.post-content {
+  margin-bottom: 1rem;
+}
+
+.content-text {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+}
+
+.content-image {
+  width: 100%;
+  border-radius: 8px;
+  max-height: 400px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.content-image:hover {
+  transform: scale(1.02);
+}
+
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-secondary);
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  background: transparent;
+}
+
+.action-btn:hover {
+  color: var(--color-primary);
+  transform: translateY(-2px);
+  background-color: rgba(255, 20, 147, 0.1);
+}
+
+.action-btn svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.action-btn.active {
+  color: var(--color-primary);
+}
+
+.action-btn.active svg {
+  fill: currentColor;
+}
+
+.like-btn.active {
+  color: var(--color-primary);
+}
+
+.like-btn.active svg {
+  fill: var(--color-primary);
+  stroke: var(--color-primary);
+}
+
+.save-btn.active {
+  color: var(--color-success);
+}
+
+.save-btn.active svg {
+  fill: var(--color-success);
+  stroke: var(--color-success);
+}
+
+/* Add animation for like action */
+@keyframes likeAnimation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.like-btn.animating svg {
+  animation: likeAnimation 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .post-card {
+    padding: 1rem;
+  }
+
+  .profile-picture {
+    width: 40px;
+    height: 40px;
+  }
+
+  .username {
+    font-size: 0.9rem;
+  }
+
+  .content-text {
+    font-size: 0.95rem;
+  }
+
+  .action-btn {
+    padding: 0.3rem;
+  }
+
+  .action-btn span {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .post-actions {
+    justify-content: space-around;
+  }
+
+  .action-btn {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .action-btn span {
+    font-size: 0.8rem;
+  }
+}

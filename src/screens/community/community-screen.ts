@@ -1,7 +1,7 @@
 import { appState } from "../../store";
 import { navigate } from "../../store/action";
 import { Screens } from "../../types/navigation";
-import "../../components/post/post-card";
+import "../../components/post/PostCard";
 
 class CommunityScreen extends HTMLElement {
   constructor() {
