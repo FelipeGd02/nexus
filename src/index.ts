@@ -17,6 +17,7 @@ import ThreadsScreen from './screens/threads/ThreadsScreen';
 import EditProfileModal from './components/profile/EditProfileModal';
 import CreatePost from './components/post/CreatePost';
 import PostCard from './components/post/PostCard';
+import GameCard from './components/game/GameCard';
 
 //*  INICIO DE LA APLICACIÓN 
 console.log('App started');
@@ -35,7 +36,9 @@ customElements.define('community-screen', CommunityScreen);
 customElements.define('profile-screen', ProfileScreen);
 
 
+
 //!  Componentes funcionales 
 customElements.define('edit-profile-modal', EditProfileModal);
 customElements.define('create-post', CreatePost);
 customElements.define("post-card", PostCard);
+customElements.define("game-card", GameCard);
