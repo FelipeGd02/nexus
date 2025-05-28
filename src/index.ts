@@ -1,12 +1,12 @@
 import AppHeader from './components/header/Header';
-import { AppContainer } from './components/root/Root';
+import { AppContainer } from './components/root/root';
 import AuthScreen from './screens/auth/AuthScreen';
 import CategoriesScreen from './screens/categories/CategoriesScreen';
-import CommunityScreen from './screens/community/community-screen';
-import LandingScreen from './screens/landing/landing-screen';
-import ProfileScreen from './screens/profile/profile-screen';
-import ThreadDetailScreen from './screens/threadsdetail/threads-detail-screen';
-import ThreadsScreen from './screens/threads/threads-screen';
+import CommunityScreen from './screens/community/CommunityScreen';
+import LandingScreen from './screens/landing/LandingScreen';
+import ProfileScreen from './screens/profile/ProfileScreen';
+import ThreadDetailScreen from './screens/threadsdetail/ThreadDetailScreen';
+import ThreadsScreen from './screens/threads/ThreadsScreen';
 import EditProfileModal from './components/profile/EditProfileModal';
 import CreatePost from './components/post/CreatePost';
 
