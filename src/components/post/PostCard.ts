@@ -200,4 +200,3 @@ class PostCard extends HTMLElement {
 
 //^ Exporta el componente para que pueda ser utilizado en otras partes de la aplicacion
 export default PostCard;
-
