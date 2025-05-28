@@ -1,7 +1,7 @@
 import { appState } from "../../store";
 import { Screens } from "../../types/navigation";
-import "../../components/auth/login-form";
-import "../../components/auth/register-form";
+import "../../components/auth/LoginForm";
+import "../../components/auth/RegisterForm";
 
 class AuthScreen extends HTMLElement {
   showRegister: boolean = false;
