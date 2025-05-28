@@ -1,8 +1,13 @@
+//!Importa el estado global de la aplicacion
 import { appState } from "../../store";
+//! Importa funciones que permiten navegar entre pantallas y cambiar el estado de like/save
 import { navigate ,toggleLikePost ,toggleSavePost } from "../../store/action";
+//! Importa el enum de pantallas disponibles
 import { Screens } from "../../types/navigation";
+//! Importa los estilos CSS aplicables a este componente
 import postCardStyles from "./PostCard.css";
 
+//~ Enum que define los atributos que puede recibir el componente desde el HTML
 export enum PostAttributes {
   ID = "postid",
   USER_ID = "userid",
@@ -19,9 +24,9 @@ export enum PostAttributes {
   IS_LIKED = "isliked",
   IS_SAVED = "issaved"
 }
-
+//~ Define un nuevo Web Component llamado PostCard
 class PostCard extends HTMLElement {
-  // Properties
+  //! Propiedades internas del componente (coinciden con los atributos HTML)
   postid?: string;
   userid?: string;
   username?: string;
@@ -37,32 +42,35 @@ class PostCard extends HTMLElement {
   isliked?: string;
   issaved?: string;
 
-  // Observed attributes
+  //! Establece qué atributos HTML debe observar el componente 
   static get observedAttributes() {
     return Object.values(PostAttributes);
   }
 
-  // Handle attribute changes
+  //& Se llama cuando uno de los atributoos observados cambi
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (oldValue !== newValue) {
+      //~Actualliza la propiedad del componente con el nuevo valor
       (this as any)[name] = newValue;
     }
   }
-
+  //! Constructor del componente que activa el Shadow DOM
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
+    this.attachShadow({ mode: "open" }); //& Crea un Shadow DOM abierto para encapsular el estilo y la estructura del componente
   }
 
+  //~ Se ejecuta cuando el componente se inserta en el DOM
   connectedCallback() {
-    this.render();
+    this.render(); //! rENDERIZa el contendo del componente
     
-    // Add event listeners
+    //! Obtiene referencias a los elementos del Shadow DOM
     const postContent = this.shadowRoot?.querySelector(".post-content");
     const likeBtn = this.shadowRoot?.querySelector(".like-btn");
     const saveBtn = this.shadowRoot?.querySelector(".save-btn");
     const commentBtn = this.shadowRoot?.querySelector(".comment-btn");
-    
+      
+    //? Añade un evento de click al contenido del post para navegar a los detalles del hilo
     postContent?.addEventListener("click", () => {
       if (this.postid) {
         navigate(Screens.THREAD_DETAIL, this.postid);
@@ -70,19 +78,24 @@ class PostCard extends HTMLElement {
       }
     });
     
+    //? Añade eventos de click a los botones de acción
+    //! Si el usuario hace click en el botón de like, se alterna el estado de like del post
     likeBtn?.addEventListener("click", (e) => {
-      e.stopPropagation();
+      e.stopPropagation(); //~ Evita que el evento se propague al contenedor del contendeor del post
+
+      //!Si el usuario esta autenticado y el post tiene ID
       if (this.postid && appState.get().isAuthenticated) {
-        toggleLikePost(this.postid);
-        // Add animation class
-        likeBtn.classList.add('animating');
-        setTimeout(() => likeBtn.classList.remove('animating'), 300);
-        this.render();
+        toggleLikePost(this.postid); //!Cambia el estado de like del post
+        likeBtn.classList.add('animating');//~Agrega la animacion
+        setTimeout(() => likeBtn.classList.remove('animating'), 300); //&La quita luego de 300ms
+        this.render(); //~Renderiza el componente con el nuevo estado
       } else if (!appState.get().isAuthenticated) {
+        //~ Si el usuario no ha iniciado sesion, redirige a la pantalla de login
         navigate(Screens.LOGIN);
       }
     });
     
+    //! Evento click en el boton de comentario lo hace navegar por el detalle
     saveBtn?.addEventListener("click", (e) => {
       e.stopPropagation();
       if (this.postid && appState.get().isAuthenticated) {
@@ -93,6 +106,7 @@ class PostCard extends HTMLElement {
       }
     });
     
+    //! Si el usuario hace click en el boton de comentario hace que  navege a los detalles del hilo
     commentBtn?.addEventListener("click", (e) => {
       e.stopPropagation();
       if (this.postid) {
@@ -100,7 +114,8 @@ class PostCard extends HTMLElement {
       }
     });
   }
-
+  
+  //&Funcion que convierte  un timestamp en un texto que se pueda leer como 5s ago 3m as ,etc
   formatDate(dateString?: string): string {
     if (!dateString) return "";
     
@@ -119,14 +134,16 @@ class PostCard extends HTMLElement {
     }
   }
 
+  //! Renderiza el contenido HTML del componente
   render() {
-    // Get updated post from state to ensure we have latest like/save status
-    const state = appState.get();
-    const updatedPost = state.posts.find(p => p.id === this.postid);
+    const state = appState.get(); //! Coge el estado global de la aplicacion
+    const updatedPost = state.posts.find(p => p.id === this.postid); //! Busca el post actualizado por el ID del usuario
     
+    //~Evalua si el post tiene like o esta guardado
     const isLiked = updatedPost?.isLiked || this.isliked === "true";
     const isSaved = updatedPost?.isSaved || this.issaved === "true";
     
+    //~ Si existe el shadowRoot, renderiza el contenido del componente
     if (this.shadowRoot) {
       this.shadowRoot.innerHTML = `
         <style>${postCardStyles}</style>
@@ -175,11 +192,12 @@ class PostCard extends HTMLElement {
       `;
     }
   }
-
+     //!Se llamma cuando el componente se elimina del DOM
   disconnectedCallback() {
-    // Cleanup event listeners if needed
+    //! Y aqui se podria limpiar  los event listeners si se hubieran almmacenado como propiedades
   }
 }
 
-customElements.define("post-card", PostCard);
+//^ Exporta el componente para que pueda ser utilizado en otras partes de la aplicacion
 export default PostCard;
+
