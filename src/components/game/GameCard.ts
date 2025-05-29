@@ -1,4 +1,3 @@
-import { appState } from "../../Flux/store";
 import { navigate } from "../../Flux/action";
 import { Screens } from "../../types/navigation";
 import gameCardStyles from "./GameCard.css";

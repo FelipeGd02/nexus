@@ -1,11 +1,10 @@
-import { AppDispatcher , Action } from "./Dispatcher";
+import { AppDispatcher, Action } from "./Dispatcher";
 import { ActionTypes } from "./action";
 import { defaultUser } from "../data/Users";
-import { posts , comments } from "../data/Posts";
+import { posts, comments } from "../data/Posts";
 import { games } from "../data/Games";
 import { Screens } from "../types/navigation";
 import { User, Post, Comment, Game, Category } from "../types/models";
-import { firebaseService } from "../services/firebase";
 
 export interface AppState {
   currentScreen: Screens;
@@ -98,13 +97,12 @@ class Store {
       case ActionTypes.NAVIGATE:
         if (action.payload) {
           const targetScreen = action.payload.screen;
-          
-          // Handle private route access
+
           if (!PUBLIC_ROUTES.includes(targetScreen) && !this._state.isAuthenticated) {
             this._state.currentScreen = Screens.LOGIN;
             break;
           }
-          
+
           this._state.currentScreen = targetScreen;
           this._state.currentPostId = action.payload.postId || this._state.currentPostId;
           this._state.currentCategoryFilter = action.payload.category || this._state.currentCategoryFilter;
@@ -132,7 +130,7 @@ class Store {
         }
         break;
 
-      case ActionTypes.CREATE_POST:
+      case ActionTypes.CREATE_POST: {
         const newPost: Post = {
           id: `p${Date.now()}`,
           userId: this._state.currentUser?.id || "guest",
@@ -154,6 +152,7 @@ class Store {
             })
           : [...this._state.posts];
         break;
+      }
 
       case ActionTypes.TOGGLE_LIKE_POST:
         this._togglePostInteraction("likes", "isLiked", action.payload);
@@ -163,7 +162,7 @@ class Store {
         this._togglePostInteraction("saves", "isSaved", action.payload);
         break;
 
-      case ActionTypes.ADD_COMMENT:
+      case ActionTypes.ADD_COMMENT: {
         const newComment: Comment = {
           id: `c${Date.now()}`,
           postId: action.payload.postId,
@@ -177,8 +176,9 @@ class Store {
         this._state.comments.push(newComment);
         this._incrementPostField(action.payload.postId, "comments");
         break;
+      }
 
-      case ActionTypes.TOGGLE_LIKE_COMMENT:
+      case ActionTypes.TOGGLE_LIKE_COMMENT: {
         const comment = this._state.comments.find(c => c.id === action.payload);
         if (comment) {
           const isLiked = comment.isLiked;
@@ -186,6 +186,7 @@ class Store {
           comment.isLiked = !isLiked;
         }
         break;
+      }
 
       case ActionTypes.FILTER_BY_CATEGORY:
         this._state.currentCategoryFilter = action.payload;
