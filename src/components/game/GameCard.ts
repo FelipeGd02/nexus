@@ -99,5 +99,5 @@ class GameCard extends HTMLElement {
 
 }
 
-customElements.define("game-card", GameCard);
+
 export default GameCard;

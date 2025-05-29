@@ -27,27 +27,69 @@ import GameCard from './components/game/GameCard';
 console.log('App started');
 
 //& REGISTRO DE CUSTOM ELEMENTS 
-customElements.define('app-container', AppContainer);
-customElements.define('app-header', AppHeader);
+
+if (!customElements.get('app-container')) {
+  customElements.define('app-container', AppContainer);
+}
+
+if (!customElements.get('app-header')) {
+  customElements.define('app-header', AppHeader);
+}
 
 //!  Pantallas 
-customElements.define('auth-screen', AuthScreen);
-customElements.define('landing-screen', LandingScreen);
-customElements.define('threads-screen', ThreadsScreen);
-customElements.define('thread-detail-screen', ThreadDetailScreen);
-customElements.define('categories-screen', CategoriesScreen);
-customElements.define('community-screen', CommunityScreen);
-customElements.define('profile-screen', ProfileScreen);
+if (!customElements.get('auth-screen')) {
+  customElements.define('auth-screen', AuthScreen);
+}
 
+if (!customElements.get('landing-screen')) {
+  customElements.define('landing-screen', LandingScreen);
+}
 
+if (!customElements.get('threads-screen')) {
+  customElements.define('threads-screen', ThreadsScreen);
+}
+
+if (!customElements.get('thread-detail-screen')) {
+  customElements.define('thread-detail-screen', ThreadDetailScreen);
+}
+
+if (!customElements.get('categories-screen')) {
+  customElements.define('categories-screen', CategoriesScreen);
+}
+
+if (!customElements.get('community-screen')) {
+  customElements.define('community-screen', CommunityScreen);
+}
+
+if (!customElements.get('profile-screen')) {
+  customElements.define('profile-screen', ProfileScreen);
+}
 
 //!  Componentes funcionales 
-customElements.define('edit-profile-modal', EditProfileModal);
-customElements.define('create-post', CreatePost);
-customElements.define("post-card", PostCard);
-customElements.define("game-card", GameCard);
+if (!customElements.get('edit-profile-modal')) {
+  customElements.define('edit-profile-modal', EditProfileModal);
+}
 
+if (!customElements.get('create-post')) {
+  customElements.define('create-post', CreatePost);
+}
 
-customElements.define("login-form", LoginForm)
-customElements.define("register-form", RegisterForm);
-customElements.define("comment-card", CommentCard);
+if (!customElements.get('post-card')) {
+  customElements.define('post-card', PostCard);
+}
+
+if (!customElements.get('game-card')) {
+  customElements.define('game-card', GameCard);
+}
+
+if (!customElements.get('login-form')) {
+  customElements.define('login-form', LoginForm);
+}
+
+if (!customElements.get('register-form')) {
+  customElements.define('register-form', RegisterForm);
+}
+
+if (!customElements.get('comment-card')) {
+  customElements.define('comment-card', CommentCard);
+}
