@@ -2,10 +2,13 @@
   display: block;
   width: 100%;
   font-family: 'Inter', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 header {
-  background-color: #121212;
+  background-color: var(--color-panel);
   padding: 1rem 2rem;
   position: fixed;
   top: 0;
@@ -22,6 +25,8 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 70%;
+  padding-right: 38px;
 }
 
 .logo {
@@ -35,12 +40,12 @@ header {
 
 .logo h1 {
   margin: 0;
-  color: #7e57c2;
+  color: var(--color-rose);
   font-size: 1.8rem;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-  text-shadow: 0 0 10px rgba(126, 87, 194, 0.3);
+  text-shadow: 0 0 10px rgba(106, 90, 205, 0.3);
 }
 
 .nav-links ul {
@@ -52,7 +57,7 @@ header {
 }
 
 .nav-links a {
-  color: #e0e0e0;
+  color: var(--color-input-text);
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
@@ -63,7 +68,7 @@ header {
 }
 
 .nav-links a:hover {
-  color: #7e57c2;
+  color: var(--color-rose);
 }
 
 .nav-links a:after {
@@ -73,7 +78,7 @@ header {
   height: 2px;
   bottom: 0;
   left: 0;
-  background-color: #7e57c2;
+  background-color: var(--color-rose);
   transition: width 0.3s ease;
 }
 
@@ -82,7 +87,7 @@ header {
 }
 
 .nav-links a.active {
-  color: #7e57c2;
+  color: var(--color-rose);
 }
 
 .auth-section {
@@ -108,18 +113,18 @@ header {
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #7e57c2;
+  border: 2px solid var(--color-rose);
 }
 
 .user-profile span {
-  color: #e0e0e0;
+  color: var(--color-input-text);
   font-size: 0.9rem;
   font-weight: 500;
 }
 
 .login-btn, .logout-btn {
-  background-color: #7e57c2;
-  color: white;
+  background-color: var(--color-rose);
+  color: var(--color-input-text);
   border: none;
   border-radius: 4px;
   padding: 0.5rem 1rem;
@@ -130,17 +135,17 @@ header {
 }
 
 .login-btn:hover, .logout-btn:hover {
-  background-color: #673ab7;
+  background-color: var(--color-rose);
   transform: translateY(-2px);
 }
 
 .logout-btn {
   background-color: transparent;
-  border: 1px solid #7e57c2;
+  border: 1px solid var(--color-rose);
 }
 
 .logout-btn:hover {
-  background-color: rgba(126, 87, 194, 0.1);
+  background-color: rgba(106, 90, 205, 0.1);
 }
 
 .menu-toggle {
@@ -156,7 +161,7 @@ header {
   display: block;
   height: 3px;
   width: 100%;
-  background-color: #e0e0e0;
+  background-color: var(--color-input-text);
   border-radius: 3px;
   transition: all 0.3s ease;
 }
@@ -183,7 +188,7 @@ header {
     top: 70px;
     left: 0;
     width: 100%;
-    background-color: #121212;
+    background-color: var(--color-panel);
     padding: 1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     clip-path: circle(0px at top right);
@@ -233,7 +238,7 @@ header {
   .logo h1 {
     font-size: 1.5rem;
   }
-  
+
   .auth-section {
     margin-right: 2rem;
   }

@@ -4,7 +4,7 @@
 }
 
 .game-card {
-  background-color: #1e1e1e;
+  background-color: var(--color-panel);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -60,8 +60,8 @@
 }
 
 .view-more {
-  background-color: #7e57c2;
-  color: white;
+  background-color: var(--color-rose);
+  color: var(--color-primary-text);
   padding: 0.5rem 1rem;
   border-radius: 4px;
   font-size: 0.9rem;
@@ -83,7 +83,7 @@
 
 .game-title {
   margin: 0 0 0.5rem;
-  color: #e0e0e0;
+  color: var(--color-input-text);
   font-size: 1.1rem;
   font-weight: 600;
 }
@@ -96,11 +96,11 @@
 }
 
 .game-category {
-  color: #7e57c2;
+  color: var(--color-rose);
   font-size: 0.85rem;
   font-weight: 500;
   padding: 0.2rem 0.6rem;
-  background-color: rgba(126, 87, 194, 0.1);
+  background-color: rgba(191, 52, 103, 0.1);
   border-radius: 4px;
 }
 
@@ -110,7 +110,7 @@
 }
 
 .star {
-  color: #616161;
+  color: var(--color-border);
   font-size: 1rem;
   margin-left: 2px;
 }
@@ -121,7 +121,7 @@
 
 .star.half {
   position: relative;
-  color: #616161;
+  color: var(--color-border);
 }
 
 .star.half:before {

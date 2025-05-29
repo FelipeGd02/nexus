@@ -1,8 +1,10 @@
-import { appState } from "../../store";
-import { addComment } from "../../store/action";
+import { appState } from "../../Flux/store";
+import { addComment } from "../../Flux/action";
 import "../../components/post/PostCard";
 import "../../components/comment/CommentCard";
-import threadDetailStyles from "./ThreadDetailScreen.css";
+import threadDetailStyles from "./ThreadDetailScreen.css"
+import { navigate } from "../../Flux/action";
+import { Screens } from "../../types/navigation";
 
 class ThreadDetailScreen extends HTMLElement {
   constructor() {
@@ -45,20 +47,20 @@ class ThreadDetailScreen extends HTMLElement {
     return `
       <div class="thread-post">
         <post-card
-          postId="${post.id}"
-          userId="${post.userId}"
+          postid="${post.id}"
+          userid="${post.userId}"
           username="${post.username}"
-          profilePicture="${post.profilePicture}"
+          pfp="${post.profilePicture}"
           content="${post.content}"
-          ${post.imageUrl ? `imageUrl="${post.imageUrl}"` : ''}
+          ${post.imageUrl ? `imageurl="${post.imageUrl}"` : ''}
           likes="${post.likes}"
           reposts="${post.reposts}"
           comments="${post.comments}"
           saves="${post.saves}"
           timestamp="${post.timestamp}"
-          ${post.gameId ? `gameId="${post.gameId}"` : ''}
-          isLiked="${post.isLiked || false}"
-          isSaved="${post.isSaved || false}">
+          ${post.gameId ? `gameid="${post.gameId}"` : ''}
+          isliked="${post.isLiked || false}"
+          issaved="${post.isSaved || false}">
         </post-card>
       </div>
     `;
@@ -80,11 +82,11 @@ class ThreadDetailScreen extends HTMLElement {
     
     return postComments.map(comment => `
       <comment-card
-        commentId="${comment.id}"
-        postId="${comment.postId}"
-        userId="${comment.userId}"
+        commentid="${comment.id}"
+        postid="${comment.postId}"
+        userid="${comment.userId}"
         username="${comment.username}"
-        profilePicture="${comment.profilePicture}"
+        pfp="${comment.profilePicture}"
         content="${comment.content}"
         likes="${comment.likes}"
         timestamp="${comment.timestamp}">
@@ -153,7 +155,7 @@ class ThreadDetailScreen extends HTMLElement {
       // Add event listener to back button
       const backButton = this.shadowRoot.querySelector(".back-button");
       backButton?.addEventListener("click", () => {
-        history.back();
+       navigate(Screens.THREADS);
       });
     }
   }

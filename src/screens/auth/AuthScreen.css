@@ -5,70 +5,68 @@
 
 .auth-container {
   min-height: 100vh;
-  padding-top: 70px;
-  background-color: #121212;
+  padding: 70px 0 0;
+  background-color: var(--color-background);
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100%;
 }
 
 .auth-content {
   display: flex;
-  width: 1000px;
-  max-width: 100%;
-  min-height: 600px;
-  background-color: #1a1a1a;
+  justify-content: space-between;
+  background-color: var(--color-panel);
   border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-}
-
-.form-container {
-  width: 50%;
-  min-width: 400px;
-  display: flex;
-  overflow: hidden;
+  box-shadow: 0 15px 30px rgba(11, 14, 23, 0.3);
+  margin: 0;
+  width: 90%;
+  max-width: 1000px;
   position: relative;
 }
 
-.form-wrapper {
-  width: 100%;
-  padding: 3rem 2rem;
+.form-wrapper.active{
+  display: block;
+}
+
+.form-wrapper.hide{
+  display: none;
+}
+
+/* Contenedor de formularios - Versión Desktop */
+.form-container {
+  width: 60%;
+  min-width: 400px;
+  position: relative;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.6s ease;
+  background-color: white;
 }
 
-.login-wrapper {
-  transform: translateX(0);
+
+.form-wrapper {
+  transition: all 0.4s ease-in-out;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding-left: 10%;
 }
 
-.register-wrapper {
-  transform: translateX(100%);
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  background-color: #1a1a1a;
-}
 
-.form-container.show-register .login-wrapper {
-  transform: translateX(-100%);
-}
-
-.form-container.show-register .register-wrapper {
-  transform: translateX(0);
-}
-
+/* Sección de imagen */
 .auth-image {
-  width: 50%;
+  width: 40%;
   background: url('https://images.pexels.com/photos/7915239/pexels-photo-7915239.jpeg') no-repeat center;
   background-size: cover;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 500px;
+  
 }
 
 .image-overlay {
@@ -77,7 +75,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(126, 87, 194, 0.8), rgba(103, 58, 183, 0.6));
+  background: linear-gradient(135deg, rgba(191, 52, 103, 0.8), rgba(191, 52, 103, 0.6));
   z-index: 1;
 }
 
@@ -86,7 +84,7 @@
   z-index: 2;
   text-align: center;
   padding: 2rem;
-  color: white;
+  color: var(--color-input-text);
 }
 
 .welcome-text h2 {
@@ -104,60 +102,59 @@
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+/* ------------------------- */
+/* RESPONSIVE DESIGN */
+/* ------------------------- */
+
 @media (max-width: 992px) {
   .auth-content {
-    flex-direction: column-reverse;
-    width: 90%;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 0;
+    box-shadow: none;
   }
 
-  .form-container, .auth-image {
+  .form-container, 
+  .auth-image {
     width: 100%;
+    min-width: auto;
+  }
+
+  /* Mobile - Mostrar solo un formulario a la vez */
+  .form-wrapper {
+    padding: 2.5rem 1.5rem;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    position: relative;
   }
 
   .auth-image {
-    height: 200px;
-  }
-}
-
-@media (max-width: 768px) {
-  .auth-container {
-    padding: 70px 1rem 1rem;
-  }
-  
-  .auth-content {
-    min-height: auto;
+    min-height: 250px;
+    order: -1;
   }
 
-  .form-container {
-    min-width: 0;
-  }
-
-  .form-wrapper {
-    padding: 2rem 1.5rem;
+  .welcome-text {
+    padding: 1.5rem;
   }
 
   .welcome-text h2 {
     font-size: 2rem;
   }
-
-  .welcome-text p {
-    font-size: 1.1rem;
-  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 576px) {
   .auth-container {
-    padding: 70px 0.5rem 0.5rem;
-  }
-
-  .auth-content {
-    width: 100%;
-    border-radius: 0;
-    box-shadow: none;
+    padding-top: 60px;
   }
 
   .form-wrapper {
-    padding: 1.5rem 1rem;
+    padding: 2rem 1.25rem;
+  }
+
+  .auth-image {
+    min-height: 200px;
   }
 
   .welcome-text h2 {
@@ -166,5 +163,16 @@
 
   .welcome-text p {
     font-size: 1rem;
+    max-width: 250px;
+  }
+}
+
+@media (max-width: 400px) {
+  .form-wrapper {
+    padding: 1.75rem 1rem;
+  }
+
+  .auth-image {
+    min-height: 180px;
   }
 }

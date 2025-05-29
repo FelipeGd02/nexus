@@ -6,7 +6,7 @@
 .community-container {
   min-height: 100vh;
   padding: 90px max(2rem, calc((100% - 1200px) / 2)) 2rem;
-  background-color: #121212;
+  background-color: var(--color-background);
   color: #e0e0e0;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .community-section {
-  background-color: #1a1a1a;
+  background-color: var(--color-panel);
   border-radius: 10px;
   padding: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -69,7 +69,7 @@
 }
 
 .stat-card {
-  background-color: #242424;
+  background-color:var(--color-panel);
   padding: 1.5rem;
   border-radius: 8px;
   text-align: center;
@@ -84,13 +84,13 @@
 .stat-value {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #7e57c2;
+  color:var(--color-rose);
   margin-bottom: 0.5rem;
 }
 
 .stat-label {
   font-size: 0.9rem;
-  color: #bdbdbd;
+  color: var(--color-rose);
 }
 
 .guidelines {
@@ -100,7 +100,7 @@
 }
 
 .guideline-item {
-  background-color: #242424;
+  background-color: var(--color-panel);
   padding: 1.2rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -115,7 +115,7 @@
 .guideline-item h4 {
   margin-top: 0;
   margin-bottom: 0.8rem;
-  color: #7e57c2;
+  color: var(--color-rose);
   font-size: 1.1rem;
 }
 
@@ -133,7 +133,7 @@
 }
 
 .sidebar-section {
-  background-color: #1a1a1a;
+  background-color:var(--color-panel);
   border-radius: 10px;
   padding: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -156,7 +156,7 @@
 }
 
 .topic-item {
-  background-color: #242424;
+  background-color: var(--color-panel);
   padding: 1rem;
   border-radius: 8px;
   cursor: pointer;
@@ -164,7 +164,7 @@
 }
 
 .topic-item:hover {
-  background-color: #2d2d2d;
+  background-color:var(--color-background);
   transform: translateY(-2px);
 }
 
@@ -190,23 +190,22 @@
 }
 
 .topic-category {
-  color: #7e57c2;
+  color: var(--color-rose);
   font-size: 0.8rem;
   font-weight: 500;
   padding: 0.2rem 0.5rem;
-  background-color: rgba(126, 87, 194, 0.1);
+  background-color: rgba(191, 52, 103, 0.2);
   border-radius: 4px;
 }
 
 .topic-action {
-  color: #7e57c2;
+  color: var(--color-rose);
   font-size: 0.85rem;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 .topic-item:hover .topic-action {
-  color: #9575cd;
   text-decoration: underline;
 }
 
@@ -222,7 +221,7 @@
 }
 
 .join-btn {
-  background-color: #7e57c2;
+  background-color:  var(--color-rose);
   color: white;
   border: none;
   border-radius: 6px;
@@ -235,9 +234,9 @@
 }
 
 .join-btn:hover {
-  background-color: #673ab7;
+  background-color:  var(--color-rose);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(103, 58, 183, 0.3);
+  box-shadow: 0 4px 10px var(--color-rose)
 }
 
 @media (max-width: 992px) {

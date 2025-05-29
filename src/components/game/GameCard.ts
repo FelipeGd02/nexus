@@ -1,5 +1,5 @@
-import { appState } from "../../store";
-import { navigate } from "../../store/action";
+import { appState } from "../../Flux/store";
+import { navigate } from "../../Flux/action";
 import { Screens } from "../../types/navigation";
 import gameCardStyles from "./GameCard.css";
 
@@ -99,4 +99,5 @@ class GameCard extends HTMLElement {
 
 }
 
+customElements.define("game-card", GameCard);
 export default GameCard;

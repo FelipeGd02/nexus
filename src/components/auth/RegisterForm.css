@@ -1,16 +1,14 @@
 :host {
   display: block;
-  font-family: 'Inter', sans-serif;
 }
 
 .register-container {
-  background-color: var(--color-darker);
+  background-color: var(--color-panel);
   border-radius: 10px;
   padding: 2rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
   width: 100%;
   animation: fadeIn 0.6s ease;
+  max-width: 400px;
 }
 
 @keyframes fadeIn {
@@ -25,7 +23,7 @@
 }
 
 h2 {
-  color: var(--color-white);
+  color: var(--color-input-text);
   text-align: center;
   margin: 0 0 2rem;
   font-size: 1.8rem;
@@ -39,17 +37,17 @@ h2 {
 label {
   display: block;
   margin-bottom: 0.5rem;
-  color: var(--color-white);
+  color: var(--color-muted);
   font-size: 0.9rem;
   font-weight: 500;
 }
 
 input {
-  width: 100%;
+  width: 95%;
   padding: 0.8rem 1rem;
-  border: 2px solid var(--color-secondary);
-  background-color: var(--color-dark);
-  color: var(--color-white);
+  border: 2px solid var(--color-border);
+  background-color: var(--color-input-background);
+  color: var(--color-input-text);
   border-radius: 6px;
   font-size: 1rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -57,54 +55,54 @@ input {
 
 input:focus {
   outline: none;
-  border-color: var(--color-primary);
+  border-color: var(--color-rose);
   box-shadow: 0 0 0 3px rgba(191, 52, 103, 0.2);
 }
 
-.register-button {
+button {
   width: 100%;
   padding: 1rem;
-  background-color: var(--color-primary);
-  color: var(--color-white);
+  background-color: var(--color-rose);
+  color: var(--color-primary-text);
   border: none;
   border-radius: 6px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
-.register-button:hover {
-  background-color: #a62d57;
+button:hover {
+  background-color: #a02b57;
   transform: translateY(-2px);
 }
 
-.register-button:active {
+button:active {
   transform: translateY(0);
 }
 
 .login-text {
   text-align: center;
   margin-top: 1.5rem;
-  color: var(--color-white);
+  color: var(--color-muted);
   font-size: 0.9rem;
 }
 
 a {
-  color: var(--color-primary);
+  color: var(--color-rose);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 a:hover {
-  color: #a62d57;
+  color: #a02b57;
   text-decoration: underline;
 }
 
 @media (max-width: 480px) {
-  .register-container {
+  .login-container {
     padding: 1.5rem;
   }
 
@@ -118,7 +116,7 @@ a:hover {
     font-size: 0.95rem;
   }
 
-  .register-button {
+  .login-button {
     padding: 0.8rem;
   }
 }

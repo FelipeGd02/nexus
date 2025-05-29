@@ -1,4 +1,4 @@
-import { AppDispatcher, Action } from "./dispatch";
+import { AppDispatcher , Action } from "./Dispatcher";
 import { ActionTypes } from "./action";
 import { defaultUser } from "../data/Users";
 import { posts , comments } from "../data/Posts";
@@ -132,31 +132,40 @@ class Store {
         }
         break;
 
+      case ActionTypes.CREATE_POST:
+        const newPost: Post = {
+          id: `p${Date.now()}`,
+          userId: this._state.currentUser?.id || "guest",
+          username: this._state.currentUser?.username || "Guest",
+          profilePicture: this._state.currentUser?.profilePicture || defaultUser.profilePicture,
+          content: action.payload.content,
+          imageUrl: action.payload.imageUrl,
+          likes: 0,
+          reposts: 0,
+          comments: 0,
+          saves: 0,
+          timestamp: new Date().toISOString()
+        };
+        this._state.posts.unshift(newPost);
+        this._state.filteredPosts = this._state.currentCategoryFilter
+          ? this._state.posts.filter(post => {
+              const game = this._state.games.find(g => g.id === post.gameId);
+              return game && game.category === this._state.currentCategoryFilter;
+            })
+          : [...this._state.posts];
+        break;
+
       case ActionTypes.TOGGLE_LIKE_POST:
         this._togglePostInteraction("likes", "isLiked", action.payload);
-        // Call mock Firebase service
-        const likeState = this._state.posts.find(p => p.id === action.payload)?.isLiked;
-        if (likeState && this._state.currentUser) {
-          firebaseService.likePost(action.payload, this._state.currentUser.id);
-        } else if (this._state.currentUser) {
-          firebaseService.unlikePost(action.payload, this._state.currentUser.id);
-        }
         break;
 
       case ActionTypes.TOGGLE_SAVE_POST:
         this._togglePostInteraction("saves", "isSaved", action.payload);
-        // Call mock Firebase service
-        const saveState = this._state.posts.find(p => p.id === action.payload)?.isSaved;
-        if (saveState && this._state.currentUser) {
-          firebaseService.savePost(action.payload, this._state.currentUser.id);
-        } else if (this._state.currentUser) {
-          firebaseService.unsavePost(action.payload, this._state.currentUser.id);
-        }
         break;
 
       case ActionTypes.ADD_COMMENT:
         const newComment: Comment = {
-          id: `c${this._state.comments.length + 1}`,
+          id: `c${Date.now()}`,
           postId: action.payload.postId,
           userId: this._state.currentUser?.id || "guest",
           username: this._state.currentUser?.username || "Guest",
@@ -167,8 +176,15 @@ class Store {
         };
         this._state.comments.push(newComment);
         this._incrementPostField(action.payload.postId, "comments");
-        // Call mock Firebase service
-        firebaseService.addComment(action.payload.postId, newComment);
+        break;
+
+      case ActionTypes.TOGGLE_LIKE_COMMENT:
+        const comment = this._state.comments.find(c => c.id === action.payload);
+        if (comment) {
+          const isLiked = comment.isLiked;
+          comment.likes = isLiked ? comment.likes - 1 : comment.likes + 1;
+          comment.isLiked = !isLiked;
+        }
         break;
 
       case ActionTypes.FILTER_BY_CATEGORY:

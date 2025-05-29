@@ -1,0 +1,47 @@
+:root {
+    /* Color Palette */
+    --color-rose: #BF3467;      /* Rosa fuerte / fucsia oscuro */
+  
+    --color-background: #0b0e17;
+  
+    /* Panel background (login form) */
+    --color-panel: #11141d;
+  
+    /* Input fields background */
+    --color-input-background: #1a1e29;
+  
+    /* Input text and placeholder */
+    --color-input-text: #cfd4e4;
+  
+    /* Border or subtle outlines */
+    --color-border: #2b2f3a;
+  
+    /* Button text */
+    --color-primary-text: #ffffff;
+  
+    /* Links (like "Register now") */
+    --color-link: #8faeff;
+  
+    /* Muted text (e.g., “Don’t have an account?”) */
+    --color-muted: #a0a4b8;
+    
+    font-family: 'Inter';
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    background-color: var(--color-dark);
+  }
+  
+  h1, h2, h3, h4, h5, h6, p {
+    margin-top: 0;
+  }

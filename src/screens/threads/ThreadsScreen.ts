@@ -1,7 +1,7 @@
-import { appState } from "../../store";
-import "../../components/post/PostCard";
-import "../../components/post/CreatePost";
-import threadsStyles from "./ThreadsScreen.css";
+import { appState } from "../../Flux/store";
+import "../../components/post/PostCard"
+import "../../components/post/CreatePost"
+import threadsStyles from "./ThreadsScreen.css"
 
 class ThreadsScreen extends HTMLElement {
   constructor() {

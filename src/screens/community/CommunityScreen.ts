@@ -1,7 +1,7 @@
-import { appState } from "../../store";
-import { navigate } from "../../store/action";
+import { appState } from "../../Flux/store";
+import { navigate } from "../../Flux/action";
 import { Screens } from "../../types/navigation";
-import "../../components/post/PostCard"
+import "../../components/post/PostCard";
 import communityStyles from "./CommunityScreen.css";
 
 class CommunityScreen extends HTMLElement {
@@ -34,20 +34,20 @@ class CommunityScreen extends HTMLElement {
     
     return recentPosts.map(post => `
       <post-card
-        postId="${post.id}"
-        userId="${post.userId}"
+        postid="${post.id}"
+        userid="${post.userId}"
         username="${post.username}"
-        profilePicture="${post.profilePicture}"
+        pfp="${post.profilePicture}"
         content="${post.content}"
-        ${post.imageUrl ? `imageUrl="${post.imageUrl}"` : ''}
+        ${post.imageUrl ? `imageurl="${post.imageUrl}"` : ''}
         likes="${post.likes}"
         reposts="${post.reposts}"
         comments="${post.comments}"
         saves="${post.saves}"
         timestamp="${post.timestamp}"
-        ${post.gameId ? `gameId="${post.gameId}"` : ''}
-        isLiked="${post.isLiked || false}"
-        isSaved="${post.isSaved || false}">
+        ${post.gameId ? `gameid="${post.gameId}"` : ''}
+        isliked="${post.isLiked || false}"
+        issaved="${post.isSaved || false}">
       </post-card>
     `).join("");
   }

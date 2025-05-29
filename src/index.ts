@@ -2,6 +2,7 @@
 
 import LoginForm from './components/auth/LoginForm';
 import RegisterForm from './components/auth/RegisterForm';
+import CommentCard from './components/comment/CommentCard';
 
 //&  Componentes de interfaz 
 import AppHeader from './components/header/Header';
@@ -49,3 +50,4 @@ customElements.define("game-card", GameCard);
 
 customElements.define("login-form", LoginForm)
 customElements.define("register-form", RegisterForm);
+customElements.define("comment-card", CommentCard);
