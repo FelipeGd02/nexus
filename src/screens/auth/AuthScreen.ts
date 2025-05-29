@@ -1,4 +1,4 @@
-import { appState } from "../../store";
+import { appState } from "../../Flux/store";
 import { Screens } from "../../types/navigation";
 import "../../components/auth/LoginForm";
 import "../../components/auth/RegisterForm";
@@ -40,14 +40,12 @@ class AuthScreen extends HTMLElement {
         <style>${authStyles}</style>
         <div class="auth-container">
           <div class="auth-content">
-            <div class="form-container ${this.showRegister ? 'show-register' : ''}">
-              <div class="form-wrapper login-wrapper">
+              <div class="form-wrapper ${this.showRegister ? 'hide' : 'active'}">
                 <login-form></login-form>
               </div>
-              <div class="form-wrapper register-wrapper">
+              <div class="form-wrapper ${this.showRegister ? 'active' : 'hide'}">
                 <register-form></register-form>
               </div>
-            </div>
             
             <div class="auth-image">
               <div class="image-overlay"></div>

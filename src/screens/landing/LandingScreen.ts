@@ -1,7 +1,8 @@
-import { appState } from "../../store";
-import { navigate } from "../../store/action";
+import { appState } from "../../Flux/store";
+import { navigate } from "../../Flux/action";
 import { Screens } from "../../types/navigation";
 import "../../components/game/GameCard";
+import "../../components/post/PostCard";
 import landingStyles from "./LandingScreen.css";
 
 class LandingScreen extends HTMLElement {
@@ -36,7 +37,6 @@ class LandingScreen extends HTMLElement {
 
   renderTopGames() {
     const state = appState.get();
-    // Get top 4 games by rating
     const topGames = [...state.games]
       .sort((a, b) => b.rating - a.rating)
       .slice(0, 4);
@@ -50,6 +50,33 @@ class LandingScreen extends HTMLElement {
           imageurl="${game.imageUrl}"
           rating="${game.rating}">
         </game-card>
+      </div>
+    `).join("");
+  }
+
+  renderRecentThreads() {
+    const state = appState.get();
+    const recentPosts = [...state.posts]
+      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+      .slice(0, 4);
+    
+    return recentPosts.map(post => `
+      <div class="thread-item">
+        <post-card
+          postid="${post.id}"
+          userid="${post.userId}"
+          username="${post.username}"
+          pfp="${post.profilePicture}"
+          content="${post.content}"
+          ${post.imageUrl ? `imageurl="${post.imageUrl}"` : ''}
+          likes="${post.likes}"
+          reposts="${post.reposts}"
+          comments="${post.comments}"
+          saves="${post.saves}"
+          timestamp="${post.timestamp}"
+          ${post.gameId ? `gameid="${post.gameId}"` : ''}
+          preview="true">
+        </post-card>
       </div>
     `).join("");
   }
@@ -137,6 +164,17 @@ class LandingScreen extends HTMLElement {
             </div>
           </section>
         </div>
+
+        <!-- Recent Threads Section -->
+          <section class="threads-section">
+            <h2 class="section-title">Recent Discussions</h2>
+            <p class="section-description">
+              Join the conversation and see what other gamers are talking about.
+            </p>
+            <div class="threads-grid">
+              ${this.renderRecentThreads()}
+            </div>
+          </section>
         
         <!-- Welcome Modal -->
         <div id="welcome-modal" class="modal">

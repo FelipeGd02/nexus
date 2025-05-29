@@ -1,6 +1,6 @@
 
 // Import screens as custom elements
-import { appState } from "../../store";
+import { appState } from "../../Flux/store";
 import { Screens } from "../../types/navigation";
 
 export class AppContainer extends HTMLElement {

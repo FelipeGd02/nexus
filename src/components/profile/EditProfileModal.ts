@@ -1,5 +1,5 @@
-import { appState } from "../../store";
-import { updateProfile } from "../../store/action";
+import { appState } from "../../Flux/store";
+import { updateProfile } from "../../Flux/action";
 import { firebaseService } from "../../services/firebase";
 import editProfileModalStyles from "./EditProfileModal.css";
 

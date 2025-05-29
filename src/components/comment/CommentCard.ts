@@ -1,11 +1,13 @@
+import { appState } from "../../Flux/store";
+import { toggleLikeComment } from "../../Flux/action";
 import commentCardStyles from "./CommentCard.css";
 
 export enum CommentAttributes {
-  ID = "commentId",
-  POST_ID = "postId",
-  USER_ID = "userId",
+  ID = "commentid",
+  POST_ID = "postid",
+  USER_ID = "userid",
   USERNAME = "username",
-  PROFILE_PICTURE = "profilePicture",
+  PROFILE_PICTURE = "pfp",
   CONTENT = "content",
   LIKES = "likes",
   TIMESTAMP = "timestamp"
@@ -13,11 +15,11 @@ export enum CommentAttributes {
 
 class CommentCard extends HTMLElement {
   // Properties
-  commentId?: string;
-  postId?: string;
-  userId?: string;
+  commentid?: string;
+  postid?: string;
+  userid?: string;
   username?: string;
-  profilePicture?: string;
+  pfp?: string;
   content?: string;
   likes?: string;
   timestamp?: string;
@@ -46,14 +48,9 @@ class CommentCard extends HTMLElement {
     const likeBtn = this.shadowRoot?.querySelector(".like-btn");
     
     likeBtn?.addEventListener("click", () => {
-      // In a real app, we would update the like count in the store
-      const likesSpan = this.shadowRoot?.querySelector(".likes-count");
-      if (likesSpan && this.likes) {
-        const currentLikes = parseInt(this.likes);
-        const newLikes = currentLikes + 1;
-        this.likes = newLikes.toString();
-        likesSpan.textContent = newLikes.toString();
-        likeBtn.classList.add("active");
+      if (this.commentid && appState.get().isAuthenticated) {
+        toggleLikeComment(this.commentid);
+        this.render();
       }
     });
   }
@@ -78,11 +75,15 @@ class CommentCard extends HTMLElement {
 
   render() {
     if (this.shadowRoot) {
+      const state = appState.get();
+      const comment = state.comments.find(c => c.id === this.commentid);
+      const isLiked = comment?.isLiked || false;
+      
       this.shadowRoot.innerHTML = `
         <style>${commentCardStyles}</style>
         <div class="comment-card">
           <div class="comment-header">
-            <img class="profile-picture" src="${this.profilePicture}" alt="${this.username}">
+            <img class="profile-picture" src="${this.pfp}" alt="${this.username}">
             <div class="comment-info">
               <h4 class="username">${this.username}</h4>
               <span class="timestamp">${this.formatDate(this.timestamp)}</span>
@@ -92,17 +93,11 @@ class CommentCard extends HTMLElement {
             <p>${this.content}</p>
           </div>
           <div class="comment-actions">
-            <div class="action-btn like-btn">
+            <div class="action-btn like-btn ${isLiked ? 'active' : ''}">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
               </svg>
               <span class="likes-count">${this.likes}</span>
-            </div>
-            <div class="action-btn reply-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
-                <path d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
-              </svg>
-              <span>Reply</span>
             </div>
           </div>
         </div>

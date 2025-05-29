@@ -46,6 +46,7 @@ export interface Comment {
   content: string;
   likes: number;
   timestamp: string;
+  isLiked?: boolean;
 }
 
 export enum Category {

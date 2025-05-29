@@ -1,21 +1,22 @@
 :host {
   display: block;
   font-family: 'Inter', sans-serif;
+  color: var(--color-input-text);
 }
 
 .post-card {
-  background-color: var(--color-darker);
+  background-color: var(--color-panel);
   border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(11, 14, 23, 0.75); /* dark blue tint shadow */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
 
 .post-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 16px rgba(11, 14, 23, 0.9);
 }
 
 .post-header {
@@ -30,7 +31,7 @@
   border-radius: 50%;
   object-fit: cover;
   margin-right: 1rem;
-  border: 2px solid var(--color-primary);
+  border: 2px solid var(--color-rose);
   transition: transform 0.3s ease;
 }
 
@@ -47,12 +48,12 @@
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--color-input-text);
 }
 
 .timestamp {
   font-size: 0.8rem;
-  color: var(--color-text-secondary);
+  color: var(--color-muted);
 }
 
 .post-content {
@@ -63,7 +64,7 @@
   margin: 0 0 1rem;
   font-size: 1rem;
   line-height: 1.5;
-  color: var(--color-text-primary);
+  color: var(--color-input-text);
 }
 
 .content-image {
@@ -82,14 +83,14 @@
   display: flex;
   justify-content: space-between;
   padding-top: 0.75rem;
-  border-top: 1px solid var(--color-secondary);
+  border-top: 1px solid var(--color-border);
 }
 
 .action-btn {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  color: var(--color-text-secondary);
+  color: var(--color-muted);
   transition: color 0.3s ease, transform 0.2s ease;
   cursor: pointer;
   padding: 0.5rem;
@@ -98,9 +99,9 @@
 }
 
 .action-btn:hover {
-  color: var(--color-primary);
+  color: var(--color-rose);
   transform: translateY(-2px);
-  background-color: rgba(255, 20, 147, 0.1);
+  background-color: rgba(191, 52, 103, 0.1); /* --color-rose with 10% opacity */
 }
 
 .action-btn svg {
@@ -113,7 +114,7 @@
 }
 
 .action-btn.active {
-  color: var(--color-primary);
+  color: var(--color-rose);
 }
 
 .action-btn.active svg {
@@ -121,12 +122,12 @@
 }
 
 .like-btn.active {
-  color: var(--color-primary);
+  color: var(--color-rose);
 }
 
 .like-btn.active svg {
-  fill: var(--color-primary);
-  stroke: var(--color-primary);
+  fill: var(--color-rose);
+  stroke: var(--color-rose);
 }
 
 .save-btn.active {

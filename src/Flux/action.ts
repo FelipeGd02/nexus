@@ -1,4 +1,4 @@
-import { AppDispatcher } from "./dispatch";
+import { AppDispatcher } from "./Dispatcher";
 import { Screens } from "../types/navigation";
 import { User, Category } from "../types/models";
 
@@ -8,9 +8,11 @@ export const ActionTypes = {
   LOGIN: "LOGIN",
   LOGOUT: "LOGOUT",
   UPDATE_PROFILE: "UPDATE_PROFILE",
+  CREATE_POST: "CREATE_POST",
   TOGGLE_LIKE_POST: "TOGGLE_LIKE_POST",
   TOGGLE_SAVE_POST: "TOGGLE_SAVE_POST",
   ADD_COMMENT: "ADD_COMMENT",
+  TOGGLE_LIKE_COMMENT: "TOGGLE_LIKE_COMMENT",
   FILTER_BY_CATEGORY: "FILTER_BY_CATEGORY"
 };
 
@@ -40,6 +42,13 @@ export const updateProfile = (user: User) => {
   });
 };
 
+export const createPost = (content: string, imageUrl?: string) => {
+  AppDispatcher.dispatch({
+    type: ActionTypes.CREATE_POST,
+    payload: { content, imageUrl }
+  });
+};
+
 export const toggleLikePost = (postId: string) => {
   AppDispatcher.dispatch({
     type: ActionTypes.TOGGLE_LIKE_POST,
@@ -58,6 +67,13 @@ export const addComment = (postId: string, content: string) => {
   AppDispatcher.dispatch({
     type: ActionTypes.ADD_COMMENT,
     payload: { postId, content }
+  });
+};
+
+export const toggleLikeComment = (commentId: string) => {
+  AppDispatcher.dispatch({
+    type: ActionTypes.TOGGLE_LIKE_COMMENT,
+    payload: commentId
   });
 };
 

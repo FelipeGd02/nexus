@@ -1,5 +1,5 @@
-import { appState } from "../../store";
-import { navigate ,logout } from "../../store/action";
+import { appState } from "../../Flux/store";
+import { navigate , logout } from "../../Flux/action";
 import { Screens } from "../../types/navigation";
 import headerStyles from "./Header.css";
 

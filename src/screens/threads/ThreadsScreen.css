@@ -6,8 +6,8 @@
 .threads-container {
   min-height: 100vh;
   padding: 90px max(2rem, calc((100% - 800px) / 2)) 2rem;
-  background-color: #121212;
-  color: #e0e0e0;
+  background-color: var(--color-background);
+  color: var(--color-input-text);
 }
 
 .threads-header {
@@ -19,11 +19,11 @@
   font-size: 2.2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  color: #fff;
+  color: var(--color-primary-text);
 }
 
 .threads-header p {
-  color: #bdbdbd;
+  color: var(--color-muted);
   font-size: 1rem;
   max-width: 600px;
   margin: 0 auto;
@@ -36,7 +36,7 @@
 }
 
 .no-posts {
-  background-color: #1e1e1e;
+  background-color: var(--color-input-background);
   border-radius: 8px;
   padding: 2rem;
   text-align: center;
@@ -44,7 +44,7 @@
 }
 
 .no-posts p {
-  color: #bdbdbd;
+  color: var(--color-muted);
   font-size: 1.1rem;
   margin: 0;
 }

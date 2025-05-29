@@ -1,5 +1,5 @@
-import { appState } from "../../store";
-import { navigate } from "../../store/action";
+import { appState } from "../../Flux/store";
+import { navigate } from "../../Flux/action";
 import { Screens } from "../../types/navigation";
 import "../../components/post/PostCard";
 import "../../components/game/GameCard";

@@ -96,3 +96,6 @@ Error 404 en consola porque no encuentra las imagenes .-.
 
 Se agregaron comments con // Para acordarse que se hizo por si el profe Kevin o Leider preguntan XD PD : Si leider o Kevin leen esto , 
 no se preocupen , no se enojen si pongo los cositos //  en colores 😘
+
+
+Se le quitaron los comentarios porque necesitaba cambiar los componentes y no queria que se me olvidara de los cambios que hice en el proyecto ademas me toco cambiar todas  las screens porque el diseño estaba erroneo .-. y tenia muchos errores en funciones

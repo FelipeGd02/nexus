@@ -1,5 +1,5 @@
-import { appState } from "../../store";
-import { filterByCategory } from "../../store/action";
+import { appState } from "../../Flux/store";
+import { filterByCategory } from "../../Flux/action";
 import { Category } from "../../types/models";
 import "../../components/post/PostCard";
 import categoriesStyles from "./CategoriesScreen.css";
