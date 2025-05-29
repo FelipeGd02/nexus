@@ -174,5 +174,5 @@ class PostCard extends HTMLElement {
   }
 }
 
-customElements.define("post-card", PostCard);
+
 export default PostCard;
