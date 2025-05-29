@@ -1,30 +1,34 @@
-import { appState } from "../../Flux/store";
-import { Screens } from "../../types/navigation";
-import "../../components/auth/LoginForm";
-import "../../components/auth/RegisterForm";
-import authStyles from "./AuthScreen.css";
+import { appState } from "../../Flux/store"; // Estado global de la app
+import { Screens } from "../../types/navigation"; // Pantallas definidas en la app
+import "../../components/auth/LoginForm"; // Componente formulario de login
+import "../../components/auth/RegisterForm"; // Componente formulario de registro
+import authStyles from "./AuthScreen.css"; 
 
 class AuthScreen extends HTMLElement {
-  showRegister: boolean = false;
+  showRegister: boolean = false; // Controla si mostrar formulario de registro o login
 
   constructor() {
     super();
+    // Creamos un Shadow DOM para encapsular el estilo y contenido
     this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
+    // Cuando el componente aparece, chequeamos la pantalla actual para decidir qué formulario mostrar
     const state = appState.get();
     this.showRegister = state.currentScreen === Screens.REGISTER;
-    this.render();
+    this.render(); // Dibujamos la pantalla
   }
 
   render() {
     if (!this.shadowRoot) return;
 
+    // Dependiendo de showRegister, mostramos el formulario de registro o el de login
     const formHtml = this.showRegister
       ? `<register-form></register-form>`
       : `<login-form></login-form>`;
 
+    // Armamos el HTML con el formulario elegido y la parte visual (imagen y texto de bienvenida)
     this.shadowRoot.innerHTML = `
       <style>${authStyles}</style>
       <div class="auth-container">
@@ -43,14 +47,17 @@ class AuthScreen extends HTMLElement {
       </div>
     `;
 
+    // Buscamos los formularios para agregar eventos que permitan cambiar entre login y registro
     const loginForm = this.shadowRoot.querySelector("login-form");
     const registerForm = this.shadowRoot.querySelector("register-form");
 
+    // Si el formulario de login dispara el evento 'register', mostramos el formulario de registro
     loginForm?.addEventListener("register", () => {
       this.showRegister = true;
       this.render();
     });
 
+    // Si el formulario de registro dispara el evento 'login', mostramos el formulario de login
     registerForm?.addEventListener("login", () => {
       this.showRegister = false;
       this.render();
@@ -58,7 +65,7 @@ class AuthScreen extends HTMLElement {
   }
 
   disconnectedCallback() {
-    // Optional cleanup if needed
+    // Aquí podrías limpiar eventos si hiciera falta (opcional)
   }
 }
 

@@ -1,49 +1,53 @@
-import { appState } from "../../Flux/store";
-import { addComment } from "../../Flux/action";
-import "../../components/post/PostCard";
-import "../../components/comment/CommentCard";
-import threadDetailStyles from "./ThreadDetailScreen.css"
-import { navigate } from "../../Flux/action";
-import { Screens } from "../../types/navigation";
+import { appState } from "../../Flux/store"; // Estado global de la aplicación
+import { addComment } from "../../Flux/action"; // Acción para agregar un comentario
+import "../../components/post/PostCard"; // Componente para mostrar posts
+import "../../components/comment/CommentCard"; // Componente para mostrar comentarios
+import threadDetailStyles from "./ThreadDetailScreen.css"; // Estilos para esta pantalla
+import { navigate } from "../../Flux/action"; // Acción para cambiar de pantalla
+import { Screens } from "../../types/navigation"; // Constantes con nombres de pantallas
 
 class ThreadDetailScreen extends HTMLElement {
   constructor() {
     super();
+    // Creamos un Shadow DOM para aislar estilos y estructura
     this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
-    this.render();
-    
-    // Add event listeners
+    this.render(); // Al insertar el componente en el DOM, dibujamos la pantalla
+
+    // Buscamos el formulario de comentarios para capturar su evento submit
     const commentForm = this.shadowRoot?.querySelector("#comment-form");
     commentForm?.addEventListener("submit", this.handleCommentSubmit.bind(this));
   }
 
+  // Maneja el envío del formulario de comentario
   handleCommentSubmit(e: Event) {
     e.preventDefault();
-    
+
     const state = appState.get();
-    if (!state.currentPostId) return;
-    
+    if (!state.currentPostId) return; // Si no hay post seleccionado, no hacemos nada
+
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const commentContent = formData.get("comment-content") as string;
-    
+
     if (commentContent.trim()) {
+      // Agrega el comentario a través de la acción
       addComment(state.currentPostId, commentContent);
-      form.reset();
-      this.render(); // Re-render to show the new comment
+      form.reset(); // Limpia el formulario
+      this.render(); // Redibuja para mostrar el nuevo comentario
     }
   }
 
+  // Muestra el post seleccionado
   renderPost() {
     const state = appState.get();
     if (!state.currentPostId) return "";
-    
+
     const post = state.posts.find(p => p.id === state.currentPostId);
     if (!post) return "<p>Post not found</p>";
-    
+
     return `
       <div class="thread-post">
         <post-card
@@ -66,12 +70,15 @@ class ThreadDetailScreen extends HTMLElement {
     `;
   }
 
+  // Muestra los comentarios relacionados con el post
   renderComments() {
     const state = appState.get();
     if (!state.currentPostId) return "";
-    
+
+    // Filtramos solo los comentarios del post actual
     const postComments = state.comments.filter(c => c.postId === state.currentPostId);
-    
+
+    // Si no hay comentarios, mostramos mensaje
     if (postComments.length === 0) {
       return `
         <div class="no-comments">
@@ -79,7 +86,8 @@ class ThreadDetailScreen extends HTMLElement {
         </div>
       `;
     }
-    
+
+    // Si hay comentarios, los mostramos usando <comment-card>
     return postComments.map(comment => `
       <comment-card
         commentid="${comment.id}"
@@ -94,17 +102,20 @@ class ThreadDetailScreen extends HTMLElement {
     `).join("");
   }
 
+  // Muestra el formulario para agregar comentarios solo si el usuario está autenticado
   renderCommentForm() {
     const state = appState.get();
-    
+
     if (!state.isAuthenticated) {
+      // Si no está autenticado, pedimos que inicie sesión para comentar
       return `
         <div class="login-to-comment">
           <p>Log in to leave a comment</p>
         </div>
       `;
     }
-    
+
+    // Formulario para ingresar comentario con avatar y nombre de usuario
     return `
       <form id="comment-form" class="comment-form">
         <div class="form-group">
@@ -121,6 +132,7 @@ class ThreadDetailScreen extends HTMLElement {
 
   render() {
     if (this.shadowRoot) {
+      // Armamos toda la estructura de la pantalla
       this.shadowRoot.innerHTML = `
         <style>${threadDetailStyles}</style>
         <div class="thread-detail-container">
@@ -131,28 +143,28 @@ class ThreadDetailScreen extends HTMLElement {
               </svg>
               <span>Back to threads</span>
             </div>
-            
+
             ${this.renderPost()}
-            
+
             <div class="comments-section">
               <h3>Comments</h3>
-              
+
               ${this.renderCommentForm()}
-              
+
               <div class="comments-list">
                 ${this.renderComments()}
               </div>
             </div>
           </div>
-          
+
           <div class="related-posts">
             <h3>Related Posts</h3>
             <p>Coming soon...</p>
           </div>
         </div>
       `;
-      
-      // Add event listener to back button
+
+      // Evento para volver a la lista de threads al pulsar "Back"
       const backButton = this.shadowRoot.querySelector(".back-button");
       backButton?.addEventListener("click", () => {
        navigate(Screens.THREADS);
@@ -161,7 +173,7 @@ class ThreadDetailScreen extends HTMLElement {
   }
 
   disconnectedCallback() {
-    // Cleanup event listeners if needed
+    // Aquí se pueden limpiar eventos si fuera necesario para evitar fugas de memoria
   }
 }
 
