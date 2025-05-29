@@ -1,8 +1,9 @@
-import { appState } from "../../Flux/store";
-import { navigate , toggleLikePost , toggleSavePost } from "../../Flux/action";
-import { Screens } from "../../types/navigation";
-import postCardStyles from "./PostCard.css";
+import { appState } from "../../Flux/store"; // Estado global de la app
+import { navigate , toggleLikePost , toggleSavePost } from "../../Flux/action"; // Funciones para cambiar pantalla, dar like y guardar posts
+import { Screens } from "../../types/navigation"; // Nombres de pantallas disponibles
+import postCardStyles from "./PostCard.css"; 
 
+// Atributos que el componente va a usar y observar
 export enum PostAttributes {
   ID = "postid",
   USER_ID = "userid",
@@ -21,7 +22,7 @@ export enum PostAttributes {
 }
 
 class PostCard extends HTMLElement {
-  // Properties
+  // Propiedades donde guardamos la info que llega por atributos
   postid?: string;
   userid?: string;
   username?: string;
@@ -37,12 +38,12 @@ class PostCard extends HTMLElement {
   isliked?: string;
   issaved?: string;
 
-  // Observed attributes
+  // Indicamos qué atributos queremos escuchar cuando cambien
   static get observedAttributes() {
     return Object.values(PostAttributes);
   }
 
-  // Handle attribute changes
+  // Cuando un atributo cambia, actualizamos la propiedad del componente
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (oldValue !== newValue) {
       (this as any)[name] = newValue;
@@ -51,18 +52,20 @@ class PostCard extends HTMLElement {
 
   constructor() {
     super();
+    // Creamos un Shadow DOM para que el componente tenga su propio "mundo" sin interferir con otros estilos
     this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
-    this.render();
+    this.render(); // Dibujamos la tarjeta cuando aparece en la página
     
-    // Add event listeners
+    // Buscamos los botones y áreas donde pondremos eventos
     const postContent = this.shadowRoot?.querySelector(".post-content");
     const likeBtn = this.shadowRoot?.querySelector(".like-btn");
     const saveBtn = this.shadowRoot?.querySelector(".save-btn");
     const commentBtn = this.shadowRoot?.querySelector(".comment-btn");
     
+    // Cuando se hace click en el contenido del post, navegamos a los detalles del hilo
     postContent?.addEventListener("click", () => {
       if (this.postid) {
         navigate(Screens.THREAD_DETAIL, this.postid);
@@ -70,19 +73,20 @@ class PostCard extends HTMLElement {
       }
     });
     
+    // Cuando le das like al post
     likeBtn?.addEventListener("click", (e) => {
-      e.stopPropagation();
+      e.stopPropagation(); // Evitamos que el click se propague y active otros eventos
       if (this.postid && appState.get().isAuthenticated) {
-        toggleLikePost(this.postid);
-        // Add animation class
-        likeBtn.classList.add('animating');
-        setTimeout(() => likeBtn.classList.remove('animating'), 300);
-        this.render();
+        toggleLikePost(this.postid); // Cambiamos el estado de like en el post
+        likeBtn.classList.add('animating'); // Añadimos clase para animación
+        setTimeout(() => likeBtn.classList.remove('animating'), 300); // Quitamos la animación después de un rato
+        this.render(); // Volvemos a dibujar para actualizar el botón
       } else if (!appState.get().isAuthenticated) {
-        navigate(Screens.LOGIN);
+        navigate(Screens.LOGIN); // Si no estás logueado, te mandamos a login
       }
     });
     
+    // Cuando guardas o quitas guardado de un post
     saveBtn?.addEventListener("click", (e) => {
       e.stopPropagation();
       if (this.postid && appState.get().isAuthenticated) {
@@ -93,6 +97,7 @@ class PostCard extends HTMLElement {
       }
     });
     
+    // Cuando haces click en el botón para comentar, navegamos a detalles del hilo
     commentBtn?.addEventListener("click", (e) => {
       e.stopPropagation();
       if (this.postid) {
@@ -101,6 +106,7 @@ class PostCard extends HTMLElement {
     });
   }
 
+  // Convierte la fecha en un texto como "5m ago" para mostrar cuánto tiempo pasó
   formatDate(dateString?: string): string {
     if (!dateString) return "";
     
@@ -119,15 +125,18 @@ class PostCard extends HTMLElement {
     }
   }
 
+  // Dibuja la tarjeta con toda la información del post
   render() {
-    // Get updated post from state to ensure we have latest like/save status
+    // Sacamos la última versión del post para tener los estados de like y guardado actualizados
     const state = appState.get();
     const updatedPost = state.posts.find(p => p.id === this.postid);
     
+    // Determinamos si el post está likeado o guardado
     const isLiked = updatedPost?.isLiked || this.isliked === "true";
     const isSaved = updatedPost?.isSaved || this.issaved === "true";
     
     if (this.shadowRoot) {
+      // Ponemos todo el HTML con los datos del post y los botones con sus estados
       this.shadowRoot.innerHTML = `
         <style>${postCardStyles}</style>
         <div class="post-card">
@@ -170,9 +179,8 @@ class PostCard extends HTMLElement {
   }
 
   disconnectedCallback() {
-    // Cleanup event listeners if needed
+  
   }
 }
-
 
 export default PostCard;

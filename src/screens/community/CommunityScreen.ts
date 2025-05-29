@@ -1,37 +1,40 @@
-import { appState } from "../../Flux/store";
-import { navigate } from "../../Flux/action";
-import { Screens } from "../../types/navigation";
-import "../../components/post/PostCard";
-import communityStyles from "./CommunityScreen.css";
+import { appState } from "../../Flux/store"; // Estado global de la app
+import { navigate } from "../../Flux/action"; // Función para cambiar de pantalla
+import { Screens } from "../../types/navigation"; // Nombres de las pantallas
+import "../../components/post/PostCard"; // Componente para mostrar posts
+import communityStyles from "./CommunityScreen.css"; // Estilos para esta pantalla
 
 class CommunityScreen extends HTMLElement {
   constructor() {
     super();
+    // Creamos un Shadow DOM para que el componente tenga su propio espacio sin interferir con otros estilos
     this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
-    this.render();
-    
-    // Event listeners
+    this.render(); // Dibujamos la pantalla cuando el componente aparece
+
+    // Buscamos los temas para poner eventos de click y navegar a la categoría correspondiente
     const topicItems = this.shadowRoot?.querySelectorAll(".topic-item");
     topicItems?.forEach(item => {
       item.addEventListener("click", () => {
         const category = item.getAttribute("data-category");
         if (category) {
+          // Navegamos a la pantalla de categorías pasando la categoría seleccionada
           navigate(Screens.CATEGORIES, undefined, category as any);
         }
       });
     });
   }
 
+  // Muestra los 3 posts más recientes ordenados por fecha (los más nuevos primero)
   renderRecentPosts() {
     const state = appState.get();
-    // Sort by timestamp (newest first) and take first 3
     const recentPosts = [...state.posts]
       .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
       .slice(0, 3);
     
+    // Creamos un post-card para cada post reciente
     return recentPosts.map(post => `
       <post-card
         postid="${post.id}"
@@ -52,6 +55,7 @@ class CommunityScreen extends HTMLElement {
     `).join("");
   }
 
+  // Muestra una lista de temas populares para que los usuarios los exploren
   renderTrendingTopics() {
     const topics = [
       { name: "Horror Games", category: "Horror", description: "Explore the scariest games in the community." },
@@ -61,6 +65,7 @@ class CommunityScreen extends HTMLElement {
       { name: "Action Highlights", category: "Action", description: "Fast-paced action game discussions and clips." }
     ];
     
+    // Creamos bloques HTML para cada tema popular
     return topics.map(topic => `
       <div class="topic-item" data-category="${topic.category}">
         <h4>${topic.name}</h4>
@@ -75,6 +80,7 @@ class CommunityScreen extends HTMLElement {
 
   render() {
     if (this.shadowRoot) {
+      // Armamos el contenido principal con secciones: posts recientes, estadísticas, reglas, temas y llamada a unirse
       this.shadowRoot.innerHTML = `
         <style>${communityStyles}</style>
         <div class="community-container">
@@ -157,7 +163,7 @@ class CommunityScreen extends HTMLElement {
         </div>
       `;
       
-      // Additional event listeners
+      // Agregamos evento al botón para crear cuenta y navegar a registro
       const joinBtn = this.shadowRoot.querySelector(".join-btn");
       joinBtn?.addEventListener("click", () => {
         navigate(Screens.REGISTER);
@@ -166,7 +172,7 @@ class CommunityScreen extends HTMLElement {
   }
 
   disconnectedCallback() {
-    // Cleanup event listeners if needed
+    // Aquí se podrían limpiar eventos si fuera necesario
   }
 }
 

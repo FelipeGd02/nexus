@@ -1,32 +1,32 @@
-// Firebase Service Interface
+// Definición de la interfaz que describe los métodos que debe implementar un servicio Firebase
 export interface FirebaseService {
-  // Auth
-  signUp(email: string, password: string): Promise<void>;
-  signIn(email: string, password: string): Promise<void>;
-  signOut(): Promise<void>;
+  // Métodos de autenticación
+  signUp(email: string, password: string): Promise<void>; // Registrar nuevo usuario
+  signIn(email: string, password: string): Promise<void>; // Iniciar sesión
+  signOut(): Promise<void>; // Cerrar sesión
   
-  // User Profile
-  updateProfile(userId: string, data: any): Promise<void>;
-  getProfile(userId: string): Promise<any>;
+  // Métodos para manejar el perfil de usuario
+  updateProfile(userId: string, data: any): Promise<void>; // Actualizar información del perfil
+  getProfile(userId: string): Promise<any>; // Obtener información del perfil
   
-  // Posts
-  createPost(data: any): Promise<void>;
-  getPosts(): Promise<any[]>;
-  updatePost(postId: string, data: any): Promise<void>;
-  deletePost(postId: string): Promise<void>;
+  // Métodos para manejar posts
+  createPost(data: any): Promise<void>; // Crear un nuevo post
+  getPosts(): Promise<any[]>; // Obtener todos los posts
+  updatePost(postId: string, data: any): Promise<void>; // Actualizar un post existente
+  deletePost(postId: string): Promise<void>; // Eliminar un post
   
-  // Comments
-  addComment(postId: string, data: any): Promise<void>;
-  getComments(postId: string): Promise<any[]>;
+  // Métodos para manejar comentarios
+  addComment(postId: string, data: any): Promise<void>; // Agregar un comentario a un post
+  getComments(postId: string): Promise<any[]>; // Obtener comentarios de un post
   
-  // Interactions
-  likePost(postId: string, userId: string): Promise<void>;
-  unlikePost(postId: string, userId: string): Promise<void>;
-  savePost(postId: string, userId: string): Promise<void>;
-  unsavePost(postId: string, userId: string): Promise<void>;
+  // Métodos para manejar interacciones con posts (like y guardados)
+  likePost(postId: string, userId: string): Promise<void>; // Dar like a un post
+  unlikePost(postId: string, userId: string): Promise<void>; // Quitar like a un post
+  savePost(postId: string, userId: string): Promise<void>; // Guardar un post
+  unsavePost(postId: string, userId: string): Promise<void>; // Quitar guardado de un post
 }
 
-// Mock implementation for now
+// Implementación de ejemplo (mock) para pruebas sin conexión a Firebase real
 export class MockFirebaseService implements FirebaseService {
   async signUp(email: string, password: string): Promise<void> {
     console.log('Mock: Sign up', { email, password });
@@ -92,5 +92,5 @@ export class MockFirebaseService implements FirebaseService {
   }
 }
 
-// Export the mock service for now
+// Exportamos la implementación mock para que pueda usarse en la app mientras no haya integración real
 export const firebaseService: FirebaseService = new MockFirebaseService();
