@@ -1,0 +1,389 @@
+:host {
+  display: block;
+  font-family: 'Inter', sans-serif;
+}
+
+.profile-container {
+  min-height: 100vh;
+  padding: 70px 0 2rem;
+  background-color: var(--color-background);
+  color: #e0e0e0;
+}
+
+.profile-header {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.profile-cover {
+  height: 200px;
+  width: 100%;
+  background: linear-gradient(to right, var(--color-rose), #673ab7);
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-cover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg') no-repeat center;
+  background-size: cover;
+  opacity: 0.2;
+  mix-blend-mode: overlay;
+}
+
+.profile-info {
+  max-width: 900px;
+  margin: -80px auto 0;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 10;
+  text-align: center;
+}
+
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 5px solid #121212;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.profile-picture:hover {
+  transform: scale(1.05);
+}
+
+.username {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: #fff;
+}
+
+.bio {
+  color: #bdbdbd;
+  font-size: 1rem;
+  max-width: 500px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.5;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e0e0e0;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: #9e9e9e;
+}
+
+.edit-profile-btn {
+  background-color: transparent;
+  color: var(--color-rose);
+  border: 2px solid var(--color-rose);
+  border-radius: 6px;
+  padding: 0.7rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-profile-btn:hover {
+  background-color: rgba(191, 52, 103, 0.1); /* var(--color-rose) rgba */
+  transform: translateY(-2px);
+}
+
+.profile-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.tabs {
+  display: flex;
+  background-color:var(--color-panel);
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tab-item {
+  flex: 1;
+  padding: 1rem 0;
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  color: #bdbdbd;
+}
+
+.tab-item:hover {
+  background-color: rgba(191, 52, 103, 0.1);
+  color: #e0e0e0;
+}
+
+.tab-item.active {
+  color: var(--color-rose);
+  border-bottom-color: var(--color-rose);
+  background-color: rgba(191, 52, 103, 0.05);
+}
+
+.tab-contents {
+  position: relative;
+}
+
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.empty-message {
+  text-align: center;
+  padding: 3rem;
+  background-color:var(--color-panel);
+  border-radius: 8px;
+  color: #9e9e9e;
+  font-size: 1.1rem;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background-color: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card .stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-rose);
+  margin-bottom: 0.5rem;
+}
+
+.stat-card .stat-label {
+  font-size: 1rem;
+  color: #bdbdbd;
+}
+
+.login-required {
+  text-align: center;
+  padding: 5rem 2rem;
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  max-width: 500px;
+  margin: 3rem auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.login-required h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #e0e0e0;
+}
+
+.login-required p {
+  color: #bdbdbd;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.login-btn {
+  background-color: var(--color-rose);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #9e2e56; /* un poco más oscuro que color-rose */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(191, 52, 103, 0.3);
+}
+
+@media (max-width: 768px) {
+  .profile-cover {
+    height: 150px;
+  }
+
+  .profile-info {
+    margin-top: -65px;
+    padding: 0 1.5rem;
+  }
+
+  .profile-picture {
+    width: 120px;
+    height: 120px;
+  }
+
+  .username {
+    font-size: 1.8rem;
+  }
+
+  .bio {
+    font-size: 0.95rem;
+  }
+
+  .profile-content {
+    padding: 0 1.5rem;
+  }
+
+  .tabs {
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+  }
+
+  .tab-item {
+    padding: 0.8rem 0;
+    font-size: 0.9rem;
+  }
+
+  .games-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-cover {
+    height: 120px;
+  }
+
+  .profile-info {
+    margin-top: -60px;
+    padding: 0 1rem;
+  }
+
+  .profile-picture {
+    width: 100px;
+    height: 100px;
+    border-width: 4px;
+  }
+
+  .username {
+    font-size: 1.6rem;
+  }
+
+  .bio {
+    font-size: 0.9rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .stats {
+    gap: 1.5rem;
+  }
+
+  .value {
+    font-size: 1.3rem;
+  }
+
+  .edit-profile-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .profile-content {
+    padding: 0 1rem;
+  }
+
+  .tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  .tab-item {
+    padding: 0.7rem 0.5rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .games-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .login-required {
+    padding: 3rem 1.5rem;
+  }
+
+  .login-required h2 {
+    font-size: 1.8rem;
+  }
+
+  .login-required p {
+    font-size: 1rem;
+  }
+
+  .login-btn {
+    padding: 0.8rem 1.5rem;
+  }
+}

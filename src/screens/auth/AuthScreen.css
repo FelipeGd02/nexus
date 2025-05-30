@@ -1,0 +1,178 @@
+:host {
+  display: block;
+  font-family: 'Inter', sans-serif;
+}
+
+.auth-container {
+  min-height: 100vh;
+  padding: 70px 0 0;
+  background-color: var(--color-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.auth-content {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--color-panel);
+  border-radius: 12px;
+  box-shadow: 0 15px 30px rgba(11, 14, 23, 0.3);
+  margin: 0;
+  width: 90%;
+  max-width: 1000px;
+  position: relative;
+}
+
+.form-wrapper.active{
+  display: block;
+}
+
+.form-wrapper.hide{
+  display: none;
+}
+
+/* Contenedor de formularios - Versión Desktop */
+.form-container {
+  width: 60%;
+  min-width: 400px;
+  position: relative;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+
+.form-wrapper {
+  transition: all 0.4s ease-in-out;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding-left: 10%;
+}
+
+
+/* Sección de imagen */
+.auth-image {
+  width: 40%;
+  background: url('https://images.pexels.com/photos/7915239/pexels-photo-7915239.jpeg') no-repeat center;
+  background-size: cover;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+  
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(191, 52, 103, 0.8), rgba(191, 52, 103, 0.6));
+  z-index: 1;
+}
+
+.welcome-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 2rem;
+  color: var(--color-input-text);
+}
+
+.welcome-text h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-text p {
+  font-size: 1.2rem;
+  max-width: 300px;
+  margin: 0 auto;
+  line-height: 1.5;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* ------------------------- */
+/* RESPONSIVE DESIGN */
+/* ------------------------- */
+
+@media (max-width: 992px) {
+  .auth-content {
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .form-container, 
+  .auth-image {
+    width: 100%;
+    min-width: auto;
+  }
+
+  /* Mobile - Mostrar solo un formulario a la vez */
+  .form-wrapper {
+    padding: 2.5rem 1.5rem;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    position: relative;
+  }
+
+  .auth-image {
+    min-height: 250px;
+    order: -1;
+  }
+
+  .welcome-text {
+    padding: 1.5rem;
+  }
+
+  .welcome-text h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .auth-container {
+    padding-top: 60px;
+  }
+
+  .form-wrapper {
+    padding: 2rem 1.25rem;
+  }
+
+  .auth-image {
+    min-height: 200px;
+  }
+
+  .welcome-text h2 {
+    font-size: 1.8rem;
+  }
+
+  .welcome-text p {
+    font-size: 1rem;
+    max-width: 250px;
+  }
+}
+
+@media (max-width: 400px) {
+  .form-wrapper {
+    padding: 1.75rem 1rem;
+  }
+
+  .auth-image {
+    min-height: 180px;
+  }
+}
