@@ -1,9 +1,9 @@
-import { appState } from "../../Flux/store"; // Estado global de la app
-import { navigate , toggleLikePost , toggleSavePost } from "../../Flux/action"; // Funciones para cambiar pantalla, dar like y guardar posts
-import { Screens } from "../../types/navigation"; // Nombres de pantallas disponibles
-import postCardStyles from "./PostCard.css"; 
+import { appState } from "../../Flux/store"; //^ Estado global de la app
+import { navigate , toggleLikePost , toggleSavePost } from "../../Flux/action"; //^ Funciones para cambiar pantalla, dar like y guardar posts
+import { Screens } from "../../types/navigation"; //^ Nombres de pantallas disponibles
+import postCardStyles from "./PostCard.css"; //^ Estilos CSS para el componente
 
-// Atributos que el componente va a usar y observar
+//* Atributos que el componente va a usar y observar
 export enum PostAttributes {
   ID = "postid",
   USER_ID = "userid",
@@ -22,7 +22,7 @@ export enum PostAttributes {
 }
 
 class PostCard extends HTMLElement {
-  // Propiedades donde guardamos la info que llega por atributos
+  //* Propiedades donde guardamos la info que llega por atributos
   postid?: string;
   userid?: string;
   username?: string;
@@ -38,105 +38,101 @@ class PostCard extends HTMLElement {
   isliked?: string;
   issaved?: string;
 
-  // Indicamos qué atributos queremos escuchar cuando cambien
+  //* Indicamos qué atributos queremos escuchar cuando cambien
   static get observedAttributes() {
-    return Object.values(PostAttributes);
+    return Object.values(PostAttributes); //* Devuelve todos los atributos definidos arriba
   }
 
-  // Cuando un atributo cambia, actualizamos la propiedad del componente
+  //! Cuando un atributo cambia, actualizamos la propiedad del componente
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (oldValue !== newValue) {
-      (this as any)[name] = newValue;
+      (this as any)[name] = newValue; //! Asignación dinámica usando el nombre del atributo
     }
   }
 
   constructor() {
     super();
-    // Creamos un Shadow DOM para que el componente tenga su propio "mundo" sin interferir con otros estilos
-    this.attachShadow({ mode: "open" });
+    this.attachShadow({ mode: "open" }); //& Crea un Shadow DOM para encapsular estilos y estructura
   }
 
   connectedCallback() {
-    this.render(); // Dibujamos la tarjeta cuando aparece en la página
-    
-    // Buscamos los botones y áreas donde pondremos eventos
-    const postContent = this.shadowRoot?.querySelector(".post-content");
-    const likeBtn = this.shadowRoot?.querySelector(".like-btn");
-    const saveBtn = this.shadowRoot?.querySelector(".save-btn");
-    const commentBtn = this.shadowRoot?.querySelector(".comment-btn");
-    
-    // Cuando se hace click en el contenido del post, navegamos a los detalles del hilo
+    this.render(); //& Dibuja la tarjeta cuando aparece en la página
+
+    const postContent = this.shadowRoot?.querySelector(".post-content"); //! Zona de contenido del post
+    const likeBtn = this.shadowRoot?.querySelector(".like-btn"); //! Botón de like
+    const saveBtn = this.shadowRoot?.querySelector(".save-btn"); //! Botón de guardar
+    const commentBtn = this.shadowRoot?.querySelector(".comment-btn"); //! Botón de comentarios
+
+    //* Cuando se hace click en el contenido del post
     postContent?.addEventListener("click", () => {
       if (this.postid) {
-        navigate(Screens.THREAD_DETAIL, this.postid);
-        console.log('navigate from post')
+        navigate(Screens.THREAD_DETAIL, this.postid); //* Navega al detalle del hilo
+        console.log('navigate from post');
       }
     });
-    
-    // Cuando le das like al post
+
+    //! Al hacer clic en like
     likeBtn?.addEventListener("click", (e) => {
-      e.stopPropagation(); // Evitamos que el click se propague y active otros eventos
+      e.stopPropagation(); //! Evita que el evento afecte al contenedor
       if (this.postid && appState.get().isAuthenticated) {
-        toggleLikePost(this.postid); // Cambiamos el estado de like en el post
-        likeBtn.classList.add('animating'); // Añadimos clase para animación
-        setTimeout(() => likeBtn.classList.remove('animating'), 300); // Quitamos la animación después de un rato
-        this.render(); // Volvemos a dibujar para actualizar el botón
+        toggleLikePost(this.postid); //! Cambia el estado de like
+        likeBtn.classList.add('animating'); //! Agrega animación
+        setTimeout(() => likeBtn.classList.remove('animating'), 300); //! Remueve la animación luego de 300ms
+        this.render(); //! Vuelve a dibujar la tarjeta
       } else if (!appState.get().isAuthenticated) {
-        navigate(Screens.LOGIN); // Si no estás logueado, te mandamos a login
+        navigate(Screens.LOGIN); //! Si no está autenticado, lo manda al login
       }
     });
-    
-    // Cuando guardas o quitas guardado de un post
+
+    //& Al hacer clic en guardar
     saveBtn?.addEventListener("click", (e) => {
       e.stopPropagation();
       if (this.postid && appState.get().isAuthenticated) {
-        toggleSavePost(this.postid);
-        this.render();
+        toggleSavePost(this.postid); //& Cambia el estado de guardado
+        this.render(); //& Actualiza el componente
       } else if (!appState.get().isAuthenticated) {
         navigate(Screens.LOGIN);
       }
     });
-    
-    // Cuando haces click en el botón para comentar, navegamos a detalles del hilo
+
+    //! Al hacer clic en comentar
     commentBtn?.addEventListener("click", (e) => {
       e.stopPropagation();
       if (this.postid) {
-        navigate(Screens.THREAD_DETAIL, this.postid);
+        navigate(Screens.THREAD_DETAIL, this.postid); //! Navega a detalle del hilo
       }
     });
   }
 
-  // Convierte la fecha en un texto como "5m ago" para mostrar cuánto tiempo pasó
+  //& Convierte la fecha en un formato relativo como "5m ago"
   formatDate(dateString?: string): string {
     if (!dateString) return "";
-    
+
     const date = new Date(dateString);
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    
+
     if (diffInSeconds < 60) {
-      return `${diffInSeconds}s ago`;
+      return `${diffInSeconds}s ago`; //* Segundos
     } else if (diffInSeconds < 3600) {
-      return `${Math.floor(diffInSeconds / 60)}m ago`;
+      return `${Math.floor(diffInSeconds / 60)}m ago`; //* Minutos
     } else if (diffInSeconds < 86400) {
-      return `${Math.floor(diffInSeconds / 3600)}h ago`;
+      return `${Math.floor(diffInSeconds / 3600)}h ago`; //* Horas
     } else {
-      return date.toLocaleDateString();
+      return date.toLocaleDateString(); //* Fecha normal
     }
   }
 
-  // Dibuja la tarjeta con toda la información del post
+  //! Dibuja la tarjeta con toda la información del post
   render() {
-    // Sacamos la última versión del post para tener los estados de like y guardado actualizados
-    const state = appState.get();
-    const updatedPost = state.posts.find(p => p.id === this.postid);
-    
-    // Determinamos si el post está likeado o guardado
-    const isLiked = updatedPost?.isLiked || this.isliked === "true";
-    const isSaved = updatedPost?.isSaved || this.issaved === "true";
-    
+    const state = appState.get(); //! Obtiene el estado global
+    const updatedPost = state.posts.find(p => p.id === this.postid); // &Busca el post actualizado
+
+    const isLiked = updatedPost?.isLiked || this.isliked === "true"; //& Verifica si está likeado
+    const isSaved = updatedPost?.isSaved || this.issaved === "true"; // &Verifica si está guardado
+
     if (this.shadowRoot) {
-      // Ponemos todo el HTML con los datos del post y los botones con sus estados
+      //! Construye el HTML del componente con datos dinámicos
       this.shadowRoot.innerHTML = `
         <style>${postCardStyles}</style>
         <div class="post-card">
@@ -147,12 +143,12 @@ class PostCard extends HTMLElement {
               <span class="timestamp">${this.formatDate(this.timestamp)}</span>
             </div>
           </div>
-          
+
           <div class="post-content">
             <p class="content-text">${this.content}</p>
             ${this.imageurl ? `<img class="content-image" src="${this.imageurl}" alt="Post image">` : ""}
           </div>
-          
+
           <div class="post-actions">
             <div class="action-btn like-btn ${isLiked ? 'active' : ''}">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
@@ -179,8 +175,15 @@ class PostCard extends HTMLElement {
   }
 
   disconnectedCallback() {
-  
+    //! Aquí podrías remover listeners si lo hubiera guardado con .bind()
   }
 }
 
-export default PostCard;
+export default PostCard; //^ Exporta el componente para que pueda ser usado en otros archivos
+
+//! Desde linea 154 a 167 son los iconos SVG que se usan en los botones de acción
+
+//^ Este archivo define un Web Component llamado <post-card> que representa 
+//^una tarjeta de publicación (post) dentro de una red social o aplicación Que es Nexus
+//^tipo foro. Muestra el contenido del post, la imagen del usuario, y 
+//^permite interactuar con él mediante botones de like, comentario y guardado, usando acciones definidas en el sistema Flux. El componente reacciona a cambios de atributos, se conecta con el estado global, y encapsula su estructura y estilo usando Shadow DOM.

@@ -1,5 +1,7 @@
 import { Game, Category } from "../types/models";
 
+
+//*Lista de juegos para el app tambien pa que se filtren por categorias y mostrar detalles deljuego en especifico
 export const games: Game[] = [
   {
     id: "1",

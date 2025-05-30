@@ -1,11 +1,23 @@
+//^ Importa el despachador y el tipo de acción
 import { AppDispatcher, Action } from "./Dispatcher";
+
+//^ Importa tipos de acciones como LOGIN, LOGOUT, etc.
 import { ActionTypes } from "./action";
+
+//^ Usuario por defecto
 import { defaultUser } from "../data/Users";
+
+//^ Datos simulados: publicaciones, comentarios y juegos
 import { posts, comments } from "../data/Posts";
 import { games } from "../data/Games";
+
+//^ Pantallas definidas en la app (LANDING, LOGIN, THREADS, etc.)
 import { Screens } from "../types/navigation";
+
+//^ Tipos de datos utilizados en el estado
 import { User, Post, Comment, Game, Category } from "../types/models";
 
+//! Definición de la forma del estado global
 export interface AppState {
   currentScreen: Screens;
   currentUser: User | null;
@@ -19,21 +31,26 @@ export interface AppState {
   loading: boolean;
 }
 
+//* Tipo de función que se suscribe al estado
 type Listener = (state: AppState) => void;
 
+//* Rutas públicas que no requieren autenticación
 const PUBLIC_ROUTES = [Screens.LANDING, Screens.LOGIN, Screens.REGISTER];
 
+//* Clase principal que gestiona el estado global
 class Store {
-  private _state: AppState;
-  private _listeners: Listener[] = [];
+  private _state: AppState; //& Estado actual de la app
+  private _listeners: Listener[] = []; //& Lista de funciones que escuchan cambios
 
   constructor() {
-    this._state = this._loadState();
-    AppDispatcher.register(this._handleActions.bind(this));
+    this._state = this._loadState(); //* Carga el estado inicial (desde localStorage o por defecto)
+    AppDispatcher.register(this._handleActions.bind(this)); //* Registra el manejador de acciones
   }
 
+  //* Carga el estado desde localStorage si existe, si no, carga el inicial
   private _loadState(): AppState {
     const savedState = localStorage.getItem("nexusAppState");
+
     const baseState: AppState = {
       currentScreen: Screens.LANDING,
       currentUser: null,
@@ -70,21 +87,24 @@ class Store {
     return baseState;
   }
 
+  //! Retorna el estado actual
   getState(): AppState {
     return this._state;
   }
 
+  //! Agrega un listener que escucha cambios de estado
   subscribe(listener: Listener): void {
     this._listeners.push(listener);
-    listener(this._state);
+    listener(this._state); //* Notifica inmediatamente con el estado actual
   }
 
+  //* Elimina un listener previamente registrado
   unsubscribe(listener: Listener): void {
     this._listeners = this._listeners.filter(l => l !== listener);
   }
 
+  //* Notifica a todos los listeners y guarda el estado en localStorage
   private _notifyListeners(): void {
-    // Guardar en localStorage todo lo necesario para persistencia
     const {
       currentScreen,
       currentUser,
@@ -108,18 +128,20 @@ class Store {
       })
     );
 
-    // Notificar a todos los listeners suscritos
+    //& Llama a cada listener con el nuevo estado
     for (const listener of this._listeners) {
       listener(this._state);
     }
   }
 
+  //& Manejador de acciones que modifica el estado según el tipo de acción recibida
   private _handleActions(action: Action): void {
     switch (action.type) {
       case ActionTypes.NAVIGATE:
         if (action.payload) {
           const targetScreen = action.payload.screen;
 
+          //& Si intenta navegar a una ruta privada sin estar autenticado, redirige a login
           if (!PUBLIC_ROUTES.includes(targetScreen) && !this._state.isAuthenticated) {
             this._state.currentScreen = Screens.LOGIN;
             break;
@@ -132,18 +154,21 @@ class Store {
         break;
 
       case ActionTypes.LOGIN:
+        //& Guarda el usuario autenticado y redirige al feed principal
         this._state.currentUser = action.payload;
         this._state.isAuthenticated = true;
         this._state.currentScreen = Screens.THREADS;
         break;
 
       case ActionTypes.LOGOUT:
+        //& Limpia los datos del usuario y redirige a landing
         this._state.currentUser = null;
         this._state.isAuthenticated = false;
         this._state.currentScreen = Screens.LANDING;
         break;
 
       case ActionTypes.UPDATE_PROFILE:
+        //& Actualiza el perfil del usuario autenticado
         if (this._state.currentUser && action.payload) {
           this._state.currentUser = {
             ...this._state.currentUser,
@@ -153,6 +178,7 @@ class Store {
         break;
 
       case ActionTypes.CREATE_POST: {
+        //& Crea una nueva publicación
         const newPost: Post = {
           id: `p${Date.now()}`,
           userId: this._state.currentUser?.id || "guest",
@@ -166,7 +192,7 @@ class Store {
           saves: 0,
           timestamp: new Date().toISOString()
         };
-        this._state.posts.unshift(newPost);
+        this._state.posts.unshift(newPost); //* Agrega al principio del arreglo
         this._state.filteredPosts = this._state.currentCategoryFilter
           ? this._state.posts.filter(post => {
               const game = this._state.games.find(g => g.id === post.gameId);
@@ -185,6 +211,7 @@ class Store {
         break;
 
       case ActionTypes.ADD_COMMENT: {
+        //* Agrega un nuevo comentario a una publicación
         const newComment: Comment = {
           id: `c${Date.now()}`,
           postId: action.payload.postId,
@@ -196,11 +223,12 @@ class Store {
           timestamp: new Date().toISOString()
         };
         this._state.comments.push(newComment);
-        this._incrementPostField(action.payload.postId, "comments");
+        this._incrementPostField(action.payload.postId, "comments"); //* Suma 1 al contador de comentarios
         break;
       }
 
       case ActionTypes.TOGGLE_LIKE_COMMENT: {
+        //* Alterna like/dislike a un comentario
         const comment = this._state.comments.find(c => c.id === action.payload);
         if (comment) {
           const isLiked = comment.isLiked;
@@ -211,6 +239,7 @@ class Store {
       }
 
       case ActionTypes.FILTER_BY_CATEGORY:
+        //* Filtra publicaciones según la categoría de los juegos
         this._state.currentCategoryFilter = action.payload;
         this._state.filteredPosts = action.payload
           ? this._state.posts.filter(post => {
@@ -221,9 +250,10 @@ class Store {
         break;
     }
 
-    this._notifyListeners();
+    this._notifyListeners(); //& Notifica los cambios al final
   }
 
+  //& Alterna interacciones (like/save) en publicaciones
   private _togglePostInteraction(field: "likes" | "saves", flag: "isLiked" | "isSaved", postId: string) {
     const toggle = (post: Post) => {
       if (post.id !== postId) return post;
@@ -239,6 +269,7 @@ class Store {
     this._state.filteredPosts = this._state.filteredPosts.map(toggle);
   }
 
+  //& Incrementa un campo numérico en un post (usado para comentarios)
   private _incrementPostField(postId: string, field: "comments") {
     const update = (post: Post) => (post.id === postId ? { ...post, [field]: post[field] + 1 } : post);
     this._state.posts = this._state.posts.map(update);
@@ -246,14 +277,17 @@ class Store {
   }
 }
 
+//& Instancia única del store
 const _storeInstance = new Store();
 
+//& API para interactuar con el store
 export const appState = {
   get: () => _storeInstance.getState(),
   subscribe: (listener: (state: AppState) => void) => _storeInstance.subscribe(listener),
   unsubscribe: (listener: (state: AppState) => void) => _storeInstance.unsubscribe(listener)
 };
 
+//* Función para despachar acciones al store
 export const dispatch = (action: Action) => {
   AppDispatcher.dispatch(action);
 };
