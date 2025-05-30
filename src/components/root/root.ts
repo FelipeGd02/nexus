@@ -1,29 +1,31 @@
-
-// Import screens as custom elements
 import { appState } from "../../Flux/store";
 import { Screens } from "../../types/navigation";
 
 export class AppContainer extends HTMLElement {
   constructor() {
     super();
+    // Creamos un Shadow DOM para tener nuestro propio espacio separado
     this.attachShadow({ mode: "open" });
+
+    // Nos suscribimos a cambios en el estado global para redibujar la pantalla cuando cambie
     appState.subscribe(() => this.render(appState.get()));
-}
+  }
 
   connectedCallback() {
+    // Cuando el componente se añade al DOM, dibujamos la pantalla actual
     this.render();
   }
 
   render(store = appState.get()) {
     if (!this.shadowRoot) return;
 
-    // Clear existing content before rendering
+    // Limpiamos el contenido actual y añadimos el header y un contenedor principal para la pantalla
     this.shadowRoot.innerHTML = `<app-header></app-header><div id="main"></div>`;
 
     const main = this.shadowRoot.querySelector("#main");
     if (!main) return;
 
-    // Determine the screen to render
+    // Según la pantalla actual en el estado, mostramos el componente correspondiente
     switch (store.currentScreen) {
       case Screens.LANDING:
         main.appendChild(document.createElement("landing-screen"));
@@ -48,9 +50,9 @@ export class AppContainer extends HTMLElement {
         main.appendChild(document.createElement("auth-screen"));
         break;
       default:
+        // Por si algo falla, siempre mostramos la pantalla principal
         main.appendChild(document.createElement("landing-screen"));
         break;
     }
   }
 }
-

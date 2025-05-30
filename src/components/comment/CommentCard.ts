@@ -1,8 +1,7 @@
-import { appState } from "../../Flux/store"; //^ Importa el estado global de la aplicación desde el store de Flux
-import { toggleLikeComment } from "../../Flux/action"; //^ Importa la acción para alternar el "like" en un comentario
-import commentCardStyles from "./CommentCard.css"; //^ Importa los estilos CSS para el componente
+import { appState } from "../../Flux/store";
+import { toggleLikeComment } from "../../Flux/action";
+import commentCardStyles from "./CommentCard.css";
 
-//& Define los atributos personalizados que el componente puede observar y utilizar
 export enum CommentAttributes {
   ID = "commentid",
   POST_ID = "postid",
@@ -15,7 +14,7 @@ export enum CommentAttributes {
 }
 
 class CommentCard extends HTMLElement {
-  //& Propiedades del componente, mapeadas desde los atributos HTML
+  // Properties
   commentid?: string;
   postid?: string;
   userid?: string;
@@ -25,12 +24,12 @@ class CommentCard extends HTMLElement {
   likes?: string;
   timestamp?: string;
 
-  //& Lista de atributos que serán observados por el componente
+  // Observed attributes
   static get observedAttributes() {
     return Object.values(CommentAttributes); //! Devuelve todos los atributos definidos en el enum
   }
 
-  //! Se ejecuta cuando un atributo observado cambia
+  // Handle attribute changes
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (oldValue !== newValue) {
       (this as any)[name] = newValue; //* Actualiza la propiedad correspondiente al nuevo valor
@@ -39,24 +38,23 @@ class CommentCard extends HTMLElement {
 
   constructor() {
     super();
-    this.attachShadow({ mode: "open" }); //* Crea un Shadow DOM aislado para encapsular el contenido y estilos
+    this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
-    this.render(); //* Renderiza el contenido del componente
-
-    //* Configura el botón de "like"
+    this.render();
+    
+    // Event listeners
     const likeBtn = this.shadowRoot?.querySelector(".like-btn");
-
+    
     likeBtn?.addEventListener("click", () => {
-      if (this.commentid && appState.get().isAuthenticated) { //! Solo permite dar like si el usuario está autenticado
-        toggleLikeComment(this.commentid); //! Ejecuta la acción de alternar el like
-        this.render(); //! Vuelve a renderizar el componente para reflejar los cambios
+      if (this.commentid && appState.get().isAuthenticated) {
+        toggleLikeComment(this.commentid);
+        this.render();
       }
     });
   }
 
-  //* Método auxiliar para formatear la fecha en una forma legible
   formatDate(dateString?: string): string {
     if (!dateString) return "";
 
@@ -72,17 +70,17 @@ class CommentCard extends HTMLElement {
     } else if (diffInSeconds < 86400) {
       return `${Math.floor(diffInSeconds / 3600)}h ago`;  //^Si han pasado menos de 24 horas, convierte el tiempo a horas y lo muestra: 2h ago.
     } else {
-      return date.toLocaleDateString(); //! Devuelve la fecha completa si es mayor a un día
+      return date.toLocaleDateString();
     }
   }
 
+  // Aquí armamos todo el contenido que se va a ver en la tarjeta del comentario
   render() {
     if (this.shadowRoot) {
-      const state = appState.get(); //! Obtiene el estado global actual
-      const comment = state.comments.find(c => c.id === this.commentid); //! Busca el comentario en el estado usando el id
-      const isLiked = comment?.isLiked || false; //! Determina si el comentario fue marcado como "like"
-
-      //^ Define el contenido HTML del componente con los datos del comentario
+      const state = appState.get();
+      const comment = state.comments.find(c => c.id === this.commentid);
+      const isLiked = comment?.isLiked || false;
+      
       this.shadowRoot.innerHTML = `
         <style>${commentCardStyles}</style>
         <div class="comment-card">
@@ -110,9 +108,9 @@ class CommentCard extends HTMLElement {
   }
 
   disconnectedCallback() {
-    //! Se podría usar para eliminar event listeners si se implementara más adelante
+    // Cleanup event listeners if needed
   }
 }
 
-
-export default CommentCard; //^ Exporta el componente para que pueda usarse en otras partes del proyecto
+customElements.define("comment-card", CommentCard);
+export default CommentCard;

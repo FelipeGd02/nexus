@@ -1,49 +1,47 @@
-import { appState } from "../../Flux/store"; //^ Importa el estado global de la app
-import { navigate , createPost } from "../../Flux/action"; //^ Importa funciones para navegar y crear publicaciones
-import { Screens } from "../../types/navigation"; //^ Importa las constantes que representan las distintas pantallas
-import createPostStyles from "./CreatePost.css"; //^ Importa los estilos CSS específicos de este componente
+import { appState } from "../../Flux/store";
+import { navigate , createPost } from "../../Flux/action";
+import { Screens } from "../../types/navigation";
+import createPostStyles from "./CreatePost.css";
 
 class CreatePost extends HTMLElement {
   private boundHandleSubmit = this.handleSubmit.bind(this); //! Guarda la referencia del método ligado para usarla en add/removeEventListener
 
   constructor() {
     super();
-    this.attachShadow({ mode: "open" }); //! Crea un Shadow DOM para encapsular el HTML y los estilos
+    this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
-    this.render(); //* Renderiza el contenido del componente
-
-    const form = this.shadowRoot?.querySelector("form"); //* Selecciona el formulario del Shadow DOM
-    const loginLink = this.shadowRoot?.querySelector("#login-link"); //* Selecciona el enlace de login si el usuario no está autenticado
-
-    //* Asigna el evento de envío del formulario a handleSubmit usando la referencia ligada
-    form?.addEventListener("submit", this.boundHandleSubmit);
-
-    //! Si el usuario no ha iniciado sesión, permite que el enlace lo lleve a la pantalla de login
+    this.render();
+    
+    const form = this.shadowRoot?.querySelector("form");
+    const loginLink = this.shadowRoot?.querySelector("#login-link");
+    
+    form?.addEventListener("submit", this.handleSubmit.bind(this));
     loginLink?.addEventListener("click", () => navigate(Screens.LOGIN));
   }
 
+  // Esta función se activa cuando envían el formulario para crear un post
   async handleSubmit(e: Event) {
-    e.preventDefault(); //* Previene la recarga de página al enviar el formulario
-
-    const state = appState.get(); //* Obtiene el estado global actual
-    if (!state.currentUser) return; //* Si no hay usuario autenticado, no permite publicar
-
-    const formData = new FormData(e.target as HTMLFormElement); //& Extrae los datos del formulario
-    const content = formData.get("content") as string; //& Obtiene el contenido del post
-    const imageUrl = formData.get("imageUrl") as string; //& Obtiene la URL de imagen, si existe
-
-    //! Si el contenido no está vacío, crea una nueva publicación
+    e.preventDefault();
+    
+    const state = appState.get();
+    if (!state.currentUser) return;
+    
+    const formData = new FormData(e.target as HTMLFormElement);
+    const content = formData.get("content") as string;
+    const imageUrl = formData.get("imageUrl") as string;
+    
     if (content.trim()) {
-      createPost(content.trim(), imageUrl.trim() || undefined); //! Llama a la función para crear el post
-      (e.target as HTMLFormElement).reset(); //! Limpia el formulario después de publicar
+      createPost(content.trim(), imageUrl.trim() || undefined);
+      (e.target as HTMLFormElement).reset();
     }
   }
 
+  // Dibuja el formulario para crear posts o el mensaje para iniciar sesión si no están logueados
   render() {
-    const state = appState.get(); //* Obtiene el estado actual (para saber si el usuario está autenticado)
-
+    const state = appState.get();
+    
     if (this.shadowRoot) {
       //* Renderiza dos interfaces distintas dependiendo si el usuario está autenticado o no
       this.shadowRoot.innerHTML = `
@@ -82,10 +80,9 @@ class CreatePost extends HTMLElement {
   }
 
   disconnectedCallback() {
-    //! Limpia el event listener cuando el componente se elimina del DOM
-    const form = this.shadowRoot?.querySelector("form"); //* Selecciona el elemento <form> dentro del Shadow DOM del componente
-    form?.removeEventListener("submit", this.boundHandleSubmit); //* Elimina correctamente el listener usando la misma referencia
+    const form = this.shadowRoot?.querySelector("form");
+    form?.removeEventListener("submit", this.handleSubmit.bind(this));
   }
 }
 
-export default CreatePost; //! Exporta el componente para que pueda usarse en otros módulos
+export default CreatePost;

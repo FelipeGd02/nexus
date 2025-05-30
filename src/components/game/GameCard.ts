@@ -1,8 +1,7 @@
-import { navigate } from "../../Flux/action"; //^ Importa la función de navegación para cambiar de pantalla
-import { Screens } from "../../types/navigation"; //^ Importa las constantes que representan las diferentes pantallas
-import gameCardStyles from "./GameCard.css"; //^ Importa los estilos CSS del componente GameCard
+import { navigate } from "../../Flux/action";
+import { Screens } from "../../types/navigation";
+import gameCardStyles from "./GameCard.css";
 
-// Enum que define los atributos HTML que este componente puede observar y utilizar
 export enum GameAttributes {
   ID = "gameid",
   TITLE = "title",
@@ -12,22 +11,22 @@ export enum GameAttributes {
 }
 
 class GameCard extends HTMLElement {
-  //! Propiedades que serán asignadas desde atributos HTML
+  // Properties
   gameid?: string;
-  title: string = ""; //& Título del juego
-  category?: string; //& Categoría del juego (ej: acción, estrategia...)
-  imageurl?: string; //& URL de la imagen del juego
-  rating?: string; //& Calificación del juego (ej: 4.5)
+  title: string = "";
+  category?: string;
+  imageurl?: string;
+  rating?: string;
 
-  //& Especifica qué atributos del HTML observar para detectar cambios
+  // Observed attributes
   static get observedAttributes() {
     return Object.values(GameAttributes); //& Devuelve todos los atributos del enum
   }
-   //* Se ejecuta cuando alguno de los atributos observados cambia
+
+  // Handle attribute changes
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     //! Verifica si el nuevo valor es diferente al anterior
     if (oldValue !== newValue) {
-      //* Si el atributo que cambió es uno de los definidos en GameAttributes
       if (
         name === GameAttributes.ID ||
         name === GameAttributes.TITLE ||
@@ -45,58 +44,57 @@ class GameCard extends HTMLElement {
 
   constructor() {
     super();
-    this.attachShadow({ mode: "open" }); //* Crea un Shadow DOM para encapsular HTML y CSS
+    this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
-    this.render(); //& Renderiza el componente
-
-    //& Añade un listener al contenedor de la tarjeta para manejar clics
+    this.render();
+    
+    // Event listeners
     this.shadowRoot?.querySelector(".game-card")?.addEventListener("click", () => {
       if (this.category) {
-        //& Si el juego tiene categoría, navega a la pantalla de categorías
         navigate(Screens.CATEGORIES, undefined, this.category as any);
       }
     });
   }
 
-  //& Genera visualmente las estrellas de la calificación en base al valor numérico (string)
   generateStars(rating?: string) {
-    if (!rating) return ""; //& Si no hay calificación, retorna vacío
-
-    const ratingValue = parseFloat(rating); //& Convierte la calificación a número
+    if (!rating) return "";
+    
+    const ratingValue = parseFloat(rating);
     let starsHtml = "";
-
+    
     for (let i = 1; i <= 5; i++) {
       if (i <= ratingValue) {
-        starsHtml += '<span class="star filled">★</span>'; //! Estrella llena
+        starsHtml += '<span class="star filled">★</span>';
       } else if (i - 0.5 <= ratingValue) {
-        starsHtml += '<span class="star half">★</span>'; //! Media estrella (si aplica)
+        starsHtml += '<span class="star half">★</span>';
       } else {
-        starsHtml += '<span class="star">★</span>'; //! Estrella vacía
+        starsHtml += '<span class="star">★</span>';
       }
     }
-
-    return starsHtml; //& Devuelve el HTML con las estrellas generadas
+    
+    return starsHtml;
   }
 
+  // Aquí creamos el contenido visible de la tarjeta con los datos que tenemos
   render() {
     if (this.shadowRoot) {
       //& Define el HTML del componente usando las propiedades actuales
       this.shadowRoot.innerHTML = `
-        <style>${gameCardStyles}</style>
+        <style>${gameCardStyles}</style> <!-- Aplicamos los estilos -->
         <div class="game-card">
           <div class="game-image-container">
-            <img src="${this.imageurl}" alt="${this.title}" class="game-image">
+            <img src="${this.imageurl}" alt="${this.title}" class="game-image"> <!-- Imagen del juego -->
             <div class="game-overlay">
-              <span class="view-more">View Games</span>
+              <span class="view-more">View Games</span> <!-- Texto que aparece encima de la imagen -->
             </div>
           </div>
           <div class="game-info">
-            <h3 class="game-title">${this.title}</h3>
+            <h3 class="game-title">${this.title}</h3> <!-- Título del juego -->
             <div class="game-meta">
-              <span class="game-category">${this.category}</span>
-              <div class="game-rating">${this.generateStars(this.rating)}</div>
+              <span class="game-category">${this.category}</span> <!-- Categoría a la que pertenece -->
+              <div class="game-rating">${this.generateStars(this.rating)}</div> <!-- Las estrellas de rating -->
             </div>
           </div>
         </div>
@@ -105,4 +103,5 @@ class GameCard extends HTMLElement {
   }
 }
 
-export default GameCard; //^ Exporta el componente para usarlo en otros lugares del proyecto
+
+export default GameCard;

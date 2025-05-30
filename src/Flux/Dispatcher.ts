@@ -1,32 +1,29 @@
+// Definimos la estructura básica de una acción que se enviará al Dispatcher
 export interface Action {
-  type: string;
-  payload?: any;
+  type: string;      // Tipo de acción (por ejemplo: "LOGIN", "NAVIGATE", etc.)
+  payload?: any;     // Datos opcionales que la acción puede llevar
 }
 
 export class Dispatcher {
-  // Los metodos de cada store que accionan las handleActions
+  // Aquí guardamos todas las funciones que quieren escuchar las acciones
   private _listeners: Array<(action: Action) => void>;
 
   constructor() {
-    this._listeners = [];
+    this._listeners = []; // Inicialmente no hay escuchas registradas
   }
 
-  // This method is used to register a callback function that will be called
-  // whenever an action is dispatched. It allows components to listen for
-  // changes in the application state and update themselves accordingly.
+  // Método para que los componentes o stores se registren y puedan recibir acciones
   register(callback: (action: Action) => void): void {
-    this._listeners.push(callback);
+    this._listeners.push(callback); // Guardamos la función que se ejecutará cuando llegue una acción
   }
 
-  // This method is used to dispatch an action to all registered listeners.
-  // It takes an action object as an argument and calls each registered
-  // callback function with the action as an argument. This allows components
-  // to respond to actions and update their state accordingly.
+  // Cuando alguien envía una acción, este método se encarga de avisar a todos los registrados
   dispatch(action: Action): void {
     for (const listener of this._listeners) {
-      listener(action);
+      listener(action); // Ejecutamos la función de cada listener pasando la acción para que respondan
     }
   }
 }
+
 
 export const AppDispatcher = new Dispatcher();
