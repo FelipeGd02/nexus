@@ -13,7 +13,7 @@ export default defineConfig([
     extends: ["js/recommended"],
   },
   {
-    // ✅ Asegúrate de que esto vaya DESPUÉS del recomendado
+
     files: ["**/*.{ts,tsx}"],
     plugins: {
       "@typescript-eslint": tseslint.plugin,
@@ -21,7 +21,7 @@ export default defineConfig([
     languageOptions: {
       parser: tseslint.parser,
     },
-    // ⛔️ Si lo pones antes, lo puede sobrescribir
+    
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
     },
