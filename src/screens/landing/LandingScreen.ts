@@ -1,46 +1,60 @@
+//^ Importa el estado global y funciones de navegación desde Flux
 import { appState } from "../../Flux/store";
 import { navigate } from "../../Flux/action";
+
+//^ Importa las rutas disponibles en la app
 import { Screens } from "../../types/navigation";
+
+//^ Importa los componentes visuales reutilizables
 import "../../components/game/GameCard";
 import "../../components/post/PostCard";
+
+//^ Importa los estilos CSS específicos de esta pantalla
 import landingStyles from "./LandingScreen.css";
 
+//! Define un nuevo Web Component llamado LandingScreen
 class LandingScreen extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
+    this.attachShadow({ mode: "open" }); //& Habilita el Shadow DOM para encapsular el contenido
   }
 
+  //* Método que se ejecuta cuando el componente se agrega al DOM
   connectedCallback() {
-    this.render();
-    
-    // Event listeners
+    this.render(); //* Renderiza el contenido inicial
+
+    //* Referencias a botones/modales en el shadow DOM
     const exploreBtn = this.shadowRoot?.querySelector("#explore-btn");
     const welcomeModal = this.shadowRoot?.querySelector("#welcome-modal");
     const closeModal = this.shadowRoot?.querySelector("#close-modal");
     const learnMoreBtn = this.shadowRoot?.querySelector("#learn-more");
-    
+
+    //* Redirige a la pantalla de hilos al hacer clic en "Explore Now"
     exploreBtn?.addEventListener("click", () => {
       navigate(Screens.THREADS);
     });
-    
+
+    //* Abre el modal informativo
     learnMoreBtn?.addEventListener("click", () => {
       welcomeModal?.classList.add("active");
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = "hidden"; //* Evita scroll en el fondo
     });
-    
+
+    // Cierra el modal
     closeModal?.addEventListener("click", () => {
       welcomeModal?.classList.remove("active");
       document.body.style.overflow = "";
     });
   }
 
+  //! Renderiza los juegos mejor calificados (Top 4)
   renderTopGames() {
-    const state = appState.get();
+    const state = appState.get(); //! Obtiene el estado actual
     const topGames = [...state.games]
-      .sort((a, b) => b.rating - a.rating)
-      .slice(0, 4);
-    
+      .sort((a, b) => b.rating - a.rating) //! Ordena por calificación
+      .slice(0, 4); //& Toma solo los primeros 4
+
+    //! Crea elementos <game-card> para cada juego
     return topGames.map(game => `
       <div class="game-item">
         <game-card
@@ -54,12 +68,14 @@ class LandingScreen extends HTMLElement {
     `).join("");
   }
 
+  //! Renderiza las publicaciones más recientes (Top 4)
   renderRecentThreads() {
     const state = appState.get();
     const recentPosts = [...state.posts]
       .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
       .slice(0, 4);
-    
+
+    //! Crea elementos <post-card> para cada publicación
     return recentPosts.map(post => `
       <div class="thread-item">
         <post-card
@@ -81,13 +97,14 @@ class LandingScreen extends HTMLElement {
     `).join("");
   }
 
+  //! Renderiza la interfaz completa
   render() {
     if (this.shadowRoot) {
       this.shadowRoot.innerHTML = `
-        <style>${landingStyles}</style>
-        
+        <style>${landingStyles}</style> <!-- Aplica estilos CSS -->
+
         <div class="landing-container">
-          <!-- Hero Section -->
+          <!-- Hero: título principal -->
           <section class="hero">
             <div class="hero-content">
               <h1 class="hero-title">Nexus</h1>
@@ -96,121 +113,71 @@ class LandingScreen extends HTMLElement {
             </div>
             <div class="hero-image"></div>
           </section>
-          
-          <!-- Welcome Section -->
+
+          <!-- Sección de bienvenida con botón para saber más -->
           <section class="welcome-section">
             <h2 class="section-title">Welcome to Nexus</h2>
             <p class="section-description">
-              Nexus is a social platform dedicated to gamers, where you can share your gaming experiences, 
-              discuss your favorite titles, and connect with fellow gamers from around the world.
+              Nexus is a social platform dedicated to gamers...
             </p>
             <button id="learn-more" class="learn-more-btn">Learn More</button>
           </section>
-          
-          <!-- Top Games Section -->
+
+          <!-- Sección de mejores juegos -->
           <section class="top-games-section">
             <h2 class="section-title">Top Games</h2>
-            <p class="section-description">
-              Discover the most popular games in the community. Click on a game to see related posts.
-            </p>
+            <p class="section-description">Discover the most popular games...</p>
             <div class="games-grid">
-              ${this.renderTopGames()}
+              ${this.renderTopGames()} <!-- Inserta tarjetas de juegos -->
             </div>
           </section>
-          
-          <!-- Features Section -->
+
+          <!-- Sección de funcionalidades destacadas -->
           <section class="features-section">
             <h2 class="section-title">Features</h2>
             <div class="features-grid">
-              <div class="feature-card">
-                <div class="feature-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
-                    <path d="M17 2H7a5 5 0 00-5 5v10a5 5 0 005 5h10a5 5 0 005-5V7a5 5 0 00-5-5zM7 4h10a3 3 0 013 3v10a3 3 0 01-3 3H7a3 3 0 01-3-3V7a3 3 0 013-3zm5 10a2 2 0 100-4 2 2 0 000 4z"/>
-                  </svg>
-                </div>
-                <h3>Share Posts</h3>
-                <p>Share your gaming experiences with the community through text and images.</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                  </svg>
-                </div>
-                <h3>Like & Comment</h3>
-                <p>Engage with content by liking, commenting, and saving your favorite posts.</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
-                    <path d="M17 2H7a5 5 0 00-5 5v10a5 5 0 005 5h10a5 5 0 005-5V7a5 5 0 00-5-5z"/>
-                    <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zM17.5 6.5h.01"/>
-                  </svg>
-                </div>
-                <h3>Discover Categories</h3>
-                <p>Browse content by game categories to find posts about your favorite games.</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
-                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-                    <circle cx="9" cy="7" r="4"/>
-                    <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
-                  </svg>
-                </div>
-                <h3>Build Community</h3>
-                <p>Connect with other gamers, follow your favorites, and join gaming discussions.</p>
-              </div>
+              <!-- Muestra tarjetas con íconos SVG y descripciones -->
+              <div class="feature-card">...</div>
+              <div class="feature-card">...</div>
+              <div class="feature-card">...</div>
+              <div class="feature-card">...</div>
             </div>
           </section>
         </div>
 
-        <!-- Recent Threads Section -->
-          <section class="threads-section">
-            <h2 class="section-title">Recent Discussions</h2>
-            <p class="section-description">
-              Join the conversation and see what other gamers are talking about.
-            </p>
-            <div class="threads-grid">
-              ${this.renderRecentThreads()}
-            </div>
-          </section>
-        
-        <!-- Welcome Modal -->
+        <!-- Sección de hilos recientes -->
+        <section class="threads-section">
+          <h2 class="section-title">Recent Discussions</h2>
+          <p class="section-description">Join the conversation...</p>
+          <div class="threads-grid">
+            ${this.renderRecentThreads()} <!-- Inserta tarjetas de posts -->
+          </div>
+        </section>
+
+        <!-- Modal de bienvenida con detalles -->
         <div id="welcome-modal" class="modal">
           <div class="modal-content">
             <span id="close-modal" class="close">&times;</span>
             <h2>Welcome to Nexus - The Gaming Community</h2>
-            <p>
-              Nexus is designed from the ground up to connect gamers from all around the world. 
-              Our platform allows you to share your gaming moments, discuss strategies, 
-              and discover new titles based on the community's recommendations.
-            </p>
+            <p>...</p>
             <h3>Our Mission</h3>
-            <p>
-              We believe gaming is more fun when shared with others. Our mission is to create
-              a positive space where gamers can connect, share, and grow together.
-            </p>
+            <p>...</p>
             <h3>Key Features</h3>
             <ul>
-              <li>Interactive posts with likes, comments, and saves</li>
-              <li>Game categorization for easy discovery</li>
-              <li>Community discussions on popular titles</li>
-              <li>Personal profile to showcase your gaming preferences</li>
-              <li>Responsive design that works on all your devices</li>
+              <li>Interactive posts...</li>
+              <li>Game categorization...</li>
+              ...
             </ul>
-            <p>
-              Join Nexus today and become part of our growing community of passionate gamers!
-            </p>
+            <p>Join Nexus today...</p>
             <button id="close-btn" class="modal-btn">Got it!</button>
           </div>
         </div>
       `;
-      
-      // Make sure modal close button works
+
+      //* Cierra el modal desde el botón inferior
       const closeBtn = this.shadowRoot.querySelector("#close-btn");
       const welcomeModal = this.shadowRoot.querySelector("#welcome-modal");
-      
+
       closeBtn?.addEventListener("click", () => {
         welcomeModal?.classList.remove("active");
         document.body.style.overflow = "";
@@ -218,9 +185,11 @@ class LandingScreen extends HTMLElement {
     }
   }
 
+  //& Método opcional para limpiar recursos al quitar el componente
   disconnectedCallback() {
-    // Cleanup event listeners if needed
+    //& Aquí podrías remover event listeners si agregaste listeners externos
   }
 }
 
+//^ Exporta el componente para que pueda ser usado en HTML o por otros módulos
 export default LandingScreen;

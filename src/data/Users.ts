@@ -1,5 +1,6 @@
 import { User } from "../types/models";
 
+//* Lista de usuarios para la app
 export const users: User[] = [
   {
     id: "u1",

@@ -1,5 +1,6 @@
 import { Post, Comment } from "../types/models";
 
+//* Lista de comentarios y publicaciones para la app
 export const posts: Post[] = [
   {
     id: "p1",
