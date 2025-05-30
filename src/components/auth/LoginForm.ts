@@ -1,59 +1,61 @@
-import { login } from "../../Flux/action"; // Importa la acción de inicio de sesión desde Flux 
-import { defaultUser, users } from "../../data/Users"; // Importa los datos de usuarios 
-import loginFormStyles from "./LoginForm.css"; 
+import { login } from "../../Flux/action";
+import { defaultUser, users } from "../../data/Users";
+import loginFormStyles from "./LoginForm.css";
 
-class LoginForm extends HTMLElement {
+class LoginForm extends HTMLElement { //! Define una nueva clase que extiende de HTMLElement (componente personalizado)
   constructor() {
     super();
-    this.attachShadow({ mode: "open" }); 
+    this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
-    this.render(); // Llama a la función render cuando el componente se conecta al DOM
+    this.render();
 
+    // Add event listeners
     const form = this.shadowRoot?.querySelector("form");
     const registerLink = this.shadowRoot?.querySelector("#register-link");
     
-    // Maneja el envío del formulario de inicio de sesión
     form?.addEventListener("submit", this.handleSubmit.bind(this));
     registerLink?.addEventListener("click", this.handleRegisterClick.bind(this));
   }
 
   // Función que maneja el envío del formulario
   handleSubmit(e: Event) {
-    e.preventDefault(); 
+    e.preventDefault();
     
-    const formData = new FormData(e.target as HTMLFormElement); // Obtiene los datos del formulario
-    const username = formData.get("username") as string; // Obtiene el nombre de usuario 
-    const password = formData.get("password") as string; // Obtiene la contraseña 
+    const formData = new FormData(e.target as HTMLFormElement);
+    const username = formData.get("username") as string;
+    const password = formData.get("password") as string;
     
-    if (username && password) { // Verifica que el usuario y la contraseña existan
-      const user = users.find(u => u.username.toLowerCase() === username.toLowerCase()); // Busca al usuario por nombre
-
+    if (username && password) {
+      // Simple mock authentication
+      const user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
+      
       if (user) {
-        // Validar la contraseña
-        login(user); // Llama a la función de login si el usuario es encontrado
+        // In a real app, we would validate the password
+        login(user);
       } else {
-        // Si el usuario no existe, crea un nuevo usuario y realiza el login
+        // For demo, allow login with any username
         const newUser = {
-          ...defaultUser, // Usa los datos por defecto del usuario
-          id: `user_${Date.now()}`, // Asigna un ID único basado en el tiempo
-          username: username // Asigna el nombre de usuario
+          ...defaultUser,
+          id: `user_${Date.now()}`,
+          username: username
         };
-        login(newUser); // Llama a la función de login con el nuevo usuario
+        login(newUser);
       }
     }
   }
 
   handleRegisterClick(e: Event) {
-    e.preventDefault(); 
-    const registerEvent = new CustomEvent("register"); // Crea un evento personalizado para el registro
-    this.dispatchEvent(registerEvent); 
+    e.preventDefault();
+    const registerEvent = new CustomEvent("register");
+    this.dispatchEvent(registerEvent);
   }
 
   //Renderizar el HTML del componente
   render() {
     if (this.shadowRoot) {
+      //^ Define el HTML y los estilos del formulario de Login que se ponen en el css
       this.shadowRoot.innerHTML = `
         <style>${loginFormStyles}</style> <!-- Aplica los estilos CSS -->
         <div class="login-container">
@@ -78,9 +80,10 @@ class LoginForm extends HTMLElement {
   }
 
   disconnectedCallback() {
+    // Cleanup event listeners if needed
     const form = this.shadowRoot?.querySelector("form");
     const registerLink = this.shadowRoot?.querySelector("#register-link");
-    
+
     form?.removeEventListener("submit", this.handleSubmit.bind(this));
     registerLink?.removeEventListener("click", this.handleRegisterClick.bind(this));
   }
@@ -88,5 +91,4 @@ class LoginForm extends HTMLElement {
 
 
 customElements.define("login-form", LoginForm);
-
 export default LoginForm;

@@ -93,3 +93,5 @@ if (!customElements.get('register-form')) {
 if (!customElements.get('comment-card')) {
   customElements.define('comment-card', CommentCard);
 }
+
+

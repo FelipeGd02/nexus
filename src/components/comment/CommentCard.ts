@@ -1,8 +1,7 @@
-import { appState } from "../../Flux/store"; // Aquí traemos el estado global de la app
-import { toggleLikeComment } from "../../Flux/action"; // Acción para darle like o quitar like a un comentario
-import commentCardStyles from "./CommentCard.css"; 
+import { appState } from "../../Flux/store";
+import { toggleLikeComment } from "../../Flux/action";
+import commentCardStyles from "./CommentCard.css";
 
-// Estos son los nombres de los atributos que el componente usará
 export enum CommentAttributes {
   ID = "commentid",
   POST_ID = "postid",
@@ -15,7 +14,7 @@ export enum CommentAttributes {
 }
 
 class CommentCard extends HTMLElement {
-  // Propiedades del comentario que vamos a usar
+  // Properties
   commentid?: string;
   postid?: string;
   userid?: string;
@@ -25,67 +24,63 @@ class CommentCard extends HTMLElement {
   likes?: string;
   timestamp?: string;
 
-  // Esto dice qué atributos debe estar pendiente de cambios
+  // Observed attributes
   static get observedAttributes() {
-    return Object.values(CommentAttributes);
+    return Object.values(CommentAttributes); //! Devuelve todos los atributos definidos en el enum
   }
 
-  // Cuando alguno de esos atributos cambia, actualizamos la propiedad correspondiente
+  // Handle attribute changes
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (oldValue !== newValue) {
-      (this as any)[name] = newValue;
+      (this as any)[name] = newValue; //* Actualiza la propiedad correspondiente al nuevo valor
     }
   }
 
   constructor() {
     super();
-    // Aquí creamos un Shadow DOM para que el componente tenga su propio espacio
     this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
-    this.render(); // Cuando el componente aparece, lo dibujamos
+    this.render();
     
-    // Buscamos el botón de "me gusta" para agregarle un evento
+    // Event listeners
     const likeBtn = this.shadowRoot?.querySelector(".like-btn");
     
-    // Cuando le das click al botón de like
     likeBtn?.addEventListener("click", () => {
-      // Si hay un id y el usuario está autenticado
       if (this.commentid && appState.get().isAuthenticated) {
-        toggleLikeComment(this.commentid); // Cambiamos el estado de like para este comentario
-        this.render(); // Volvemos a dibujar para actualizar la interfaz
+        toggleLikeComment(this.commentid);
+        this.render();
       }
     });
   }
 
-  // Este método toma una fecha y la convierte en algo fácil de leer como "5m ago"
   formatDate(dateString?: string): string {
     if (!dateString) return "";
-    
+
     const date = new Date(dateString);
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    
+
+    //! Devuelve el tiempo relativo (por ejemplo: "5m ago", "2h ago", etc.)
     if (diffInSeconds < 60) {
-      return `${diffInSeconds}s ago`;
+      return `${diffInSeconds}s ago`; //^ Si han pasado menos de 60 segundos, muestra los segundos
     } else if (diffInSeconds < 3600) {
-      return `${Math.floor(diffInSeconds / 60)}m ago`;
+      return `${Math.floor(diffInSeconds / 60)}m ago`; //^ Si han pasado menos de 60 minutos, muestra los minutos
     } else if (diffInSeconds < 86400) {
-      return `${Math.floor(diffInSeconds / 3600)}h ago`;
+      return `${Math.floor(diffInSeconds / 3600)}h ago`;  //^Si han pasado menos de 24 horas, convierte el tiempo a horas y lo muestra: 2h ago.
     } else {
-      return date.toLocaleDateString(); // Si es más viejo, muestra la fecha normal
+      return date.toLocaleDateString();
     }
   }
 
   // Aquí armamos todo el contenido que se va a ver en la tarjeta del comentario
   render() {
     if (this.shadowRoot) {
-      const state = appState.get(); // Sacamos el estado actual
-      const comment = state.comments.find(c => c.id === this.commentid); // Buscamos el comentario que corresponde
-      const isLiked = comment?.isLiked || false; // Vemos si el comentario ya está likeado
+      const state = appState.get();
+      const comment = state.comments.find(c => c.id === this.commentid);
+      const isLiked = comment?.isLiked || false;
       
-      // Ponemos el HTML con los datos que tenemos
       this.shadowRoot.innerHTML = `
         <style>${commentCardStyles}</style>
         <div class="comment-card">
@@ -113,6 +108,7 @@ class CommentCard extends HTMLElement {
   }
 
   disconnectedCallback() {
+    // Cleanup event listeners if needed
   }
 }
 

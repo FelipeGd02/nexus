@@ -1,20 +1,18 @@
-import { appState } from "../../Flux/store"; // Estado global de la aplicación
-import { navigate , logout } from "../../Flux/action"; // Funciones para cambiar pantalla y cerrar sesión
-import { Screens } from "../../types/navigation"; // Lista de pantallas disponibles
-import headerStyles from "./Header.css"; 
+import { appState } from "../../Flux/store";
+import { navigate , logout } from "../../Flux/action";
+import { Screens } from "../../types/navigation";
+import headerStyles from "./Header.css";
 
 class AppHeader extends HTMLElement {
   constructor() {
     super();
-    // Creamos un Shadow DOM para que este componente tenga su propio espacio separado
     this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
-    // Cuando el componente se pone visible, dibujamos todo
     this.render();
 
-    // Buscamos los enlaces y botones que vamos a necesitar para ponerles eventos
+    // Event listeners
     const threadsLink = this.shadowRoot?.querySelector("#threads-link");
     const categoriesLink = this.shadowRoot?.querySelector("#categories-link");
     const communityLink = this.shadowRoot?.querySelector("#community-link");
@@ -23,44 +21,41 @@ class AppHeader extends HTMLElement {
     const profileLink = this.shadowRoot?.querySelector("#profile-link");
     const logoutBtn = this.shadowRoot?.querySelector("#logout-btn");
 
-    // Cuando el logo es clickeado, vamos a la pantalla principal
     logoLink?.addEventListener("click", () => {
-      navigate(Screens.LANDING);
+      navigate(Screens.LANDING); //! Navega a la pantalla de inicio si le unde al boton por eso el addeventListener
     });
 
     // Cada enlace navega a la pantalla correspondiente
     threadsLink?.addEventListener("click", () => {
-      navigate(Screens.THREADS);
+      navigate(Screens.THREADS); //! Navega a la pantalla de hilos si le unde al boton por eso el addeventListener
     });
 
     categoriesLink?.addEventListener("click", () => {
-      navigate(Screens.CATEGORIES);
+      navigate(Screens.CATEGORIES); //! Navega a la pantalla de categorías si le unde al boton por eso el addeventListener
     });
 
     communityLink?.addEventListener("click", () => {
-      navigate(Screens.COMMUNITY);
+      navigate(Screens.COMMUNITY); //! Navega a la comunidad si le unde al boton por eso el addeventListener
     });
 
     loginLink?.addEventListener("click", () => {
-      navigate(Screens.LOGIN);
+      navigate(Screens.LOGIN); //! Navega a la pantalla de login si le unde al boton por eso el addeventListener
     });
 
     profileLink?.addEventListener("click", () => {
-      navigate(Screens.PROFILE);
+      navigate(Screens.PROFILE); //! Navega al perfil del usuario si le unde al boton por eso el addeventListener
     });
 
     // Si se hace click en el botón de logout, cerramos sesión
     logoutBtn?.addEventListener("click", () => {
-      logout();
+      logout(); //! Cierra la sesión del usuario actual si le unde al boton por eso el addeventListener
     });
   }
 
   render() {
-    // Obtenemos el estado actual de la app para saber qué mostrar
     const state = appState.get();
     
     if (this.shadowRoot) {
-      // Armamos el HTML del header con estilos, enlaces y opciones según si el usuario está logueado
       this.shadowRoot.innerHTML = `
         <style>${headerStyles}</style>
         <header>
@@ -77,17 +72,22 @@ class AppHeader extends HTMLElement {
             </nav>
             <div class="auth-section">
               ${state.isAuthenticated && state.currentUser 
-                ? `
+                ? ` 
+                  <!-- Si el usuario está autenticado, muestra perfil y botón de logout -->
                   <div class="user-profile" id="profile-link">
                     <img src="${state.currentUser.profilePicture}" alt="${state.currentUser.username}">
                     <span>${state.currentUser.username}</span>
                   </div>
                   <button id="logout-btn" class="logout-btn">Logout</button>
                 `
-                : `<button id="login-link" class="login-btn">Login</button>`
+                : `
+                  <!-- Si no está autenticado, muestra botón de login -->
+                  <button id="login-link" class="login-btn">Login</button>
+                `
               }
             </div>
             <div class="menu-toggle">
+              <!-- Icono de menú para dispositivos móviles -->
               <span></span>
               <span></span>
               <span></span>
@@ -96,17 +96,16 @@ class AppHeader extends HTMLElement {
         </header>
       `;
 
-      // Para dispositivos móviles: botón para mostrar u ocultar el menú
+      // Mobile menu toggle
       const menuToggle = this.shadowRoot.querySelector(".menu-toggle");
       const navLinks = this.shadowRoot.querySelector(".nav-links");
       
       menuToggle?.addEventListener("click", () => {
-        menuToggle.classList.toggle("active"); // Cambia estilo del botón para mostrar que está activo
-        navLinks?.classList.toggle("active"); // Muestra u oculta los enlaces del menú
+        menuToggle.classList.toggle("active");
+        navLinks?.classList.toggle("active");
       });
     }
   }
-
 }
 
 export default AppHeader;

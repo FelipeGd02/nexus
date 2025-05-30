@@ -1,8 +1,7 @@
-import { navigate } from "../../Flux/action"; // Función para cambiar de pantalla en la app
-import { Screens } from "../../types/navigation"; // Enum con los nombres de las pantallas disponibles
-import gameCardStyles from "./GameCard.css"; 
+import { navigate } from "../../Flux/action";
+import { Screens } from "../../types/navigation";
+import gameCardStyles from "./GameCard.css";
 
-// Estos son los atributos que el componente usará 
 export enum GameAttributes {
   ID = "gameid",
   TITLE = "title",
@@ -12,22 +11,22 @@ export enum GameAttributes {
 }
 
 class GameCard extends HTMLElement {
-  // Aquí guardamos la info que recibimos como atributos
+  // Properties
   gameid?: string;
-  title: string = ""; // Título del juego, empieza vacío
+  title: string = "";
   category?: string;
   imageurl?: string;
   rating?: string;
 
-  // Decimos cuáles atributos queremos que el componente vigile para saber si cambian
+  // Observed attributes
   static get observedAttributes() {
-    return Object.values(GameAttributes);
+    return Object.values(GameAttributes); //& Devuelve todos los atributos del enum
   }
 
-  // Cuando alguno de esos atributos cambia, actualizamos la propiedad correspondiente
+  // Handle attribute changes
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    //! Verifica si el nuevo valor es diferente al anterior
     if (oldValue !== newValue) {
-      // Solo actualizamos si es uno de los atributos que conocemos
       if (
         name === GameAttributes.ID ||
         name === GameAttributes.TITLE ||
@@ -35,53 +34,53 @@ class GameCard extends HTMLElement {
         name === GameAttributes.IMAGE_URL ||
         name === GameAttributes.RATING
       ) {
+        //! Actualiza la propiedad del componente correspondiente al atributo
+        //! Usa [name] como índice dinámico y "as any" para evitar errores de tipos
         (this as any)[name] = newValue;
       }
     }
   }
 
+
   constructor() {
     super();
-    // Creamos un Shadow DOM para que el componente tenga su propio espacio, sin afectar el resto
     this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
-    this.render(); // Cuando el componente aparece en la página, lo dibujamos
+    this.render();
     
-    // Buscamos el div principal para ponerle un click
+    // Event listeners
     this.shadowRoot?.querySelector(".game-card")?.addEventListener("click", () => {
       if (this.category) {
-        // Si sabemos la categoría, navegamos a la pantalla de categorías, pasando esa info
         navigate(Screens.CATEGORIES, undefined, this.category as any);
       }
     });
   }
 
-  // Esta función crea el HTML para mostrar las estrellas según el rating que tenga el juego
   generateStars(rating?: string) {
-    if (!rating) return ""; // Si no hay rating, no mostramos nada
+    if (!rating) return "";
     
-    const ratingValue = parseFloat(rating); // Convertimos el rating a número
+    const ratingValue = parseFloat(rating);
     let starsHtml = "";
     
-    // Vamos a llenar 5 estrellas, llenas, medias o vacías según el rating
     for (let i = 1; i <= 5; i++) {
       if (i <= ratingValue) {
-        starsHtml += '<span class="star filled">★</span>'; // Estrella llena
+        starsHtml += '<span class="star filled">★</span>';
       } else if (i - 0.5 <= ratingValue) {
-        starsHtml += '<span class="star half">★</span>'; // Estrella media
+        starsHtml += '<span class="star half">★</span>';
       } else {
-        starsHtml += '<span class="star">★</span>'; // Estrella vacía
+        starsHtml += '<span class="star">★</span>';
       }
     }
     
-    return starsHtml; // Devolvemos el código HTML con las estrellas
+    return starsHtml;
   }
 
   // Aquí creamos el contenido visible de la tarjeta con los datos que tenemos
   render() {
     if (this.shadowRoot) {
+      //& Define el HTML del componente usando las propiedades actuales
       this.shadowRoot.innerHTML = `
         <style>${gameCardStyles}</style> <!-- Aplicamos los estilos -->
         <div class="game-card">
@@ -103,5 +102,6 @@ class GameCard extends HTMLElement {
     }
   }
 }
+
 
 export default GameCard;

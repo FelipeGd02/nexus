@@ -58,13 +58,12 @@ class Store {
         return {
           ...baseState,
           ...parsed,
-          // Si hay filtro de categoría, aplicamos filtro a posts
           filteredPosts: parsed.currentCategoryFilter
-            ? posts.filter(post => {
+            ? (parsed.posts || posts).filter((post: Post) => {
                 const game = games.find(g => g.id === post.gameId);
                 return game && game.category === parsed.currentCategoryFilter;
               })
-            : [...posts]
+            : [...(parsed.posts || posts)]
         };
       } catch (e) {
         console.error("Failed to parse saved state:", e);
@@ -92,13 +91,19 @@ class Store {
 
   // Notifica a todos los listeners cuando hay cambios
   private _notifyListeners(): void {
-    // Guardamos solo ciertas partes del estado en localStorage para persistencia
     const { currentScreen, currentUser, isAuthenticated, currentPostId, currentCategoryFilter } = this._state;
     localStorage.setItem(
       "nexusAppState",
-      JSON.stringify({ currentScreen, currentUser, isAuthenticated, currentPostId, currentCategoryFilter })
+      JSON.stringify({
+        currentScreen,
+        currentUser,
+        isAuthenticated,
+        currentPostId,
+        currentCategoryFilter,
+        posts,
+        comments
+      })
     );
-    // Avisamos a todos los listeners del nuevo estado
     for (const listener of this._listeners) {
       listener(this._state);
     }

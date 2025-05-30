@@ -101,5 +101,3 @@ no se preocupen , no se enojen si pongo los cositos //  en colores 😘
 Se le quitaron los comentarios porque necesitaba cambiar los componentes y no queria que se me olvidara de los cambios que hice en el proyecto ademas me toco cambiar todas  las screens porque el diseño estaba erroneo .-. y tenia muchos errores en funciones
 
 Ya funcionan todos los botones
-
-Prueba de arreglo en comits
