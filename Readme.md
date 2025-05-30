@@ -86,18 +86,11 @@ test: Agregar pruebas faltantes o corregir pruebas existentes.
 
 <H3> Se Re-diseño la pagina con diferentes colores,funciones,screens y webcomponents para facilitar el uso  con  Root,Firebas,Webcomponents,etc. (Porque teniamos demasiados errores)<H3>
 
-
-
+<H4>
 Ya los componentes y las paginas estan las testee en un proyecto aparte pero nos tocaria implementar para la proxima incluir una base de datos para la ultima entrega
-
-Error 404 en consola porque no encuentra las imagenes .-.
-
-
 
 Se agregaron comments con // Para acordarse que se hizo por si el profe Kevin o Leider preguntan XD PD : Si leider o Kevin leen esto , 
 no se preocupen , no se enojen si pongo los cositos //  en colores 😘
 
-
-Se le quitaron los comentarios porque necesitaba cambiar los componentes y no queria que se me olvidara de los cambios que hice en el proyecto ademas me toco cambiar todas  las screens porque el diseño estaba erroneo .-. y tenia muchos errores en funciones
-
 Ya funcionan todos los botones
+<H4>
