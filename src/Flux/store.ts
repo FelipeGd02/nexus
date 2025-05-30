@@ -53,12 +53,14 @@ class Store {
         return {
           ...baseState,
           ...parsed,
+          posts: parsed.posts || baseState.posts,
+          comments: parsed.comments || baseState.comments,
           filteredPosts: parsed.currentCategoryFilter
-            ? posts.filter(post => {
+            ? (parsed.posts || posts).filter((post: Post) => {
                 const game = games.find(g => g.id === post.gameId);
                 return game && game.category === parsed.currentCategoryFilter;
               })
-            : [...posts]
+            : [...(parsed.posts || posts)]
         };
       } catch (e) {
         console.error("Failed to parse saved state:", e);
@@ -82,11 +84,31 @@ class Store {
   }
 
   private _notifyListeners(): void {
-    const { currentScreen, currentUser, isAuthenticated, currentPostId, currentCategoryFilter } = this._state;
+    // Guardar en localStorage todo lo necesario para persistencia
+    const {
+      currentScreen,
+      currentUser,
+      isAuthenticated,
+      currentPostId,
+      currentCategoryFilter,
+      posts,
+      comments
+    } = this._state;
+
     localStorage.setItem(
       "nexusAppState",
-      JSON.stringify({ currentScreen, currentUser, isAuthenticated, currentPostId, currentCategoryFilter })
+      JSON.stringify({
+        currentScreen,
+        currentUser,
+        isAuthenticated,
+        currentPostId,
+        currentCategoryFilter,
+        posts,
+        comments
+      })
     );
+
+    // Notificar a todos los listeners suscritos
     for (const listener of this._listeners) {
       listener(this._state);
     }

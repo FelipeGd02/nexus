@@ -1,25 +1,25 @@
 :root {
-    /* Color Palette */
-    --color-rose: #BF3467;      /* Rosa fuerte / fucsia oscuro */
+    
+    --color-rose: #BF3467;      
   
     --color-background: #0b0e17;
   
-    /* Panel background (login form) */
+    
     --color-panel: #11141d;
   
-    /* Input fields background */
+    
     --color-input-background: #1a1e29;
   
-    /* Input text and placeholder */
+    
     --color-input-text: #cfd4e4;
   
-    /* Border or subtle outlines */
+    
     --color-border: #2b2f3a;
   
-    /* Button text */
+   
     --color-primary-text: #ffffff;
   
-    /* Links (like "Register now") */
+    
     --color-link: #8faeff;
   
     /* Muted text (e.g., “Don’t have an account?”) */

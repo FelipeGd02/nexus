@@ -1,7 +1,8 @@
-import { appState } from "../../Flux/store";
-import { toggleLikeComment } from "../../Flux/action";
-import commentCardStyles from "./CommentCard.css";
+import { appState } from "../../Flux/store"; //^ Importa el estado global de la aplicación desde el store de Flux
+import { toggleLikeComment } from "../../Flux/action"; //^ Importa la acción para alternar el "like" en un comentario
+import commentCardStyles from "./CommentCard.css"; //^ Importa los estilos CSS para el componente
 
+//& Define los atributos personalizados que el componente puede observar y utilizar
 export enum CommentAttributes {
   ID = "commentid",
   POST_ID = "postid",
@@ -14,7 +15,7 @@ export enum CommentAttributes {
 }
 
 class CommentCard extends HTMLElement {
-  // Properties
+  //& Propiedades del componente, mapeadas desde los atributos HTML
   commentid?: string;
   postid?: string;
   userid?: string;
@@ -24,61 +25,64 @@ class CommentCard extends HTMLElement {
   likes?: string;
   timestamp?: string;
 
-  // Observed attributes
+  //& Lista de atributos que serán observados por el componente
   static get observedAttributes() {
-    return Object.values(CommentAttributes);
+    return Object.values(CommentAttributes); //! Devuelve todos los atributos definidos en el enum
   }
 
-  // Handle attribute changes
+  //! Se ejecuta cuando un atributo observado cambia
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (oldValue !== newValue) {
-      (this as any)[name] = newValue;
+      (this as any)[name] = newValue; //* Actualiza la propiedad correspondiente al nuevo valor
     }
   }
 
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
+    this.attachShadow({ mode: "open" }); //* Crea un Shadow DOM aislado para encapsular el contenido y estilos
   }
 
   connectedCallback() {
-    this.render();
-    
-    // Event listeners
+    this.render(); //* Renderiza el contenido del componente
+
+    //* Configura el botón de "like"
     const likeBtn = this.shadowRoot?.querySelector(".like-btn");
-    
+
     likeBtn?.addEventListener("click", () => {
-      if (this.commentid && appState.get().isAuthenticated) {
-        toggleLikeComment(this.commentid);
-        this.render();
+      if (this.commentid && appState.get().isAuthenticated) { //! Solo permite dar like si el usuario está autenticado
+        toggleLikeComment(this.commentid); //! Ejecuta la acción de alternar el like
+        this.render(); //! Vuelve a renderizar el componente para reflejar los cambios
       }
     });
   }
 
+  //* Método auxiliar para formatear la fecha en una forma legible
   formatDate(dateString?: string): string {
     if (!dateString) return "";
-    
+
     const date = new Date(dateString);
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    
+
+    //! Devuelve el tiempo relativo (por ejemplo: "5m ago", "2h ago", etc.)
     if (diffInSeconds < 60) {
-      return `${diffInSeconds}s ago`;
+      return `${diffInSeconds}s ago`; //^ Si han pasado menos de 60 segundos, muestra los segundos
     } else if (diffInSeconds < 3600) {
-      return `${Math.floor(diffInSeconds / 60)}m ago`;
+      return `${Math.floor(diffInSeconds / 60)}m ago`; //^ Si han pasado menos de 60 minutos, muestra los minutos
     } else if (diffInSeconds < 86400) {
-      return `${Math.floor(diffInSeconds / 3600)}h ago`;
+      return `${Math.floor(diffInSeconds / 3600)}h ago`;  //^Si han pasado menos de 24 horas, convierte el tiempo a horas y lo muestra: 2h ago.
     } else {
-      return date.toLocaleDateString();
+      return date.toLocaleDateString(); //! Devuelve la fecha completa si es mayor a un día
     }
   }
 
   render() {
     if (this.shadowRoot) {
-      const state = appState.get();
-      const comment = state.comments.find(c => c.id === this.commentid);
-      const isLiked = comment?.isLiked || false;
-      
+      const state = appState.get(); //! Obtiene el estado global actual
+      const comment = state.comments.find(c => c.id === this.commentid); //! Busca el comentario en el estado usando el id
+      const isLiked = comment?.isLiked || false; //! Determina si el comentario fue marcado como "like"
+
+      //^ Define el contenido HTML del componente con los datos del comentario
       this.shadowRoot.innerHTML = `
         <style>${commentCardStyles}</style>
         <div class="comment-card">
@@ -106,9 +110,9 @@ class CommentCard extends HTMLElement {
   }
 
   disconnectedCallback() {
-    // Cleanup event listeners if needed
+    //! Se podría usar para eliminar event listeners si se implementara más adelante
   }
 }
 
-customElements.define("comment-card", CommentCard);
-export default CommentCard;
+
+export default CommentCard; //^ Exporta el componente para que pueda usarse en otras partes del proyecto
