@@ -2,7 +2,8 @@
 import { login } from "../../Flux/action";
 
 //^ Importa el usuario por defecto y una lista simulada de usuarios
-import { defaultUser, users } from "../../data/Users";
+import { loginWithSupa } from "../../services/supabase";
+import { User } from "../../types/models";
 
 //^ Importa los estilos del formulario
 import loginFormStyles from "./LoginForm.css";
@@ -46,7 +47,7 @@ class LoginForm extends HTMLElement {
   }
 
   //* Maneja el envío del formulario de login
-  handleSubmit(e: Event) {
+  async handleSubmit(e: Event) {
     e.preventDefault(); //* Evita el comportamiento por defecto (recargar página)
 
     const formData = new FormData(e.target as HTMLFormElement); //* Extrae los datos del formulario
@@ -54,20 +55,38 @@ class LoginForm extends HTMLElement {
     const password = formData.get("password") as string;
 
     if (username && password) {
-      //* Busca el usuario ingresado en la lista simulada
-      const user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
+      try {
+        const { user, userProfile, session, error } = await loginWithSupa(
+          username,
+          password
+        );
 
-      if (user) {
-        //& En una app real deberías verificar la contraseña
-        login(user); //& Inicia sesión con usuario existente
-      } else {
-        //& Si el usuario no existe, se crea uno nuevo (modo demo)
-        const newUser = {
-          ...defaultUser,
-          id: `user_${Date.now()}`, //* Genera un ID único con timestamp
-          username: username
-        };
-        login(newUser); //! Inicia sesión con nuevo usuario
+        if (error) {
+          console.error("Login error:", error);
+          alert("Login failed. Please check your credentials.");
+          return;
+        }
+
+        console.log("Login successful:", user);
+
+        if (user && session) {
+          const loggedInUser: User = {
+            id: user.id,
+            username: userProfile.username || "Unknown",
+            profilePicture:
+              userProfile.profilePicture ||
+              "https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg",
+            bio: userProfile.bio || "Oops! No bio available.",
+            followers: userProfile.followers || 0,
+            following: userProfile.following || 0,
+          };
+          login(loggedInUser);
+        } else {
+          alert("Login failed. Please check your credentials.");
+        }
+      } catch (error) {
+        console.error("Unexpected error during login:", error);
+        alert("An unexpected error occurred. Please try again.");
       }
     }
   }
@@ -88,7 +107,7 @@ class LoginForm extends HTMLElement {
           <h2>Log in to Nexus</h2>
           <form>
             <div class="form-group">
-              <label for="username">Username</label>
+              <label for="username">Email</label>
               <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
@@ -106,10 +125,9 @@ class LoginForm extends HTMLElement {
   }
 }
 
-
 //^ Exporta el componente para usarlo en otros archivos
 export default LoginForm;
 
-//^ Este componente personalizado <login-form> permite a un usuario iniciar sesión 
-//^ (de forma simulada) en la aplicación Nexus mmientras no utilziamos Firebase y emitir un evento cuando desea registrarse 
+//^ Este componente personalizado <login-form> permite a un usuario iniciar sesión
+//^ (de forma simulada) en la aplicación Nexus mmientras no utilziamos Firebase y emitir un evento cuando desea registrarse
 //^ Mejora el control de eventos para evitar errores y fugas de memoria.
