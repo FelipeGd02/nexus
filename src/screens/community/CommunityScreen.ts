@@ -3,6 +3,7 @@ import { navigate } from "../../Flux/action"; // Función para cambiar de pantal
 import { Screens } from "../../types/navigation"; // Nombres de las pantallas
 import "../../components/post/PostCard"; // Componente para mostrar posts
 import communityStyles from "./CommunityScreen.css"; // Estilos para esta pantalla
+import { Category } from "../../types/models";
 
 class CommunityScreen extends HTMLElement {
   constructor() {
@@ -16,12 +17,12 @@ class CommunityScreen extends HTMLElement {
 
     // Buscamos los temas para poner eventos de click y navegar a la categoría correspondiente
     const topicItems = this.shadowRoot?.querySelectorAll(".topic-item");
-    topicItems?.forEach(item => {
+    topicItems?.forEach((item) => {
       item.addEventListener("click", () => {
         const category = item.getAttribute("data-category");
         if (category) {
           // Navegamos a la pantalla de categorías pasando la categoría seleccionada
-          navigate(Screens.CATEGORIES, undefined, category as any);
+          navigate(Screens.CATEGORIES, undefined, category as Category);
         }
       });
     });
@@ -31,42 +32,71 @@ class CommunityScreen extends HTMLElement {
   renderRecentPosts() {
     const state = appState.get();
     const recentPosts = [...state.posts]
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+      .sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+      )
       .slice(0, 3);
-    
+
     // Creamos un post-card para cada post reciente
-    return recentPosts.map(post => `
+    return recentPosts
+      .map(
+        (post) => `
       <post-card
         postid="${post.id}"
         userid="${post.userId}"
         username="${post.username}"
         pfp="${post.profilePicture}"
         content="${post.content}"
-        ${post.imageUrl ? `imageurl="${post.imageUrl}"` : ''}
+        ${post.imageUrl ? `imageurl="${post.imageUrl}"` : ""}
         likes="${post.likes}"
         reposts="${post.reposts}"
         comments="${post.comments}"
         saves="${post.saves}"
         timestamp="${post.timestamp}"
-        ${post.gameId ? `gameid="${post.gameId}"` : ''}
+        ${post.gameId ? `gameid="${post.gameId}"` : ""}
         isliked="${post.isLiked || false}"
         issaved="${post.isSaved || false}">
       </post-card>
-    `).join("");
+    `
+      )
+      .join("");
   }
 
   // Muestra una lista de temas populares para que los usuarios los exploren
   renderTrendingTopics() {
     const topics = [
-      { name: "Horror Games", category: "Horror", description: "Explore the scariest games in the community." },
-      { name: "RPG Adventures", category: "RPG", description: "Discuss character builds, storylines, and strategy." },
-      { name: "Racing Showdown", category: "Racing", description: "Share your best times and racing tips." },
-      { name: "Strategy Masters", category: "Strategy", description: "Plan, execute, and conquer in strategy games." },
-      { name: "Action Highlights", category: "Action", description: "Fast-paced action game discussions and clips." }
+      {
+        name: "Horror Games",
+        category: "Horror",
+        description: "Explore the scariest games in the community.",
+      },
+      {
+        name: "RPG Adventures",
+        category: "RPG",
+        description: "Discuss character builds, storylines, and strategy.",
+      },
+      {
+        name: "Racing Showdown",
+        category: "Racing",
+        description: "Share your best times and racing tips.",
+      },
+      {
+        name: "Strategy Masters",
+        category: "Strategy",
+        description: "Plan, execute, and conquer in strategy games.",
+      },
+      {
+        name: "Action Highlights",
+        category: "Action",
+        description: "Fast-paced action game discussions and clips.",
+      },
     ];
-    
+
     // Creamos bloques HTML para cada tema popular
-    return topics.map(topic => `
+    return topics
+      .map(
+        (topic) => `
       <div class="topic-item" data-category="${topic.category}">
         <h4>${topic.name}</h4>
         <p>${topic.description}</p>
@@ -75,7 +105,9 @@ class CommunityScreen extends HTMLElement {
           <span class="topic-action">Explore</span>
         </div>
       </div>
-    `).join("");
+    `
+      )
+      .join("");
   }
 
   render() {
@@ -162,7 +194,7 @@ class CommunityScreen extends HTMLElement {
           </div>
         </div>
       `;
-      
+
       // Agregamos evento al botón para crear cuenta y navegar a registro
       const joinBtn = this.shadowRoot.querySelector(".join-btn");
       joinBtn?.addEventListener("click", () => {
