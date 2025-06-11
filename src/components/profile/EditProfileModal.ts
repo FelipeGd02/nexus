@@ -1,79 +1,101 @@
-import { appState } from "../../Flux/store"; // Estado global de la app
-import { updateProfile } from "../../Flux/action"; // Acción para actualizar el perfil del usuario
-import { firebaseService } from "../../services/firebase"; // Servicio para interactuar con Firebase
-import editProfileModalStyles from "./EditProfileModal.css"; 
+import { appState } from "../../Flux/store";
+import editProfileModalStyles from "./EditProfileModal.css";
+import { User } from "../../types/models";
+import {
+  updateProfileInDatabase,
+  uploadProfilePicture,
+} from "../../services/supabase"; // `uploadProfilePicture` must return a public URL
 
 class EditProfileModal extends HTMLElement {
+  uploadedProfilePictureUrl: string | null = null;
+
   constructor() {
     super();
-    // Creamos un Shadow DOM para aislar este componente y sus estilos
     this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
-    this.render(); // Dibuja el modal con los datos actuales
+    this.render();
 
-    // Buscamos el formulario, el botón de cerrar y el fondo para agregar eventos
     const form = this.shadowRoot?.querySelector("form");
     const closeButton = this.shadowRoot?.querySelector(".close-button");
     const overlay = this.shadowRoot?.querySelector(".modal-overlay");
+    const fileInput =
+      this.shadowRoot?.querySelector<HTMLInputElement>("#profilePicture");
 
-    // Cuando envían el formulario, llamamos a handleSubmit
     form?.addEventListener("submit", this.handleSubmit.bind(this));
-    // Cuando clickean el botón de cerrar, cerramos el modal
     closeButton?.addEventListener("click", this.handleClose.bind(this));
-    // Si hacen clic en el fondo oscuro (overlay), también cerramos el modal
     overlay?.addEventListener("click", (e) => {
       if (e.target === overlay) {
         this.handleClose();
       }
     });
+
+    fileInput?.addEventListener("change", this.handleFileChange.bind(this));
   }
 
-  // Función que se ejecuta cuando el usuario envía el formulario para guardar cambios
+  async handleFileChange(e: Event) {
+    const input = e.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) return;
+
+    try {
+      const url = await uploadProfilePicture(file);
+      this.uploadedProfilePictureUrl = url;
+      console.log("Uploaded to:", url);
+      this.renderImage();
+    } catch (error) {
+      console.error("Upload failed:", error);
+      alert("Failed to upload image.");
+    }
+  }
+
+  renderImage() {
+    const imagePreview = this.shadowRoot?.querySelector(".image-preview");
+    if (imagePreview) {
+      imagePreview.innerHTML = "";
+      const img = document.createElement("img");
+      img.src = this.uploadedProfilePictureUrl || "";
+      img.alt = "Profile Picture Preview";
+      img.className = "profile-picture-preview";
+      imagePreview.appendChild(img);
+    }
+  }
+
   async handleSubmit(e: Event) {
-    e.preventDefault(); // Evita que la página se recargue
-
+    e.preventDefault();
     const state = appState.get();
-    if (!state.currentUser) return; // Si no hay usuario logueado, no hacemos nada
+    if (!state.currentUser) return;
 
-    // Obtenemos los datos del formulario
     const formData = new FormData(e.target as HTMLFormElement);
     const username = formData.get("username") as string;
     const bio = formData.get("bio") as string;
-    const profilePicture = formData.get("profilePicture") as string;
 
-    // Creamos el objeto con el perfil actualizado
-    const updatedProfile = {
+    const updatedProfile: User = {
       ...state.currentUser,
       username,
       bio,
-      profilePicture
+      profilePicture:
+        this.uploadedProfilePictureUrl || state.currentUser.profilePicture,
     };
 
+    console.log("Updating profile with:", updatedProfile);
+
     try {
-      // Llamamos al servicio para actualizar el perfil en Firebase (simulado)
-      await firebaseService.updateProfile(state.currentUser.id, updatedProfile);
-
-      // Actualizamos el estado local con los nuevos datos
-      updateProfile(updatedProfile);
-
-      // Cerramos el modal luego de guardar
+      await updateProfileInDatabase(state.currentUser.id, updatedProfile);
       this.handleClose();
     } catch (error) {
-      // Si hay error, lo mostramos en consola y alertamos al usuario
       console.error("Profile update error:", error);
       alert("Failed to update profile. Please try again.");
     }
   }
 
-  // Función para cerrar el modal y avisar al componente padre
   handleClose() {
     const closeEvent = new CustomEvent("close");
     this.dispatchEvent(closeEvent);
   }
 
-  // Dibuja el modal con el formulario y los datos actuales del usuario
   render() {
     const state = appState.get();
     const user = state.currentUser;
@@ -90,15 +112,20 @@ class EditProfileModal extends HTMLElement {
             <form>
               <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" value="${user?.username || ''}" required>
+                <input type="text" id="username" name="username" value="${
+                  user?.username || ""
+                }" required>
               </div>
               <div class="form-group">
                 <label for="bio">Bio</label>
-                <textarea id="bio" name="bio">${user?.bio || ''}</textarea>
+                <textarea id="bio" name="bio">${user?.bio || ""}</textarea>
               </div>
               <div class="form-group">
-                <label for="profilePicture">Profile Picture URL</label>
-                <input type="url" id="profilePicture" name="profilePicture" value="${user?.profilePicture || ''}" required>
+                <label class="custom-file-upload" for="profilePicture">Profile Picture
+                <input type="file" id="profilePicture" name="profilePicture" accept="image/*">
+                </label>
+                <small>Leave empty to keep current picture.</small>
+                <div class="image-preview"></div>
               </div>
               <button type="submit" class="save-button">Save Changes</button>
             </form>
@@ -109,12 +136,13 @@ class EditProfileModal extends HTMLElement {
   }
 
   disconnectedCallback() {
-    // Cuando el modal desaparece, eliminamos los eventos para evitar problemas
     const form = this.shadowRoot?.querySelector("form");
     const closeButton = this.shadowRoot?.querySelector(".close-button");
+    const fileInput = this.shadowRoot?.querySelector("#profilePicture");
 
     form?.removeEventListener("submit", this.handleSubmit.bind(this));
     closeButton?.removeEventListener("click", this.handleClose.bind(this));
+    fileInput?.removeEventListener("change", this.handleFileChange.bind(this));
   }
 }
 
