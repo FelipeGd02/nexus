@@ -1,96 +1,120 @@
-import { AppDispatcher } from "./Dispatcher"; // Manejador que envía las acciones a la app
-import { Screens } from "../types/navigation"; // Nombres de las pantallas de la app
-import { User, Category } from "../types/models"; // Tipos para usuarios y categorías
+import { AppDispatcher } from "./Dispatcher";
+import { Screens } from "../types/navigation";
+import {
+  User,
+  Category,
+  SupaPost,
+  SupaComment,
+  Comment,
+  SupaUser,
+} from "../types/models";
+import { Post } from "../types/models";
+import { appState } from "./store";
 
-// Definimos los tipos de acciones que pueden ocurrir en la app
 export const ActionTypes = {
-  NAVIGATE: "NAVIGATE",               // Cambiar de pantalla
-  LOGIN: "LOGIN",                     // Iniciar sesión
-  LOGOUT: "LOGOUT",                   // Cerrar sesión
-  UPDATE_PROFILE: "UPDATE_PROFILE",   // Actualizar perfil de usuario
-  CREATE_POST: "CREATE_POST",         // Crear un nuevo post
-  TOGGLE_LIKE_POST: "TOGGLE_LIKE_POST",   // Dar o quitar like a un post
-  TOGGLE_SAVE_POST: "TOGGLE_SAVE_POST",   // Guardar o quitar guardado en un post
-  ADD_COMMENT: "ADD_COMMENT",         // Agregar un comentario a un post
-  TOGGLE_LIKE_COMMENT: "TOGGLE_LIKE_COMMENT", // Dar o quitar like a un comentario
-  FILTER_BY_CATEGORY: "FILTER_BY_CATEGORY"    // Filtrar posts por categoría
+  NAVIGATE: "NAVIGATE",
+  LOGIN: "LOGIN",
+  LOGOUT: "LOGOUT",
+  UPDATE_PROFILE: "UPDATE_PROFILE",
+  FILTER_BY_CATEGORY: "FILTER_BY_CATEGORY",
+  UPDATE_POSTS: "UPDATE_POSTS",
+  UPDATE_COMMENTS: "UPDATE_COMMENTS",
 };
 
-// Ahora definimos las funciones que crean y envían esas acciones
-
-// Cambiar a una pantalla, opcionalmente con id de post o categoría
-export const navigate = (screen: Screens, postId?: string, category?: Category) => {
+export const navigate = (
+  screen: Screens,
+  postId?: string,
+  category?: Category
+) => {
   AppDispatcher.dispatch({
     type: ActionTypes.NAVIGATE,
-    payload: { screen, postId, category }
+    payload: { screen, postId, category },
   });
 };
 
-// Iniciar sesión con un usuario
 export const login = (user: User) => {
   AppDispatcher.dispatch({
     type: ActionTypes.LOGIN,
-    payload: user
+    payload: user,
   });
 };
 
-// Cerrar sesión
 export const logout = () => {
   AppDispatcher.dispatch({ type: ActionTypes.LOGOUT });
 };
 
-// Actualizar perfil con nueva info de usuario
-export const updateProfile = (user: User) => {
+export const updateProfile = (supauser: SupaUser) => {
+  console.log(supauser.profilePicture);
+
+  const user: User = {
+    id: supauser.id,
+    username: supauser.username,
+    profilePicture:
+      supauser.profilePicture ||
+      "https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg",
+    bio: supauser.bio || "",
+    followers: supauser.followers || 0,
+    following: supauser.following || 0,
+  };
+
   AppDispatcher.dispatch({
     type: ActionTypes.UPDATE_PROFILE,
-    payload: user
+    payload: user,
   });
 };
 
-// Crear un post nuevo con contenido y opcionalmente una imagen
-export const createPost = (content: string, imageUrl?: string) => {
-  AppDispatcher.dispatch({
-    type: ActionTypes.CREATE_POST,
-    payload: { content, imageUrl }
-  });
-};
-
-// Cambiar el estado de like en un post (dar o quitar)
-export const toggleLikePost = (postId: string) => {
-  AppDispatcher.dispatch({
-    type: ActionTypes.TOGGLE_LIKE_POST,
-    payload: postId
-  });
-};
-
-// Cambiar el estado de guardado en un post (guardar o quitar)
-export const toggleSavePost = (postId: string) => {
-  AppDispatcher.dispatch({
-    type: ActionTypes.TOGGLE_SAVE_POST,
-    payload: postId
-  });
-};
-
-// Agregar un comentario a un post específico
-export const addComment = (postId: string, content: string) => {
-  AppDispatcher.dispatch({
-    type: ActionTypes.ADD_COMMENT,
-    payload: { postId, content }
-  });
-};
-
-// Cambiar el estado de like en un comentario (dar o quitar)
-export const toggleLikeComment = (commentId: string) => {
-  AppDispatcher.dispatch({
-    type: ActionTypes.TOGGLE_LIKE_COMMENT,
-    payload: commentId
-  });
-};
-
-// Filtrar posts para mostrar solo los que tienen cierta categoría (o todos si es null)
 export const filterByCategory = (category: Category | null) => {
   AppDispatcher.dispatch({
     type: ActionTypes.FILTER_BY_CATEGORY,
-    payload: category
+    payload: category,
+  });
+};
+
+export const updatePosts = (supaPost: SupaPost) => {
+  const state = appState.get(); 
+
+  const post: Post = {
+    id: supaPost.postId.toString(),
+    content: supaPost.content,
+    imageUrl: supaPost.imageUrl || undefined,
+    likes: supaPost.likes?.length || 0,
+    comments: supaPost.comments,
+    timestamp: supaPost.timestamp,
+    userId: supaPost.userId,
+    username: supaPost.username,
+    profilePicture: supaPost.profilePicture,
+    reposts: supaPost.reposts,
+    saves: supaPost.saves?.length || 0,
+    gameId: supaPost.gameId || undefined,
+    isLiked: state.currentUser
+      ? supaPost.likes?.includes(state.currentUser.id)
+      : false,
+    isSaved: state.currentUser
+      ? supaPost.saves?.includes(state.currentUser.id)
+      : false,
+  };
+
+  AppDispatcher.dispatch({
+    type: ActionTypes.UPDATE_POSTS,
+    payload: post,
+  });
+};
+
+export const updateComment = (supaComment: SupaComment) => {
+  const comment: Comment = {
+    id: supaComment.id,
+    postId: supaComment.postId,
+    userId: supaComment.userId,
+    username: supaComment.username,
+    profilePicture: supaComment.profilePicture,
+    content: supaComment.content,
+    likes: supaComment.likes?.length || 0,
+    timestamp: supaComment.timestamp,
+    isLiked: supaComment.likes?.includes(supaComment.userId) || false,
+  };
+
+  AppDispatcher.dispatch({
+    type: ActionTypes.UPDATE_COMMENTS,
+    payload: comment,
   });
 };

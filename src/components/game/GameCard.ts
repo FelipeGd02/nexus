@@ -1,5 +1,6 @@
 //^ Importa la función de navegación desde el sistema Flux
 import { navigate } from "../../Flux/action";
+import { Category } from "../../types/models";
 
 //^ Importa las constantes de pantallas (Screens) disponibles en la app
 import { Screens } from "../../types/navigation";
@@ -42,7 +43,9 @@ class GameCard extends HTMLElement {
         name === GameAttributes.RATING
       ) {
         //! Actualiza la propiedad correspondiente usando el nombre del atributo
-        (this as any)[name] = newValue;
+        (this as Record<GameAttributes, string | undefined>)[
+          name as GameAttributes
+        ] = newValue;
       }
     }
   }
@@ -57,11 +60,13 @@ class GameCard extends HTMLElement {
     this.render(); //! Dibuja el componente en pantalla
 
     //! Agrega un listener de clic para navegar al listado de juegos de esa categoría
-    this.shadowRoot?.querySelector(".game-card")?.addEventListener("click", () => {
-      if (this.category) {
-        navigate(Screens.CATEGORIES, undefined, this.category as any); //* Navega enviando la categoría como parámetro
-      }
-    });
+    this.shadowRoot
+      ?.querySelector(".game-card")
+      ?.addEventListener("click", () => {
+        if (this.category) {
+          navigate(Screens.CATEGORIES, undefined, this.category as Category); //* Navega enviando la categoría como parámetro
+        }
+      });
   }
 
   //* Genera las estrellas visuales de acuerdo al rating (de 0 a 5)
@@ -92,7 +97,9 @@ class GameCard extends HTMLElement {
         <style>${gameCardStyles}</style> <!-- Aplicamos los estilos -->
         <div class="game-card">
           <div class="game-image-container">
-            <img src="${this.imageurl}" alt="${this.title}" class="game-image"> <!-- Imagen del juego -->
+            <img src="${this.imageurl}" alt="${
+        this.title
+      }" class="game-image"> <!-- Imagen del juego -->
             <div class="game-overlay">
               <span class="view-more">View Games</span> <!-- Texto que aparece encima de la imagen -->
             </div>
@@ -100,8 +107,12 @@ class GameCard extends HTMLElement {
           <div class="game-info">
             <h3 class="game-title">${this.title}</h3> <!-- Título del juego -->
             <div class="game-meta">
-              <span class="game-category">${this.category}</span> <!-- Categoría a la que pertenece -->
-              <div class="game-rating">${this.generateStars(this.rating)}</div> <!-- Las estrellas de rating -->
+              <span class="game-category">${
+                this.category
+              }</span> <!-- Categoría a la que pertenece -->
+              <div class="game-rating">${this.generateStars(
+                this.rating
+              )}</div> <!-- Las estrellas de rating -->
             </div>
           </div>
         </div>

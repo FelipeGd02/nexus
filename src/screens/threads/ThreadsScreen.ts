@@ -29,24 +29,28 @@ class ThreadsScreen extends HTMLElement {
     }
 
     // Si hay posts, creamos un <post-card> para cada uno con sus datos
-    return posts.map(post => `
+    return posts
+      .map(
+        (post) => `
       <post-card
         postid="${post.id}"
         userid="${post.userId}"
         username="${post.username}"
         pfp="${post.profilePicture}"
         content="${post.content}"
-        ${post.imageUrl ? `imageurl="${post.imageUrl}"` : ''}
+        ${post.imageUrl ? `imageurl="${post.imageUrl}"` : ""}
         likes="${post.likes}"
         reposts="${post.reposts}"
         comments="${post.comments}"
         saves="${post.saves}"
         timestamp="${post.timestamp}"
-        ${post.gameId ? `gameid="${post.gameId}"` : ''}
+        ${post.gameId ? `gameid="${post.gameId}"` : ""}
         isliked="${post.isLiked || false}"
         issaved="${post.isSaved || false}">
       </post-card>
-    `).join("");
+    `
+      )
+      .join("");
   }
 
   render() {
