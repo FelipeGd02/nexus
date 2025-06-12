@@ -1,0 +1,61 @@
+//!  Componentes funcionales 
+
+//!  Pantallas 
+
+//! Actualiza la propiedad correspondiente usando el nombre del atributo
+
+//! Agrega listeners con funciones ya enlazadas (correcto)
+
+//! Agrega un listener de clic para navegar al listado de juegos de esa categoría
+
+//! Al hacer clic en comentar
+
+//! Al hacer clic en like
+
+//! Construye el HTML del componente con datos dinámicos
+
+//! Crea un shadow DOM para encapsular el estilo y contenido del componente
+
+//! Cuando un atributo cambia, actualizamos la propiedad del componente
+
+//! Define el componente personalizado <app-header>
+
+//! Define el componente personalizado <login-form>
+
+//! Define qué atributos del HTML debe observar el componente
+
+//! Dibuja el componente en pantalla
+
+//! Dibuja la tarjeta con toda la información del post
+
+//! Evita que el evento afecte al contenedor
+
+//! Funcionalidad para alternar el menú en vista móvil
+
+//! Guarda la referencia del método ligado para usarla en add/removeEventListener
+
+//! Limpia el event listener cuando el componente se elimina del DOM
+
+//! Muestra la consulta de búsqueda en la consola
+
+//! Muestra los elementos de entrada y sugerencias en la consola
+
+//! Método para renderizar el HTML dentro del shadow DOM
+
+//! Método que se ejecuta cuando el componente entra al DOM
+
+//! Método que se ejecuta cuando el componente se agrega al DOM
+
+//! Obtiene el estado global
+
+//! Obtiene el estado global de la aplicación
+
+//! Obtiene las referencias a elementos del formulario
+
+//! Renderiza el HTML del componente dentro del shadow DOM
+
+//! Renderiza el contenido del formulario
+
+//! Verifica si el nuevo valor es diferente al anterior
+
+//! Zona de contenido del post
