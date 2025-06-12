@@ -49,12 +49,16 @@ class ProfileScreen extends HTMLElement {
   }
 
   // Cambia la pestaña activa y el contenido visible
-  activateTab(tab: Element, contentSections: NodeListOf<Element> | undefined, contentId: string) {
+  activateTab(
+    tab: Element,
+    contentSections: NodeListOf<Element> | undefined,
+    contentId: string
+  ) {
     const tabs = this.shadowRoot?.querySelectorAll(".tab-item");
-    tabs?.forEach(t => t.classList.remove("active"));
+    tabs?.forEach((t) => t.classList.remove("active"));
     tab.classList.add("active");
 
-    contentSections?.forEach(section => {
+    contentSections?.forEach((section) => {
       section.classList.remove("active");
       if (section.id === contentId) {
         section.classList.add("active");
@@ -76,36 +80,64 @@ class ProfileScreen extends HTMLElement {
       return `<p class="empty-message">Log in to save posts</p>`;
     }
 
-    const savedPosts = state.posts.filter(post => post.isSaved);
+    const savedPosts = state.posts.filter((post) => post.isSaved);
 
     if (savedPosts.length === 0) {
       return `<p class="empty-message">No saved posts yet</p>`;
     }
 
-    return savedPosts.map(post => `
+    return savedPosts
+      .map(
+        (post) => `
       <post-card
-        postId="${post.id}"
-        userId="${post.userId}"
+        postid="${post.id}"
+        userid="${post.userId}"
         username="${post.username}"
-        profilePicture="${post.profilePicture}"
+        pfp="${post.profilePicture}"
         content="${post.content}"
-        ${post.imageUrl ? `imageUrl="${post.imageUrl}"` : ''}
+        ${post.imageUrl ? `imageurl="${post.imageUrl}"` : ""}
         likes="${post.likes}"
         reposts="${post.reposts}"
         comments="${post.comments}"
         saves="${post.saves}"
         timestamp="${post.timestamp}"
-        ${post.gameId ? `gameId="${post.gameId}"` : ''}
-        isLiked="${post.isLiked || false}"
-        isSaved="${post.isSaved || true}">
+        ${post.gameId ? `gameid="${post.gameId}"` : ""}
+        isliked="${post.isLiked || false}"
+        issaved="${post.isSaved || true}">
       </post-card>
-    `).join("");
+    `
+      )
+      .join("");
   }
 
-  // Muestra algunos juegos favoritos del usuario
   renderGames() {
     const state = appState.get();
-    const games = state.games.slice(0, 4); // Solo mostramos 4 juegos para ejemplo
+
+    if (!state.isAuthenticated || !state.currentUser) {
+      return `<p class="empty-message">Log in to see your games</p>`;
+    }
+
+    const userPosts = state.posts.filter(
+      (p) => p.userId === state.currentUser?.id && p.gameId
+    );
+    const gameCountMap: Record<string, number> = {};
+
+    userPosts.forEach((post) => {
+      if (post.gameId) {
+        gameCountMap[post.gameId] = (gameCountMap[post.gameId] || 0) + 1;
+      }
+    });
+
+    const sortedGameIds = Object.entries(gameCountMap)
+      .sort((a, b) => b[1] - a[1])
+      .map(([gameId]) => gameId);
+
+    const talkedGames = sortedGameIds
+      .map((gameId) => state.games.find((g) => g.id === gameId))
+      .filter(Boolean)
+      .slice(0, 4);
+
+    const games = talkedGames;
 
     if (games.length === 0) {
       return `<p class="empty-message">No favorite games yet</p>`;
@@ -113,64 +145,87 @@ class ProfileScreen extends HTMLElement {
 
     return `
       <div class="games-grid">
-        ${games.map(game => `
+        ${games
+          .map(
+            (game) => `
           <game-card
-            gameId="${game.id}"
-            title="${game.title}"
-            category="${game.category}"
-            imageUrl="${game.imageUrl}"
-            rating="${game.rating}">
+            gameId="${game?.id}"
+            title="${game?.title}"
+            category="${game?.category}"
+            imageUrl="${game?.imageUrl}"
+            rating="${game?.rating}">
           </game-card>
-        `).join("")}
+        `
+          )
+          .join("")}
       </div>
     `;
   }
 
   // Muestra algunas estadísticas ficticias del usuario
-  renderStats() {
-    return `
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-value">23</div>
-          <div class="stat-label">Posts Created</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">156</div>
-          <div class="stat-label">Comments Made</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">78</div>
-          <div class="stat-label">Likes Given</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">45</div>
-          <div class="stat-label">Days Active</div>
-        </div>
-      </div>
-    `;
+  renderPosts() {
+    const state = appState.get();
+
+    if (!state.isAuthenticated) {
+      return `<p class="empty-message">Log in to save posts</p>`;
+    }
+
+    const posts = state.posts.filter((p) => p.userId === state.currentUser?.id);
+
+    if (posts.length === 0) {
+      return `<p class="empty-message">Nothing from your part yet</p>`;
+    }
+
+    return posts
+      .map(
+        (post) => `
+      <post-card
+        postid="${post.id}"
+        userid="${post.userId}"
+        username="${post.username}"
+        pfp="${post.profilePicture}"
+        content="${post.content}"
+        ${post.imageUrl ? `imageurl="${post.imageUrl}"` : ""}
+        likes="${post.likes}"
+        reposts="${post.reposts}"
+        comments="${post.comments}"
+        saves="${post.saves}"
+        timestamp="${post.timestamp}"
+        ${post.gameId ? `gameid="${post.gameId}"` : ""}
+        isliked="${post.isLiked || false}"
+        issaved="${post.isSaved || false}">
+      </post-card>
+    `
+      )
+      .join("");
   }
 
   render() {
     const state = appState.get();
     const user = state.currentUser;
 
+    console.log(JSON.stringify(state.currentUser?.profilePicture));
+
     if (this.shadowRoot) {
       this.shadowRoot.innerHTML = `
         <style>${profileStyles}</style>
         <div class="profile-container">
-          ${!state.isAuthenticated
-            ? `
+          ${
+            !state.isAuthenticated
+              ? `
               <div class="login-required">
                 <h2>Login Required</h2>
                 <p>Please log in to view your profile</p>
                 <button id="login-btn" class="login-btn">Go to Login</button>
               </div>
             `
-            : `
+              : `
               <div class="profile-header">
                 <div class="profile-cover"></div>
                 <div class="profile-info">
-                  <img src="${user?.profilePicture}" alt="${user?.username}" class="profile-picture">
+                  <img src="${user?.profilePicture}" alt="${
+                  user?.username
+                }" class="profile-picture">
                   <h2 class="username">${user?.username}</h2>
                   <p class="bio">${user?.bio}</p>
                   <div class="stats">
@@ -189,27 +244,31 @@ class ProfileScreen extends HTMLElement {
 
               <div class="profile-content">
                 <div class="tabs">
-                  <div id="saved-tab" class="tab-item active">Saved Posts</div>
-                  <div id="games-tab" class="tab-item">Favorite Games</div>
-                  <div id="stats-tab" class="tab-item">Statistics</div>
+                  <div id="saved-tab" class="tab-item active">Posts</div>
+                  <div id="games-tab" class="tab-item">Games</div>
+                  <div id="stats-tab" class="tab-item">Saved</div>
                 </div>
 
                 <div class="tab-contents">
                   <div id="saved-content" class="tab-content active">
-                    ${this.renderSavedPosts()}
+                    ${this.renderPosts()}
                   </div>
                   <div id="games-content" class="tab-content">
                     ${this.renderGames()}
                   </div>
                   <div id="stats-content" class="tab-content">
-                    ${this.renderStats()}
+                    ${this.renderSavedPosts()}
                   </div>
                 </div>
               </div>
 
-              ${this.showEditModal ? `
+              ${
+                this.showEditModal
+                  ? `
                 <edit-profile-modal></edit-profile-modal>
-              ` : ''}
+              `
+                  : ""
+              }
             `
           }
         </div>
