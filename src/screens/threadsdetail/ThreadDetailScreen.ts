@@ -1,10 +1,10 @@
 import { appState } from "../../Flux/store"; // Estado global de la aplicación
-import { addComment } from "../../Flux/action"; // Acción para agregar un comentario
 import "../../components/post/PostCard"; // Componente para mostrar posts
 import "../../components/comment/CommentCard"; // Componente para mostrar comentarios
 import threadDetailStyles from "./ThreadDetailScreen.css"; // Estilos para esta pantalla
 import { navigate } from "../../Flux/action"; // Acción para cambiar de pantalla
 import { Screens } from "../../types/navigation"; // Constantes con nombres de pantallas
+import { addComment } from "../../services/supabase";
 
 class ThreadDetailScreen extends HTMLElement {
   constructor() {
@@ -18,7 +18,10 @@ class ThreadDetailScreen extends HTMLElement {
 
     // Buscamos el formulario de comentarios para capturar su evento submit
     const commentForm = this.shadowRoot?.querySelector("#comment-form");
-    commentForm?.addEventListener("submit", this.handleCommentSubmit.bind(this));
+    commentForm?.addEventListener(
+      "submit",
+      this.handleCommentSubmit.bind(this)
+    );
   }
 
   // Maneja el envío del formulario de comentario
@@ -45,7 +48,7 @@ class ThreadDetailScreen extends HTMLElement {
     const state = appState.get();
     if (!state.currentPostId) return "";
 
-    const post = state.posts.find(p => p.id === state.currentPostId);
+    const post = state.posts.find((p) => p.id === state.currentPostId);
     if (!post) return "<p>Post not found</p>";
 
     return `
@@ -56,13 +59,13 @@ class ThreadDetailScreen extends HTMLElement {
           username="${post.username}"
           pfp="${post.profilePicture}"
           content="${post.content}"
-          ${post.imageUrl ? `imageurl="${post.imageUrl}"` : ''}
+          ${post.imageUrl ? `imageurl="${post.imageUrl}"` : ""}
           likes="${post.likes}"
           reposts="${post.reposts}"
           comments="${post.comments}"
           saves="${post.saves}"
           timestamp="${post.timestamp}"
-          ${post.gameId ? `gameid="${post.gameId}"` : ''}
+          ${post.gameId ? `gameid="${post.gameId}"` : ""}
           isliked="${post.isLiked || false}"
           issaved="${post.isSaved || false}">
         </post-card>
@@ -76,7 +79,9 @@ class ThreadDetailScreen extends HTMLElement {
     if (!state.currentPostId) return "";
 
     // Filtramos solo los comentarios del post actual
-    const postComments = state.comments.filter(c => c.postId === state.currentPostId);
+    const postComments = state.comments.filter(
+      (c) => c.postId === state.currentPostId
+    );
 
     // Si no hay comentarios, mostramos mensaje
     if (postComments.length === 0) {
@@ -88,7 +93,9 @@ class ThreadDetailScreen extends HTMLElement {
     }
 
     // Si hay comentarios, los mostramos usando <comment-card>
-    return postComments.map(comment => `
+    return postComments
+      .map(
+        (comment) => `
       <comment-card
         commentid="${comment.id}"
         postid="${comment.postId}"
@@ -99,7 +106,9 @@ class ThreadDetailScreen extends HTMLElement {
         likes="${comment.likes}"
         timestamp="${comment.timestamp}">
       </comment-card>
-    `).join("");
+    `
+      )
+      .join("");
   }
 
   // Muestra el formulario para agregar comentarios solo si el usuario está autenticado
@@ -167,7 +176,7 @@ class ThreadDetailScreen extends HTMLElement {
       // Evento para volver a la lista de threads al pulsar "Back"
       const backButton = this.shadowRoot.querySelector(".back-button");
       backButton?.addEventListener("click", () => {
-       navigate(Screens.THREADS);
+        navigate(Screens.THREADS);
       });
     }
   }
