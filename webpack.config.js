@@ -2,7 +2,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const _dirname = path.dirname(_filename);
 
 export default {
   entry: './src/index.ts',
@@ -24,11 +24,11 @@ export default {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public'),
   },
   devServer: {
-    static: {
-      directory: path.join(__dirname, 'public'),
-    },
+  static: {
+    directory: path.join(__dirname, 'public'),
   },
-};
+},
+  };
