@@ -1,19 +1,63 @@
+import { RealtimeChannel } from "@supabase/supabase-js";
 import { appState } from "../../Flux/store";
+import {
+  initCommentsLikeListener,
+  initCommentsRealtimeListener,
+  initPostsRealtimeListener,
+  initPostUpdateListener,
+  initUserRealtimeListener,
+} from "../../services/supaListen";
 import { Screens } from "../../types/navigation";
 
 export class AppContainer extends HTMLElement {
   constructor() {
     super();
-    // Creamos un Shadow DOM para tener nuestro propio espacio separado
     this.attachShadow({ mode: "open" });
+    appState.subscribe(() => {
+      const state = appState.get();
+      this.render(state);
+      console.log("State updated, re-rendering AppContainer");
+      if (state.currentUser) {
+        const userId = state.currentUser.id;
+        this.handleUserRealTime(userId);
+      }
+    });
+  }
 
-    // Nos suscribimos a cambios en el estado global para redibujar la pantalla cuando cambie
-    appState.subscribe(() => this.render(appState.get()));
+  realTimeUser: RealtimeChannel | null = null;
+  realTimePosts: RealtimeChannel | null = null;
+  realTimePostUpdates: RealtimeChannel | null = null;
+  realTimeComments: RealtimeChannel | null = null;
+  realTimeCommentsLikes: RealtimeChannel | null = null;
+
+  handleUserRealTime(id: string) {
+    let oldUser = "";
+
+    if (id !== oldUser) {
+      this.realTimeUser?.unsubscribe();
+      this.realTimeUser = initUserRealtimeListener(id);
+      oldUser = id;
+    }
   }
 
   connectedCallback() {
-    // Cuando el componente se añade al DOM, dibujamos la pantalla actual
     this.render();
+
+    const state = appState.get();
+    console.log("AppContainer connected, current state:", state);
+
+    this.realTimePosts = initPostsRealtimeListener();
+    this.realTimePostUpdates = initPostUpdateListener();
+    this.realTimeComments = initCommentsRealtimeListener();
+    this.realTimeCommentsLikes = initCommentsLikeListener();
+  }
+
+  disconnectedCallback() {
+    this.realTimeUser?.unsubscribe();
+    this.realTimePosts?.unsubscribe();
+    this.realTimePostUpdates?.unsubscribe();
+    this.realTimeComments?.unsubscribe();
+    this.realTimeCommentsLikes?.unsubscribe();
   }
 
   render(store = appState.get()) {
